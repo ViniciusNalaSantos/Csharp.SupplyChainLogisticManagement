@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Csharp.SupplyChainLogisticManagement.Domain\Csharp.SupplyChainLogisticManagement.csproj" />
+    <ProjectReference Include="..\Csharp.SupplyChainLogisticManagement.Domain\Csharp.SupplyChainLogisticManagement.Domain.csproj" />
+  </ItemGroup>
+
+</Project>
