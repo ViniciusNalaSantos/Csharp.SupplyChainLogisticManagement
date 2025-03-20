@@ -1,0 +1,6 @@
+@Csharp.SupplyChainLogisticManagement.WebApi_HostAddress = http://localhost:5117
+
+GET {{Csharp.SupplyChainLogisticManagement.WebApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
