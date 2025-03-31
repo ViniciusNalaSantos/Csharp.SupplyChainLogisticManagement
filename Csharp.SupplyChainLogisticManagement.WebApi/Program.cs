@@ -1,23 +1,22 @@
-using Csharp.SupplyChainLogisticManagement.Application.Interfaces;
-using Csharp.SupplyChainLogisticManagement.Application.Services;
-using Csharp.SupplyChainLogisticManagement.Domain.Interfaces;
-using Csharp.SupplyChainLogisticManagement.Infrastructure.Data;
-using Csharp.SupplyChainLogisticManagement.Infrastructure.Repositories;
+using Csharp.SupplyChainLogisticManagement.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddDbContext<LogiChainDbContext>(
+    //options => options.UseSqlServer(builder.Configuration.GetConnectionString("SapiensProdConnection"))
+    options => options.UseSqlServer(
+            "Data Source=localhost;Persist Security Info=True;User ID=sa;Password=sa@2025*;Encrypt=True;Trust Server Certificate=True",
+            x => x.MigrationsAssembly("Csharp.SupplyChainLogisticManagement.Infrastructure.Migrations")
+        )
+);
+
 builder.Services.AddControllers();
+
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
-// Register dependencies And Use InMemory Database
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseInMemoryDatabase("Csharp.SupplyChainLogisticManagementDb"));
-
-builder.Services.AddScoped<IProductRepository, ProductRepository>();
-builder.Services.AddScoped<IProductService, ProductService>();
 
 var app = builder.Build();
 
