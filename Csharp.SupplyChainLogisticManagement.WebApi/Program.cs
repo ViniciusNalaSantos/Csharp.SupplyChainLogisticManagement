@@ -1,5 +1,7 @@
-using Csharp.SupplyChainLogisticManagement.Infrastructure;
+using Csharp.SupplyChainLogisticManagement.Infrastructure.DatabaseContext;
+using Csharp.SupplyChainLogisticManagement.Infrastructure.Extensions;
 using Microsoft.EntityFrameworkCore;
+using System.Runtime.CompilerServices;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +18,8 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddRabbitMQService();
 
 var app = builder.Build();
 

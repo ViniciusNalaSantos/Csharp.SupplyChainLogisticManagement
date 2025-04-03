@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Configuration;
 
-namespace Csharp.SupplyChainLogisticManagement.Infrastructure;
+namespace Csharp.SupplyChainLogisticManagement.Infrastructure.DatabaseContext;
 
 public class LogiChainDbContext : DbContext
 {
