@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Configuration;
 
 namespace Csharp.SupplyChainLogisticManagement.Infrastructure;
 
@@ -16,7 +17,7 @@ public class LogiChainDbContext : DbContext
     }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseSqlServer("Data Source=localhost;Persist Security Info=True;User ID=sa;Password=sa@2025*;Encrypt=True;Trust Server Certificate=True");
+        optionsBuilder.UseSqlServer(ConfigurationManager.ConnectionStrings["LogiChainDatabase"].ConnectionString);
     }
     public DbSet<Orders> Orders { get; set; }
     public DbSet<OrdersItems> OrdersItems { get; set; }
@@ -93,7 +94,6 @@ public class LogiChainDbContext : DbContext
             .WithMany(l => l.Orders)
             .HasForeignKey(l => l.SuppliersId);
     }
-
     private void ModelOrdersItems(ModelBuilder modelBuilder)
     {
         var entityModelBuilder = modelBuilder.Entity<OrdersItems>();

@@ -5,9 +5,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddDbContext<LogiChainDbContext>(
-    //options => options.UseSqlServer(builder.Configuration.GetConnectionString("SapiensProdConnection"))
     options => options.UseSqlServer(
-            "Data Source=localhost;Persist Security Info=True;User ID=sa;Password=sa@2025*;Encrypt=True;Trust Server Certificate=True",
+            builder.Configuration.GetConnectionString("LogiChainDatabase"),
             x => x.MigrationsAssembly("Csharp.SupplyChainLogisticManagement.Infrastructure.Migrations")
         )
 );
