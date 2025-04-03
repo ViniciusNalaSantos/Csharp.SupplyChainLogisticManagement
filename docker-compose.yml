@@ -18,3 +18,17 @@ services:
     depends_on:
       - sqlserver
 
+  rabbitmq:
+    image: rabbitmq:3.13-management
+    container_name: rabbitmq_container
+    ports:
+      - 15672:15672
+      - 5672:5672
+    hostname: "rabbitmq"
+    environment:
+        RABBITMQ_ERLANG_COOKIE: "SWQOKODSQALRPCLNMEQG"
+        RABBITMQ_DEFAULT_USER: "rabbitmq"
+        RABBITMQ_DEFAULT_PASS: "rabbitmq"
+        RABBITMQ_DEFAULT_VHOST: "/"
+
+
