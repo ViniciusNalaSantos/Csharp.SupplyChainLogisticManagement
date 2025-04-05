@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 using MassTransit;
 
 namespace Csharp.SupplyChainLogisticManagement.Application.EventBus;
-public class EventBus : IEventBus
+public class MassTransitEventBusAdapter : IEventBus
 {
     private readonly IPublishEndpoint _publishEndpoint;
 
-    public EventBus(IPublishEndpoint publishEndpoint, ISendEndpointProvider sendEndpointProvider)
+    public MassTransitEventBusAdapter(IPublishEndpoint publishEndpoint, ISendEndpointProvider sendEndpointProvider)
     {
         _publishEndpoint = publishEndpoint;
     }
