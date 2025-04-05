@@ -4,6 +4,8 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using Csharp.SupplyChainLogisticManagement.Application.Consumers;
+using Csharp.SupplyChainLogisticManagement.Application.MessageConsumer;
 using MassTransit;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -17,6 +19,8 @@ internal static class AppExtensions
     {
         services.AddMassTransit(busConfigurator =>
         {
+            busConfigurator.AddConsumer<MassTransitConsumerAdapter<OrderSubmittedConsumer>>();
+
             busConfigurator.UsingRabbitMq((ctx, cfg) =>
             {
                 cfg.Host(new Uri("amqp://localhost:15672"), host =>
