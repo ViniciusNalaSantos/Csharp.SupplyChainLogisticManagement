@@ -1,3 +1,7 @@
+using Csharp.SupplyChainLogisticManagement.Application.Consumers;
+using Csharp.SupplyChainLogisticManagement.Application.EventBus;
+using Csharp.SupplyChainLogisticManagement.Application.MessageConsumer;
+using Csharp.SupplyChainLogisticManagement.Application.Messages;
 using Csharp.SupplyChainLogisticManagement.Infrastructure.DatabaseContext;
 using Csharp.SupplyChainLogisticManagement.Infrastructure.Extensions;
 using Microsoft.EntityFrameworkCore;

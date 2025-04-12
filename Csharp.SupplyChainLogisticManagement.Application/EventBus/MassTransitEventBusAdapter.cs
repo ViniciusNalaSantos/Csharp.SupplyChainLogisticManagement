@@ -10,7 +10,7 @@ public class MassTransitEventBusAdapter : IEventBus
 {
     private readonly IPublishEndpoint _publishEndpoint;
 
-    public MassTransitEventBusAdapter(IPublishEndpoint publishEndpoint, ISendEndpointProvider sendEndpointProvider)
+    public MassTransitEventBusAdapter(IPublishEndpoint publishEndpoint)
     {
         _publishEndpoint = publishEndpoint;
     }
