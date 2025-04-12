@@ -22,7 +22,7 @@ internal static class AppExtensions
 {
     public static void AddRabbitMQService(this IServiceCollection services)
     {
-        //services.AddScoped<>();
+
         services.AddScoped<IMessageConsumer<OrderSubmittedMessage>, OrderSubmittedConsumer>();
         services.AddScoped<IEventBus, MassTransitEventBusAdapter>();
 
