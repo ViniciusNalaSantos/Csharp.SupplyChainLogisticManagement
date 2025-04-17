@@ -1,5 +1,5 @@
-﻿using Csharp.SupplyChainLogisticManagement.Application.MessageConsumer;
-using Csharp.SupplyChainLogisticManagement.Application.Messages;
+﻿using Csharp.SupplyChainLogisticManagement.Application.Messages;
+using Csharp.SupplyChainLogisticManagement.Infrastructure.MessageConsumer;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Csharp.SupplyChainLogisticManagement.Application.Consumers;
+namespace Csharp.SupplyChainLogisticManagement.Infrastructure.Consumers;
 public sealed class OrderSubmittedConsumer : IMessageConsumer<OrderSubmittedMessage>
 {
     private readonly ILogger<OrderSubmittedConsumer> _logger;

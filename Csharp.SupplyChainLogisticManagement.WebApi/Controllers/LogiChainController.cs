@@ -1,5 +1,5 @@
 ﻿using Csharp.SupplyChainLogisticManagement.Domain.Entities;
-using Csharp.SupplyChainLogisticManagement.Application.EventBus;
+using Csharp.SupplyChainLogisticManagement.Infrastructure.EventBus;
 using Microsoft.AspNetCore.Mvc;
 using Xunit.Sdk;
 using Csharp.SupplyChainLogisticManagement.Application.Messages;

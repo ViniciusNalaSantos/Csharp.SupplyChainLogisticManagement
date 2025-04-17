@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Csharp.SupplyChainLogisticManagement.Application.MessageConsumer;
+namespace Csharp.SupplyChainLogisticManagement.Infrastructure.MessageConsumer;
 public class MassTransitConsumerAdapter<TMessage> : IConsumer<TMessage> where TMessage : class
 {
     private readonly IMessageConsumer<TMessage> _inner;

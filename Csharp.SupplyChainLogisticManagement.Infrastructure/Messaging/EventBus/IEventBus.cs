@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Csharp.SupplyChainLogisticManagement.Application.EventBus;
+namespace Csharp.SupplyChainLogisticManagement.Infrastructure.EventBus;
 public interface IEventBus
 {
     Task PublishAsync<T>(T message, CancellationToken cancellationToken = default) where T : class;

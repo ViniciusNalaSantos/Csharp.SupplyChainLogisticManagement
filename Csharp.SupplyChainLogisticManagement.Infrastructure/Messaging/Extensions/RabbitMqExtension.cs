@@ -4,21 +4,21 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
-using Csharp.SupplyChainLogisticManagement.Application.Consumers;
-using Csharp.SupplyChainLogisticManagement.Application.MessageConsumer;
+using Csharp.SupplyChainLogisticManagement.Infrastructure.Consumers;
+using Csharp.SupplyChainLogisticManagement.Infrastructure.MessageConsumer;
 using Csharp.SupplyChainLogisticManagement.Application.Messages;
 using MassTransit;
 using Microsoft.Extensions.DependencyInjection;
-using Csharp.SupplyChainLogisticManagement.Application.MessageConsumer;
+using Csharp.SupplyChainLogisticManagement.Infrastructure.MessageConsumer;
 using static MassTransit.Logging.OperationName;
 using System.Reflection;
-using Csharp.SupplyChainLogisticManagement.Application.EventBus;
+using Csharp.SupplyChainLogisticManagement.Infrastructure.EventBus;
 
 [assembly: InternalsVisibleTo("Csharp.SupplyChainLogisticManagement.WebApi")]
 
-namespace Csharp.SupplyChainLogisticManagement.Infrastructure.Extensions;
+namespace Csharp.SupplyChainLogisticManagement.Infrastructure.Messaging.Extensions;
 
-internal static class AppExtensions
+internal static class RabbitMqExtension
 {
     public static void AddRabbitMQService(this IServiceCollection services)
     {

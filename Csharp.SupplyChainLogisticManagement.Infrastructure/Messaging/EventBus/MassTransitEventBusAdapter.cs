@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MassTransit;
 
-namespace Csharp.SupplyChainLogisticManagement.Application.EventBus;
+namespace Csharp.SupplyChainLogisticManagement.Infrastructure.EventBus;
 public class MassTransitEventBusAdapter : IEventBus
 {
     private readonly IPublishEndpoint _publishEndpoint;
