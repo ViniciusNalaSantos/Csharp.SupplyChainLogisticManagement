@@ -27,7 +27,6 @@ public class LogiChainController : ControllerBase
         {
             OrderDate = DateTime.Now
         };
-
         _eventBus.PublishAsync(orderSubmittedMessage);
         return Ok();        
     }
