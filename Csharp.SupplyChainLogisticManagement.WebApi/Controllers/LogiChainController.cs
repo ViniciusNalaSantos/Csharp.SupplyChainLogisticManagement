@@ -21,12 +21,8 @@ public class LogiChainController : ControllerBase
     public Orders GetOrders() {  return new Orders(); }
 
     [HttpPost]
-    public IActionResult PostOrders()
+    public IActionResult PostOrders([FromBody] OrderCreatedMessage orderCreatedMessage)
     {
-        var orderCreatedMessage = new OrderCreatedMessage()
-        {
-            OrderDate = DateTime.Now
-        };
         _eventBus.PublishAsync(orderCreatedMessage);
         return Ok();        
     }

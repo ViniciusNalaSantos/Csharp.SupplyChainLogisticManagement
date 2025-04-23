@@ -7,6 +7,10 @@ using System.Threading.Tasks;
 namespace Csharp.SupplyChainLogisticManagement.Application.Messages;
 public record OrderCreatedMessage
 {
-    public Guid OrderId { get; init; }
-    public DateTime OrderDate { get; init; }
+    public Guid MessageId { get; init; } = Guid.NewGuid();
+    public int OrdersItemsId { get; set; }
+    public DateTime EmissionDate { get; set; }
+    public int? CustomersId { get; set; }
+    public int? SuppliersId { get; set; }
+    public decimal Price { get; set; }
 }
