@@ -23,11 +23,11 @@ public class LogiChainController : ControllerBase
     [HttpPost]
     public IActionResult PostOrders()
     {
-        var orderSubmittedMessage = new OrderSubmittedMessage()
+        var orderCreatedMessage = new OrderCreatedMessage()
         {
             OrderDate = DateTime.Now
         };
-        _eventBus.PublishAsync(orderSubmittedMessage);
+        _eventBus.PublishAsync(orderCreatedMessage);
         return Ok();        
     }
 }

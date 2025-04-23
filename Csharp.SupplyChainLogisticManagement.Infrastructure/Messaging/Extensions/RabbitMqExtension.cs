@@ -23,12 +23,12 @@ internal static class RabbitMqExtension
     public static void AddRabbitMQService(this IServiceCollection services)
     {
 
-        services.AddScoped<IMessageConsumer<OrderSubmittedMessage>, OrderSubmittedConsumer>();
+        services.AddScoped<IMessageConsumer<OrderCreatedMessage>, OrderCreatedMessageConsumer>();
         services.AddScoped<IEventBus, MassTransitEventBusAdapter>();
 
         services.AddMassTransit(busConfigurator =>
         {            
-            busConfigurator.AddConsumer<MassTransitConsumerAdapter<OrderSubmittedMessage>>();
+            busConfigurator.AddConsumer<MassTransitConsumerAdapter<OrderCreatedMessage>>();
 
             busConfigurator.UsingRabbitMq((ctx, cfg) =>
             {
@@ -40,7 +40,7 @@ internal static class RabbitMqExtension
 
                 cfg.ReceiveEndpoint("order-submitted-queue", e =>
                 {
-                    e.ConfigureConsumer<MassTransitConsumerAdapter<OrderSubmittedMessage>>(ctx);
+                    e.ConfigureConsumer<MassTransitConsumerAdapter<OrderCreatedMessage>>(ctx);
                 });
             });
         });

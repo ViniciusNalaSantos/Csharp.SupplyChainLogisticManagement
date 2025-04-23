@@ -8,16 +8,16 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Csharp.SupplyChainLogisticManagement.Infrastructure.Consumers;
-public sealed class OrderSubmittedConsumer : IMessageConsumer<OrderSubmittedMessage>
+public sealed class OrderCreatedMessageConsumer : IMessageConsumer<OrderCreatedMessage>
 {
-    private readonly ILogger<OrderSubmittedConsumer> _logger;
+    private readonly ILogger<OrderCreatedMessageConsumer> _logger;
 
-    public OrderSubmittedConsumer(ILogger<OrderSubmittedConsumer> logger)
+    public OrderCreatedMessageConsumer(ILogger<OrderCreatedMessageConsumer> logger)
     {
         _logger = logger;
     }
 
-    public Task ConsumeAsync(OrderSubmittedMessage message, CancellationToken cancellationToken = default)
+    public Task ConsumeAsync(OrderCreatedMessage message, CancellationToken cancellationToken = default)
     {
         _logger.LogInformation($"Processing order, id: {message.OrderId}, date: {message.OrderDate}.");        
         return Task.CompletedTask;
