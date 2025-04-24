@@ -4,8 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Configuration;
+using Microsoft.Extensions.Configuration;
 
 namespace Csharp.SupplyChainLogisticManagement.Infrastructure.DatabaseContext;
 
@@ -13,9 +13,15 @@ public class LogiChainDbContextDesignTimeFactory : IDesignTimeDbContextFactory<L
 {
     public LogiChainDbContext CreateDbContext(string[] args)
     {
-        var optionsBuilder = new DbContextOptionsBuilder<LogiChainDbContext>();
-        optionsBuilder.UseSqlServer(ConfigurationManager.ConnectionStrings["LogiChainDatabase"].ConnectionString);
+        IConfigurationRoot configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json")
+                .Build();
 
-        return new LogiChainDbContext(optionsBuilder.Options);
+        var builder = new DbContextOptionsBuilder<LogiChainDbContext>();
+        var connectionString = configuration.GetConnectionString("LogiChainDatabase");
+        builder.UseSqlServer(connectionString);
+
+        return new LogiChainDbContext(builder.Options);
     }
 }

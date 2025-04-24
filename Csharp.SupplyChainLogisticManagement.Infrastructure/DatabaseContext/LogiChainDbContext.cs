@@ -15,10 +15,7 @@ public class LogiChainDbContext : DbContext
     : base(options) 
     {
     }
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        optionsBuilder.UseSqlServer(ConfigurationManager.ConnectionStrings["LogiChainDatabase"].ConnectionString);
-    }
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) { }
     public DbSet<Orders> Orders { get; set; }
     public DbSet<OrdersItems> OrdersItems { get; set; }
     public DbSet<Products> Products { get; set; }
@@ -56,11 +53,6 @@ public class LogiChainDbContext : DbContext
         entityModelBuilder
             .Property(l => l.Id)
             .HasColumnName("ID")
-            .IsRequired();
-
-        entityModelBuilder
-            .Property(l => l.OrdersItemsId)
-            .HasColumnName("ORDERS_ITEMS_ID")
             .IsRequired();
 
         entityModelBuilder

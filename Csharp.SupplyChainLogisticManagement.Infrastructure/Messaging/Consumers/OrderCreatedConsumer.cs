@@ -26,7 +26,6 @@ public sealed class OrderCreatedMessageConsumer : IMessageConsumer<OrderCreatedM
         _logger.LogInformation($"Processing order, id: {message.MessageId}, date: {message.EmissionDate}.");
         var order = new Orders
         {
-            OrdersItemsId = message.OrdersItemsId,
             EmissionDate = message.EmissionDate,
             CustomersId = message.CustomersId,
             SuppliersId = message.SuppliersId,

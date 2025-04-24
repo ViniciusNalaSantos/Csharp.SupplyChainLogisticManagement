@@ -8,7 +8,6 @@ namespace Csharp.SupplyChainLogisticManagement.Domain.Entities;
 public class Orders
 {
     public int Id { get; set; }
-    public int OrdersItemsId { get; set; }
     public ICollection<OrdersItems> OrdersItems { get; set; }
     public DateTime EmissionDate { get; set; }
     public int? CustomersId { get; set; }

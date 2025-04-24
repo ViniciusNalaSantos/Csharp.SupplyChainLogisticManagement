@@ -9,7 +9,6 @@ using Csharp.SupplyChainLogisticManagement.Infrastructure.MessageConsumer;
 using Csharp.SupplyChainLogisticManagement.Application.Messages;
 using MassTransit;
 using Microsoft.Extensions.DependencyInjection;
-using Csharp.SupplyChainLogisticManagement.Infrastructure.MessageConsumer;
 using static MassTransit.Logging.OperationName;
 using System.Reflection;
 using Csharp.SupplyChainLogisticManagement.Infrastructure.EventBus;
