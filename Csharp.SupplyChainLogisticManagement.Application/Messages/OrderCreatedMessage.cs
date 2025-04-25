@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Csharp.SupplyChainLogisticManagement.Domain.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,6 +12,8 @@ public record OrderCreatedMessage
     public int OrdersItemsId { get; set; }
     public DateTime EmissionDate { get; set; }
     public int? CustomersId { get; set; }
+    public CustomerCreatedMessage? Customer { get; set; }
     public int? SuppliersId { get; set; }
+    public SupplierCreatedMessage? Supplier { get; set; }
     public decimal Price { get; set; }
 }

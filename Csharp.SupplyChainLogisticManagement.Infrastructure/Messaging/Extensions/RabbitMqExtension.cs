@@ -22,7 +22,7 @@ internal static class RabbitMqExtension
     public static void AddRabbitMQService(this IServiceCollection services)
     {
 
-        services.AddScoped<IMessageConsumer<OrderCreatedMessage>, OrderCreatedMessageConsumer>();
+        services.AddScoped<IMessageConsumer<OrderCreatedMessage>, OrderCreatedConsumer>();
         services.AddScoped<IEventBus, MassTransitEventBusAdapter>();
 
         services.AddMassTransit(busConfigurator =>

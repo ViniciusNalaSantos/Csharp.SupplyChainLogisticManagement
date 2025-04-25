@@ -13,7 +13,6 @@
     <Folder Include="DTOs\" />
     <Folder Include="Interfaces\" />
     <Folder Include="Queries\" />
-    <Folder Include="Services\" />
   </ItemGroup>
 
   <ItemGroup>

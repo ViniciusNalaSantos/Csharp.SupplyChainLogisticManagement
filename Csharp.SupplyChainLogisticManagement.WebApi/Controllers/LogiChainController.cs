@@ -21,9 +21,12 @@ public class LogiChainController : ControllerBase
     public Orders GetOrders() {  return new Orders(); }
 
     [HttpPost]
-    public IActionResult PostOrders([FromBody] OrderCreatedMessage orderCreatedMessage)
+    public IActionResult PostOrders([FromBody] List<OrderCreatedMessage> listOrderCreatedMessage)
     {
-        _eventBus.PublishAsync(orderCreatedMessage);
+        foreach (var orderCreatedMessage in listOrderCreatedMessage)
+        {
+            _eventBus.PublishAsync(orderCreatedMessage);
+        }
         return Ok();        
     }
 }
