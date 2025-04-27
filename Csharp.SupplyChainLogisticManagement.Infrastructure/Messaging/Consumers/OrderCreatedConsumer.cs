@@ -24,12 +24,11 @@ public sealed class OrderCreatedConsumer : IMessageConsumer<OrderCreatedMessage>
         _createOrderService = createOrderService;
     }
 
-    public Task ConsumeAsync(OrderCreatedMessage message, CancellationToken cancellationToken = default)
+    public async Task ConsumeAsync(OrderCreatedMessage message, CancellationToken cancellationToken = default)
     {
         _logger.LogInformation($"Processing order, id: {message.MessageId}, date: {message.EmissionDate}.");
-        Orders order = _createOrderService.ReturnOrderMappedFromMessage(message);
+        Orders order = await _createOrderService.ReturnOrderMappedFromMessage(message);
         _context.Orders.Add(order);
         _context.SaveChangesAsync();
-        return Task.CompletedTask;
     }
 }

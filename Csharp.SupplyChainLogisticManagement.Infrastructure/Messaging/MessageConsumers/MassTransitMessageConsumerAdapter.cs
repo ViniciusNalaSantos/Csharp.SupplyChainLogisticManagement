@@ -15,8 +15,8 @@ public class MassTransitConsumerAdapter<TMessage> : IConsumer<TMessage> where TM
         _inner = inner;
     }
 
-    public Task Consume(ConsumeContext<TMessage> context)
+    public async Task Consume(ConsumeContext<TMessage> context)
     {
-        return _inner.ConsumeAsync(context.Message);
+        await _inner.ConsumeAsync(context.Message);
     }
 }

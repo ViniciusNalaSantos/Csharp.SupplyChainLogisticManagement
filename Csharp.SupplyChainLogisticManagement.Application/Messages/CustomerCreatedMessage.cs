@@ -9,6 +9,7 @@ namespace Csharp.SupplyChainLogisticManagement.Application.Messages;
 public record CustomerCreatedMessage
 {
     public Guid MessageId { get; set; } = Guid.NewGuid();
+    public int? Id { get; set;  }
     public string Name { get; set; }
     public string Email { get; set; }
     public string Address { get; set; }

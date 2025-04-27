@@ -9,10 +9,15 @@ using System.Threading.Tasks;
 namespace Csharp.SupplyChainLogisticManagement.Application.Services.CreateOrderService;
 public class CreateOrderService : ICreateOrderService
 {
-    public CreateOrderService() { }
-
-    public Orders ReturnOrderMappedFromMessage(OrderCreatedMessage message)
+    public async Task<Orders> ReturnOrderMappedFromMessage(OrderCreatedMessage message)
     {
-        throw new NotImplementedException();
+        var order = new Orders
+        {
+            EmissionDate = message.EmissionDate,
+            Price = Math.Round(message.Price, 2),
+            CustomersId = message.CustomerId,
+            SuppliersId = message.SupplierId
+        };
+        return order;
     }
 }

@@ -5,10 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Csharp.SupplyChainLogisticManagement.Application.Messages;
-public record SupplierCreatedMessage
+public record DeliveryCreatedMessage
 {
     public Guid MessageId { get; set; } = Guid.NewGuid();
-    public int? Id { get; set; }
-    public string Name { get; set; }
-    public string Phone { get; set; }
+    public int? TransporterId { get; set; }
+    public DateTime DeliveryDate { get; set; }
+    public TransporterCreatedMessage? Transporter { get; set; }   
 }

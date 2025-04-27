@@ -9,5 +9,5 @@ using System.Threading.Tasks;
 namespace Csharp.SupplyChainLogisticManagement.Application.Services.CreateOrderService;
 public interface ICreateOrderService
 {
-    public Orders ReturnOrderMappedFromMessage(OrderCreatedMessage message);
+    public Task<Orders> ReturnOrderMappedFromMessage(OrderCreatedMessage message);
 }
