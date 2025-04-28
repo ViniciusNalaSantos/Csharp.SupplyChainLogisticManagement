@@ -16,7 +16,13 @@ public class CreateOrderService : ICreateOrderService
             EmissionDate = message.EmissionDate,
             Price = Math.Round(message.Price, 2),
             CustomersId = message.CustomerId,
-            SuppliersId = message.SupplierId
+            SuppliersId = message.SupplierId,
+            Customers = message.Customer == null ? null : new Customers
+            {
+                Name = message.Customer.Name,
+                Email = message.Customer.Email,
+                Address = message.Customer.Address
+            },
         };
         return order;
     }

@@ -14,12 +14,12 @@ public class MassTransitEventBusAdapter : IEventBus
     {
         _publishEndpoint = publishEndpoint;
     }
-    public Task PublishAsync<T>(T message, CancellationToken cancellationToken = default) where T : class
+    public async Task PublishAsync<T>(T message, CancellationToken cancellationToken = default) where T : class
     {
-        return _publishEndpoint.Publish(message, cancellationToken);
+        await _publishEndpoint.Publish(message, cancellationToken);
     }
 
-    public Task SendAsync<T>(T command, CancellationToken cancellationToken = default) where T : class
+    public async Task SendAsync<T>(T command, CancellationToken cancellationToken = default) where T : class
     {
         throw new NotImplementedException();
     }
