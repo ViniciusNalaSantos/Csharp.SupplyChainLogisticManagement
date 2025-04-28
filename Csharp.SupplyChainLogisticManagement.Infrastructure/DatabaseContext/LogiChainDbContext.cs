@@ -326,6 +326,11 @@ public class LogiChainDbContext : DbContext
             .IsRequired();
 
         entityModelBuilder
+            .Property(l => l.Email)
+            .HasColumnName("EMAIL")
+            .IsRequired();
+
+        entityModelBuilder
             .Property(l => l.Phone)
             .HasColumnName("PHONE")
             .IsRequired();
