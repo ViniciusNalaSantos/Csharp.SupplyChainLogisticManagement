@@ -43,7 +43,7 @@ public sealed class OrderCreatedConsumer : IMessageConsumer<OrderCreatedMessage>
                     Email = message.Customer.Email,
                     Address = message.Customer.Address
                 };
-                _context.Customers.Add(customer);
+                await _context.Customers.AddAsync(customer);
                 await _context.SaveChangesAsync();
             }
         }
@@ -60,7 +60,7 @@ public sealed class OrderCreatedConsumer : IMessageConsumer<OrderCreatedMessage>
                     Email = message.Supplier.Email,
                     Phone = message.Supplier.Phone
                 };
-                _context.Suppliers.Add(supplier);
+                await _context.Suppliers.AddAsync(supplier);
                 await _context.SaveChangesAsync();
             }
         }
@@ -73,8 +73,8 @@ public sealed class OrderCreatedConsumer : IMessageConsumer<OrderCreatedMessage>
             SuppliersId = supplier?.Id ?? message.SupplierId,
             
         };
-        _context.Orders.Add(order);
-        _context.SaveChangesAsync();        
+        await _context.Orders.AddAsync(order);
+        await _context.SaveChangesAsync();        
         
         foreach (var messageOrderItem in message.OrderItems)
         {
@@ -89,7 +89,7 @@ public sealed class OrderCreatedConsumer : IMessageConsumer<OrderCreatedMessage>
                         Description = messageOrderItem.Product.Description,
                         Price = messageOrderItem.Product.Price
                     };
-                    _context.Products.Add(product);
+                    await _context.Products.AddAsync(product);
                     await _context.SaveChangesAsync();
                 }
             }
@@ -97,21 +97,52 @@ public sealed class OrderCreatedConsumer : IMessageConsumer<OrderCreatedMessage>
             var orderItem = new OrdersItems
             {
                 OrdersId = order.Id,
-                ProductsId = product?.Id ?? messageOrderItem.ProductId,
+                ProductsId = (int)(product?.Id ?? messageOrderItem.ProductId),
                 Quantity = Math.Round(messageOrderItem.Quantity, 2)
             };
+            await _context.OrdersItems.AddAsync(orderItem);
+            await _context.SaveChangesAsync();
+        };
+                
+        Shipments shipment = null;
+        if (message.Shipment != null)
+        {
+            shipment = new Shipments
+            {
+                OrdersId = order.Id,
+                ShipmentDate = message.Shipment.ShipmentDate
+            };
+            await _context.Shipments.AddAsync(shipment);
+            await _context.SaveChangesAsync();
+        }
 
-            Shipments shipment = null;
-            if (message.Shipment != null)
-            {               
-                shipment = new Shipments
+        Deliveries delivery = null;
+        if (message.Delivery != null)
+        {
+            Transporters transporter = null;
+            if (message.Delivery.Transporter != null)
+            {
+                transporter = await _context.Transporters.FirstOrDefaultAsync(l => l.Email == message.Delivery.Transporter.Email);
+                if (transporter == null)
                 {
-                    OrdersId = order.Id,
-                    ShipmentDate = message.Shipment.ShipmentDate
-                };
-                _context.Shipments.Add(shipment);
-                await _context.SaveChangesAsync();
+                    transporter = new Transporters
+                    {
+                        Name = message.Delivery.Transporter.Name,
+                        Email = message.Delivery.Transporter.Email,
+                        Phone = message.Delivery.Transporter.Phone
+                    };
+                    await _context.Transporters.AddAsync(transporter);
+                    await _context.SaveChangesAsync();
+                }
             }
-        };        
+            
+            delivery = new Deliveries
+            {
+                OrdersId = order.Id,
+                TransportersId = (int)(transporter?.Id ?? message.Delivery.TransporterId),
+            };
+            await _context.Deliveries.AddAsync(delivery);
+            await _context.SaveChangesAsync();
+        }
     }
 }
