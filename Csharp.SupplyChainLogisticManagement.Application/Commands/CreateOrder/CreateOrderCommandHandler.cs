@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Csharp.SupplyChainLogisticManagement.Application.Commands;
+namespace Csharp.SupplyChainLogisticManagement.Application.Commands.CreateOrder;
 public class CreateOrderCommandHandler : ICommandHandler<CreateOrderCommand>
 {
     public void Handle(CreateOrderCommand command)
