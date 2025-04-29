@@ -4,6 +4,7 @@ using Csharp.SupplyChainLogisticManagement.Infrastructure.DatabaseContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Csharp.SupplyChainLogisticManagement.Infrastructure.Migrations
 {
     [DbContext(typeof(LogiChainDbContext))]
-    partial class LogiChainDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250429134700_AddedColumnEmailToTransporters")]
+    partial class AddedColumnEmailToTransporters
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
