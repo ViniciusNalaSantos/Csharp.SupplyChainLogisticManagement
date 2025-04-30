@@ -1,4 +1,7 @@
 ﻿using Csharp.SupplyChainLogisticManagement.Application.Commands.CreateCustomer;
+using Csharp.SupplyChainLogisticManagement.Application.Commands.CreateDelivery;
+using Csharp.SupplyChainLogisticManagement.Application.Commands.CreateOrderItem;
+using Csharp.SupplyChainLogisticManagement.Application.Commands.CreateShipment;
 using Csharp.SupplyChainLogisticManagement.Application.Commands.CreateSupplier;
 using System;
 using System.Collections.Generic;
@@ -16,7 +19,7 @@ public record CreateOrderCommand
     public int? SupplierId { get; set; }
     public CreateSupplierCommand Supplier { get; set; }
     public decimal Price { get; set; }
-    //public ICollection<OrderItemCreatedMessage> OrderItems { get; set; } = new List<OrderItemCreatedMessage>();
-    //public DeliveryCreatedMessage Delivery { get; set; }
-    //public ShipmentCreatedMessage Shipment { get; set; }
+    public ICollection<CreateOrderItemCommand> OrderItems { get; set; } = new List<CreateOrderItemCommand>();
+    public CreateDeliveryCommand Delivery { get; set; }
+    public CreateShipmentCommand Shipment { get; set; }
 }
