@@ -1,7 +1,6 @@
 using Csharp.SupplyChainLogisticManagement.Infrastructure.DatabaseContext;
 using Csharp.SupplyChainLogisticManagement.Infrastructure.Messaging.Extensions;
 using Microsoft.EntityFrameworkCore;
-using Csharp.SupplyChainLogisticManagement.Infrastructure.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,7 +19,6 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddRabbitMQService();
-builder.Services.AddApplicationServices();
 
 var app = builder.Build();
 
