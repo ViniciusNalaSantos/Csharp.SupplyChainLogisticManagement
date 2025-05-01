@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Csharp.SupplyChainLogisticManagement.Application.CommandHandlers;
-public interface ICommandHandler<TCommand>
+public interface IMessageHandler<TMessage>
 {
-    void Handle(TCommand command);
+    void Handle(TMessage message);
 }

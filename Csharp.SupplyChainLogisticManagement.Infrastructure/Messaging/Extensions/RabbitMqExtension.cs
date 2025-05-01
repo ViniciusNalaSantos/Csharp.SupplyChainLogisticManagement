@@ -12,6 +12,8 @@ using Microsoft.Extensions.DependencyInjection;
 using static MassTransit.Logging.OperationName;
 using System.Reflection;
 using Csharp.SupplyChainLogisticManagement.Infrastructure.EventBus;
+using Csharp.SupplyChainLogisticManagement.Application.CommandHandlers;
+using Csharp.SupplyChainLogisticManagement.Application.Commands.CreateOrder;
 
 [assembly: InternalsVisibleTo("Csharp.SupplyChainLogisticManagement.WebApi")]
 
@@ -24,6 +26,8 @@ internal static class RabbitMqExtension
 
         services.AddScoped<IMessageConsumer<OrderCreatedMessage>, OrderCreatedConsumer>();
         services.AddScoped<IEventBus, MassTransitEventBusAdapter>();
+
+        services.AddHandlersService();
 
         services.AddMassTransit(busConfigurator =>
         {            

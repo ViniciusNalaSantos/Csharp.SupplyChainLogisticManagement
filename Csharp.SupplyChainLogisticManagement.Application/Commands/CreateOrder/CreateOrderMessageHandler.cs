@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Csharp.SupplyChainLogisticManagement.Application.Commands.CreateOrder;
-public class CreateOrderCommandHandler : ICommandHandler<OrderCreatedMessage>
+public class CreateOrderMessageHandler : IMessageHandler<OrderCreatedMessage>
 {
     public void Handle(OrderCreatedMessage message)
     {

@@ -1,4 +1,6 @@
-﻿using Csharp.SupplyChainLogisticManagement.Application.Messages;
+﻿using Csharp.SupplyChainLogisticManagement.Application.CommandHandlers;
+using Csharp.SupplyChainLogisticManagement.Application.Commands.CreateOrder;
+using Csharp.SupplyChainLogisticManagement.Application.Messages;
 using Csharp.SupplyChainLogisticManagement.Application.Services.CreateCustomerService;
 using Csharp.SupplyChainLogisticManagement.Application.Services.CreateOrderService;
 using Csharp.SupplyChainLogisticManagement.Domain.Entities;
@@ -10,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -18,18 +21,20 @@ public sealed class OrderCreatedConsumer : IMessageConsumer<OrderCreatedMessage>
 {
     private readonly ILogger<OrderCreatedConsumer> _logger;
     private readonly LogiChainDbContext _context;
-    private readonly ICreateOrderService _createOrderService;
+    private readonly IMessageHandler<OrderCreatedMessage> _messageHandler;
 
-    public OrderCreatedConsumer(ILogger<OrderCreatedConsumer> logger, LogiChainDbContext context, ICreateOrderService createOrderService)
+    public OrderCreatedConsumer(ILogger<OrderCreatedConsumer> logger, LogiChainDbContext context, IMessageHandler<OrderCreatedMessage> messageHandler)
     {
         _logger = logger;
         _context = context;
-        _createOrderService = createOrderService;
+        _messageHandler = messageHandler;
     }
 
     public async Task ConsumeAsync(OrderCreatedMessage message, CancellationToken cancellationToken = default)
     {
         _logger.LogInformation($"Processing order, id: {message.MessageId}, date: {message.EmissionDate}.");
+
+        _messageHandler.Handle(message);
 
         Customers customer = null;
         if (message.Customer != null)
