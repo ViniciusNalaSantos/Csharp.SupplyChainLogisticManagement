@@ -1,5 +1,4 @@
 using Csharp.SupplyChainLogisticManagement.Domain.Entities;
-using Csharp.SupplyChainLogisticManagement.Domain.Interfaces;
 using Csharp.SupplyChainLogisticManagement.Infrastructure.DatabaseContext;
 using System;
 using System.Collections.Generic;
@@ -7,6 +6,7 @@ using System.Linq;
 using System.Data.Entity;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Csharp.SupplyChainLogisticManagement.Domain.Interfaces.Repository;
 
 namespace Csharp.SupplyChainLogisticManagement.Infrastructure.Repository;
 public class ProductsRepository : IProductsRepository

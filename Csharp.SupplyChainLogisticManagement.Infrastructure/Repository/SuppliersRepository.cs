@@ -1,5 +1,5 @@
 using Csharp.SupplyChainLogisticManagement.Domain.Entities;
-using Csharp.SupplyChainLogisticManagement.Domain.Interfaces;
+using Csharp.SupplyChainLogisticManagement.Domain.Interfaces.Repository;
 using Csharp.SupplyChainLogisticManagement.Infrastructure.DatabaseContext;
 using System;
 using System.Collections.Generic;

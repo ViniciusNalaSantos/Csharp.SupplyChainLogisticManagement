@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Csharp.SupplyChainLogisticManagement.Domain.Interfaces;
+namespace Csharp.SupplyChainLogisticManagement.Domain.Interfaces.Repository;
 public interface ICustomersRepository
 {
     Task<Customers?> GetCustomerFirstOrDefaultAsync(Expression<Func<Customers, bool>> predicate); 
