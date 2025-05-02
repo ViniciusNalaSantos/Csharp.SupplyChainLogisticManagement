@@ -13,13 +13,13 @@ internal static class RepositoryExtension
 {
     public static void AddRepositoryService(this IServiceCollection services)
     {
-        services.AddScoped<ICustomersRepository, CustomersRepository>();
-        services.AddScoped<ISuppliersRepository, SuppliersRepository>();
-        services.AddScoped<IOrdersRepository, OrdersRepository>();
-        services.AddScoped<IProductsRepository, ProductsRepository>();
-        services.AddScoped<IOrdersItemsRepository, OrdersItemsRepository>();
-        services.AddScoped<IShipmentsRepository, ShipmentsRepository>();
-        services.AddScoped<IDeliveriesRepository, DeliveriesRepository>();
-        services.AddScoped<ITransportersRepository, TransportersRepository>();
+        services.AddTransient<ICustomersRepository, CustomersRepository>();
+        services.AddTransient<ISuppliersRepository, SuppliersRepository>();
+        services.AddTransient<IOrdersRepository, OrdersRepository>();
+        services.AddTransient<IProductsRepository, ProductsRepository>();
+        services.AddTransient<IOrdersItemsRepository, OrdersItemsRepository>();
+        services.AddTransient<IShipmentsRepository, ShipmentsRepository>();
+        services.AddTransient<IDeliveriesRepository, DeliveriesRepository>();
+        services.AddTransient<ITransportersRepository, TransportersRepository>();
     }
 }

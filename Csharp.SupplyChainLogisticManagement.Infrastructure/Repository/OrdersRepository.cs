@@ -17,8 +17,8 @@ public class OrdersRepository : IOrdersRepository
     }
     public async Task<Orders?> InsertOrderAsync(Orders order)
     {
-        await _context.Orders.AddAsync(order);
-        await _context.SaveChangesAsync();
+        _context.Orders.Add(order);
+        _context.SaveChanges();
         return order;
     }
 }

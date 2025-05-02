@@ -3,7 +3,7 @@ using Csharp.SupplyChainLogisticManagement.Domain.Interfaces.Repository;
 using Csharp.SupplyChainLogisticManagement.Infrastructure.DatabaseContext;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -18,13 +18,13 @@ public class SuppliersRepository : ISuppliersRepository
     }
     public async Task<Suppliers?> GetSupplierFirstOrDefaultAsync(Expression<Func<Suppliers, bool>> predicate)
     {
-        return await _context.Suppliers.FirstOrDefaultAsync(predicate);
+        return _context.Suppliers.FirstOrDefault(predicate);
     }
 
     public async Task<Suppliers?> InsertSupplierAsync(Suppliers supplier)
     {
-        await _context.Suppliers.AddAsync(supplier);
-        await _context.SaveChangesAsync();
+        _context.Suppliers.Add(supplier);
+        _context.SaveChanges();
         return supplier;
     }
 }

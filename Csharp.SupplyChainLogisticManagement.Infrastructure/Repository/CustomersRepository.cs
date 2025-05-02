@@ -3,7 +3,7 @@ using Csharp.SupplyChainLogisticManagement.Domain.Interfaces.Repository;
 using Csharp.SupplyChainLogisticManagement.Infrastructure.DatabaseContext;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -19,12 +19,12 @@ public class CustomersRepository : ICustomersRepository
     }
     public async Task<Customers?> GetCustomerFirstOrDefaultAsync(Expression<Func<Customers, bool>> predicate)
     {
-        return await _context.Customers.FirstOrDefaultAsync(predicate);
+        return _context.Customers.FirstOrDefault(predicate);
     }
     public async Task<Customers?> InsertCustomerAsync(Customers customer)
     {
-        await _context.Customers.AddAsync(customer);
-        await _context.SaveChangesAsync();
+        _context.Customers.Add(customer);
+        _context.SaveChanges();
         return customer;
     }
 }
