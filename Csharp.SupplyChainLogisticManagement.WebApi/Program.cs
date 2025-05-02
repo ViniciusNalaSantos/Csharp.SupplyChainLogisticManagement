@@ -9,7 +9,8 @@ builder.Services.AddDbContext<LogiChainDbContext>(
     options => options.UseSqlServer(
             builder.Configuration.GetConnectionString("LogiChainDatabase"),
             x => x.MigrationsAssembly("Csharp.SupplyChainLogisticManagement.Infrastructure.Migrations")
-        )
+        ),
+    ServiceLifetime.Transient
 );
 
 builder.Services.AddControllers();
