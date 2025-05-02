@@ -1,5 +1,5 @@
+using Csharp.SupplyChainLogisticManagement.Infrastructure.Configuration.Extensions;
 using Csharp.SupplyChainLogisticManagement.Infrastructure.DatabaseContext;
-using Csharp.SupplyChainLogisticManagement.Infrastructure.Messaging.Extensions;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);

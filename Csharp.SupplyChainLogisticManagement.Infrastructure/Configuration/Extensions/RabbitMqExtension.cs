@@ -16,7 +16,7 @@ using Csharp.SupplyChainLogisticManagement.Application.Commands.CreateOrder;
 
 [assembly: InternalsVisibleTo("Csharp.SupplyChainLogisticManagement.WebApi")]
 
-namespace Csharp.SupplyChainLogisticManagement.Infrastructure.Messaging.Extensions;
+namespace Csharp.SupplyChainLogisticManagement.Infrastructure.Configuration.Extensions;
 
 internal static class RabbitMqExtension
 {
@@ -27,6 +27,7 @@ internal static class RabbitMqExtension
         services.AddScoped<IEventBus, MassTransitEventBusAdapter>();
 
         services.AddHandlersService();
+        services.AddRepositoryService();
 
         services.AddMassTransit(busConfigurator =>
         {            
