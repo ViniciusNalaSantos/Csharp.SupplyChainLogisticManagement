@@ -1,0 +1,12 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Csharp.SupplyChainLogisticManagement.Application.Queries;
+public record GetOrderByEmissionDateQuery
+{
+    public DateTime EmissionDateStart { get; set; }
+    public DateTime EmissionDateEnd { get; set; }
+}
