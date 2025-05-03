@@ -17,15 +17,23 @@ public class LogiChainController : ControllerBase
         _eventBus = eventBus;
     }
 
-    [HttpGet]
-    public Orders GetOrders() {  return new Orders(); }
+    [HttpGet("orders/{id}")]
+    public Orders GetOrderById(int id) 
+    {
+        return new Orders(); 
+    }
+    
+    [HttpGet("orders")]
+    public Orders GetOrdersByEmissionDate([FromQuery] DateTime EmissionDateStart, DateTime EmissionDateEnd)
+    {
+        return new Orders();
+    }
 
-    [HttpPost]
+    [HttpPost("orders")]
     public async Task<IActionResult> PostOrdersAsync([FromBody] List<OrderCreatedMessage> listOrderCreatedMessage)
     {
         foreach (var orderCreatedMessage in listOrderCreatedMessage)
-        {
-            
+        {            
             await _eventBus.PublishAsync(orderCreatedMessage);
         }
         return Ok();        
