@@ -8,5 +8,6 @@ using System.Threading.Tasks;
 namespace Csharp.SupplyChainLogisticManagement.Domain.Interfaces.Repository;
 public interface IOrdersRepository
 {
+    Task<Orders?> GetOrderFirstOrDefaultAsync(Expression<Func<Orders, bool>> predicate);
     Task<Orders?> InsertOrderAsync(Orders order);    
 }

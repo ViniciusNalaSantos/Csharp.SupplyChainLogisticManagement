@@ -7,5 +7,5 @@ using System.Threading.Tasks;
 namespace Csharp.SupplyChainLogisticManagement.Domain.Interfaces.Handlers;
 public interface IQueryHandler<TQuery, TResult>
 {
-    TResult Handle(TQuery query);
+    Task<TResult> Handle(TQuery query);
 }

@@ -15,6 +15,10 @@ public class OrdersRepository : IOrdersRepository
     {
         _context = context;
     }
+    public async Task<Orders?> GetOrderFirstOrDefaultAsync(Expression<Func<Orders, bool>> predicate)
+    {
+        return _context.Orders.FirstOrDefault(predicate);
+    }
     public async Task<Orders?> InsertOrderAsync(Orders order)
     {
         _context.Orders.Add(order);
