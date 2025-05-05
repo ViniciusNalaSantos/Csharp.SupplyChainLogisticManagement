@@ -15,7 +15,7 @@ internal static class RepositoryExtension
     {
         services.AddTransient<ICustomersRepository, CustomersRepository>();
         services.AddTransient<ISuppliersRepository, SuppliersRepository>();
-        services.AddTransient<IOrdersRepository, OrdersRepository>();
+        services.AddTransient<Domain.Interfaces.Repository.IOrdersRepository, OrdersRepository>();
         services.AddTransient<IProductsRepository, ProductsRepository>();
         services.AddTransient<IOrdersItemsRepository, OrdersItemsRepository>();
         services.AddTransient<IShipmentsRepository, ShipmentsRepository>();

@@ -1,6 +1,8 @@
+using Csharp.SupplyChainLogisticManagement.Domain.Dto;
 using Csharp.SupplyChainLogisticManagement.Domain.Entities;
 using Csharp.SupplyChainLogisticManagement.Domain.Interfaces.Repository;
 using Csharp.SupplyChainLogisticManagement.Infrastructure.DatabaseContext;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +20,18 @@ public class OrdersRepository : IOrdersRepository
     public async Task<Orders?> GetOrderFirstOrDefaultAsync(Expression<Func<Orders, bool>> predicate)
     {
         return _context.Orders.FirstOrDefault(predicate);
+    }
+    public async Task<List<Orders?>> GetOrdersPagedByEmissionDate(DateTime emissionDateStart, DateTime emissionDateEnd, int pageNumber, int pageSize)
+    {
+        var orders = _context.Orders
+            .Where(l => l.EmissionDate >= emissionDateStart && l.EmissionDate <= emissionDateEnd)
+            .OrderBy(l => l.Id);
+        var totalOrders = await orders.CountAsync();
+        var ordersPaged = orders
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize);
+
+        return await ordersPaged.ToListAsync();
     }
     public async Task<Orders?> InsertOrderAsync(Orders order)
     {
