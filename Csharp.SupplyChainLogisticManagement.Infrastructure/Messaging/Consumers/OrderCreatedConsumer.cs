@@ -1,6 +1,4 @@
 ﻿using Csharp.SupplyChainLogisticManagement.Application.Messages;
-using Csharp.SupplyChainLogisticManagement.Application.Services.CreateCustomerService;
-using Csharp.SupplyChainLogisticManagement.Application.Services.CreateOrderService;
 using Csharp.SupplyChainLogisticManagement.Domain.Entities;
 using Csharp.SupplyChainLogisticManagement.Domain.Interfaces.Handlers;
 using Csharp.SupplyChainLogisticManagement.Infrastructure.DatabaseContext;
