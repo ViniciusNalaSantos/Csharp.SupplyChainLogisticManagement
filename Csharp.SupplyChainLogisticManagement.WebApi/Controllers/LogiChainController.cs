@@ -65,7 +65,7 @@ public class LogiChainController : ControllerBase
     }
 
     [HttpPost("orders")]
-    public async Task<IActionResult> PostOrdersAsync([FromBody] List<OrderCreatedMessage> listOrderCreatedMessage)
+    public async Task<IActionResult> PostOrders([FromBody] List<OrderCreatedMessage> listOrderCreatedMessage)
     {
         foreach (var orderCreatedMessage in listOrderCreatedMessage)
         {            
