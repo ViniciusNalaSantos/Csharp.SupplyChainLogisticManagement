@@ -1,5 +1,6 @@
 using Csharp.SupplyChainLogisticManagement.Infrastructure.Configuration.Extensions;
 using Csharp.SupplyChainLogisticManagement.Infrastructure.DatabaseContext;
+using Csharp.SupplyChainLogisticManagement.WebApi.Middlewares;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,7 +22,11 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddRabbitMQService();
 
+builder.Services.AddTransient<ExceptionMiddleware>();
+
 var app = builder.Build();
+
+app.UseMiddleware<ExceptionMiddleware>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
