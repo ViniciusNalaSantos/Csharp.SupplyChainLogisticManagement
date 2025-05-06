@@ -12,17 +12,17 @@ using System.Drawing.Printing;
 using Csharp.SupplyChainLogisticManagement.Domain.Dto;
 
 namespace Csharp.SupplyChainLogisticManagement.Application.QueryHandlers;
-public class GetOrdersByEmissionDateQueryHandler : IQueryHandler<GetOrdersByEmissionDateQuery, List<Orders>>
+public class GetOrdersByEmissionDateQueryHandler : IQueryHandler<GetOrdersByEmissionDateQuery, PagedResultDto<Orders>>
 {
     private readonly IOrdersRepository _ordersRepository;
     public GetOrdersByEmissionDateQueryHandler(IOrdersRepository ordersRepository)
     {
         _ordersRepository = ordersRepository;
     }
-    public async Task<List<Orders?>> Handle(GetOrdersByEmissionDateQuery query)
+    public async Task<PagedResultDto<Orders>> Handle(GetOrdersByEmissionDateQuery query)
     {
         var pageSize = PagedResult.PageSizeLimit;
-        var pagedOrders = await _ordersRepository.GetOrdersPagedByEmissionDate(query.EmissionDateStart, query.EmissionDateEnd, 1, pageSize);
+        var pagedOrders = await _ordersRepository.GetOrdersPagedByEmissionDate(query.EmissionDateStart, query.EmissionDateEnd, query.Page, pageSize);
         return pagedOrders;        
     }
 }

@@ -10,5 +10,6 @@ public class PagedOrdersReturnDto<Orders>
     public int ActualPage { get; set; }
     public int TotalPages { get; set; }
     public int PageLimit { get; set; }
-    public IList<Orders> OrdersList {  get; set; }
+    public int OrdersListCount { get; set; }
+    public IList<Orders> OrdersList {  get; set; }    
 }

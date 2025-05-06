@@ -2,6 +2,7 @@
 using Csharp.SupplyChainLogisticManagement.Application.Messages;
 using Csharp.SupplyChainLogisticManagement.Application.Queries;
 using Csharp.SupplyChainLogisticManagement.Application.QueryHandlers;
+using Csharp.SupplyChainLogisticManagement.Domain.Dto;
 using Csharp.SupplyChainLogisticManagement.Domain.Entities;
 using Csharp.SupplyChainLogisticManagement.Domain.Interfaces.Handlers;
 using Csharp.SupplyChainLogisticManagement.Domain.Interfaces.Repository;
@@ -20,6 +21,6 @@ internal static class HandlersExtension
     {
         services.AddScoped<IMessageHandler<OrderCreatedMessage>, CreateOrderMessageHandler>();
         services.AddScoped<IQueryHandler<GetOrderByIdQuery, List<Orders>>, GetOrderByIdQueryHandler>();
-        services.AddScoped<IQueryHandler<GetOrdersByEmissionDateQuery, List<Orders>>, GetOrdersByEmissionDateQueryHandler>();
+        services.AddScoped<IQueryHandler<GetOrdersByEmissionDateQuery, PagedResultDto<Orders>>, GetOrdersByEmissionDateQueryHandler>();
     }
 }

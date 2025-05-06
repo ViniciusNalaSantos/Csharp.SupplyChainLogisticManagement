@@ -1,3 +1,4 @@
+using Csharp.SupplyChainLogisticManagement.Application.Common.Constants;
 using Csharp.SupplyChainLogisticManagement.Domain.Dto;
 using Csharp.SupplyChainLogisticManagement.Domain.Entities;
 using Csharp.SupplyChainLogisticManagement.Domain.Interfaces.Repository;
@@ -21,17 +22,25 @@ public class OrdersRepository : IOrdersRepository
     {
         return _context.Orders.FirstOrDefault(predicate);
     }
-    public async Task<List<Orders?>> GetOrdersPagedByEmissionDate(DateTime emissionDateStart, DateTime emissionDateEnd, int pageNumber, int pageSize)
+    public async Task<PagedResultDto<Orders?>> GetOrdersPagedByEmissionDate(DateTime emissionDateStart, DateTime emissionDateEnd, int pageNumber, int pageSize)
     {
         var orders = _context.Orders
             .Where(l => l.EmissionDate >= emissionDateStart && l.EmissionDate <= emissionDateEnd)
             .OrderBy(l => l.Id);
         var totalOrders = await orders.CountAsync();
+        var totalPages = (int)Math.Ceiling((double)totalOrders / PagedResult.PageSizeLimit);
+        
         var ordersPaged = orders
             .Skip((pageNumber - 1) * pageSize)
             .Take(pageSize);
+        var totalOrdersPaged = await ordersPaged.CountAsync();
 
-        return await ordersPaged.ToListAsync();
+        return new PagedResultDto<Orders>()
+        {
+            ListResults = await ordersPaged.ToListAsync(),
+            ListResultsCount = totalOrdersPaged,
+            TotalPages = totalPages
+        };            
     }
     public async Task<Orders?> InsertOrderAsync(Orders order)
     {

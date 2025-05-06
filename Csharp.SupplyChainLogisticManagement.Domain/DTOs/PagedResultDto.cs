@@ -8,7 +8,6 @@ namespace Csharp.SupplyChainLogisticManagement.Domain.Dto;
 public class PagedResultDto<T>
 {
     public IList<T> ListResults { get; set; }
-    public int TotalResults { get; set; }
-    public int PageNumber { get; set; }
-    public int PageSize { get; set; }
+    public int ListResultsCount { get; set; }
+    public int TotalPages { get; set; }
 }

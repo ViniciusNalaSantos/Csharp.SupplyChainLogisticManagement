@@ -11,5 +11,5 @@ public interface IOrdersRepository
 {
     Task<Orders?> GetOrderFirstOrDefaultAsync(Expression<Func<Orders, bool>> predicate);
     Task<Orders?> InsertOrderAsync(Orders order);
-    Task<List<Orders>> GetOrdersPagedByEmissionDate(DateTime emissionDateStart, DateTime emissionDateEnd, int pageNumber, int pageSize);
+    Task<PagedResultDto<Orders>> GetOrdersPagedByEmissionDate(DateTime emissionDateStart, DateTime emissionDateEnd, int pageNumber, int pageSize);
 }

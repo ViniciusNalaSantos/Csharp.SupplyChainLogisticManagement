@@ -9,4 +9,5 @@ public record GetOrdersByEmissionDateQuery
 {
     public DateTime EmissionDateStart { get; set; }
     public DateTime EmissionDateEnd { get; set; }
+    public int Page {  get; set; }
 }

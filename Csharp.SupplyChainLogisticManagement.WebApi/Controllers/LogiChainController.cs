@@ -9,6 +9,7 @@ using Csharp.SupplyChainLogisticManagement.Application.DTOs;
 using Csharp.SupplyChainLogisticManagement.Application.Common.Constants;
 using System.Drawing.Printing;
 using System.Threading.Tasks;
+using Csharp.SupplyChainLogisticManagement.Domain.Dto;
 
 namespace Csharp.SupplyChainLogisticManagement.WebApi.Controllers;
 
@@ -18,9 +19,9 @@ public class LogiChainController : ControllerBase
 {
     private readonly IEventBus _eventBus;
     private readonly IQueryHandler<GetOrderByIdQuery, List<Orders>> _getOrderByIdQueryHandler;
-    private readonly IQueryHandler<GetOrdersByEmissionDateQuery, List<Orders>> _getOrdersByEmissionDateQueryHandler;
+    private readonly IQueryHandler<GetOrdersByEmissionDateQuery, PagedResultDto<Orders>> _getOrdersByEmissionDateQueryHandler;
 
-    public LogiChainController(IEventBus eventBus, IQueryHandler<GetOrderByIdQuery, List<Orders>> getOrderByIdQueryHandler, IQueryHandler<GetOrdersByEmissionDateQuery, List<Orders>> getOrdersByEmissionDateQueryHandler)
+    public LogiChainController(IEventBus eventBus, IQueryHandler<GetOrderByIdQuery, List<Orders>> getOrderByIdQueryHandler, IQueryHandler<GetOrdersByEmissionDateQuery, PagedResultDto<Orders>> getOrdersByEmissionDateQueryHandler)
     {
         _eventBus = eventBus;
         _getOrderByIdQueryHandler = getOrderByIdQueryHandler;
@@ -32,35 +33,34 @@ public class LogiChainController : ControllerBase
     {
         var query = new GetOrderByIdQuery { Id = id };
         var listOrders = await _getOrderByIdQueryHandler.Handle(query);
-
-        var pageSizeLimit = PagedResult.PageSizeLimit;
-        var totalPages = (int)Math.Ceiling((double)listOrders.Count / pageSizeLimit);
+               
         return new PagedOrdersReturnDto<Orders>
         {
             ActualPage = 1,
-            TotalPages = totalPages,
-            PageLimit = pageSizeLimit,
+            TotalPages = 1,
+            PageLimit = PagedResult.PageSizeLimit,
             OrdersList = listOrders
         };
     }
     
     [HttpGet("orders")]
-    public async Task<PagedOrdersReturnDto<Orders>> GetOrdersByEmissionDate([FromQuery] DateTime EmissionDateStart, DateTime EmissionDateEnd)
+    public async Task<PagedOrdersReturnDto<Orders>> GetOrdersByEmissionDate([FromQuery] DateTime emissionDateStart, DateTime emissionDateEnd, int page)
     {
         var query = new GetOrdersByEmissionDateQuery
         {
-            EmissionDateStart = EmissionDateStart,
-            EmissionDateEnd = EmissionDateEnd
+            EmissionDateStart = emissionDateStart,
+            EmissionDateEnd = emissionDateEnd,
+            Page = page
         };
-        var listOrders = await _getOrdersByEmissionDateQueryHandler.Handle(query);
-        var pageSizeLimit = PagedResult.PageSizeLimit;
-        var totalPages = (int)Math.Ceiling((double)listOrders.Count / pageSizeLimit);
+        var pagedOrdersDto = await _getOrdersByEmissionDateQueryHandler.Handle(query);
+        
         return new PagedOrdersReturnDto<Orders>
         {
-            ActualPage = 1,
-            TotalPages = totalPages,
-            PageLimit = pageSizeLimit,
-            OrdersList = listOrders
+            ActualPage = page,
+            TotalPages = pagedOrdersDto.TotalPages,
+            PageLimit = PagedResult.PageSizeLimit,
+            OrdersListCount = pagedOrdersDto.ListResultsCount,
+            OrdersList = pagedOrdersDto.ListResults            
         };
     }
 
