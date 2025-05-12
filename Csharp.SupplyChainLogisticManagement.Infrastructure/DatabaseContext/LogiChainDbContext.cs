@@ -136,6 +136,7 @@ public class LogiChainDbContext : DbContext
         entityModelBuilder
             .Property(l => l.Description)
             .HasColumnName("DESCRIPTION")
+            .HasMaxLength(200)
             .IsRequired();
 
         entityModelBuilder
@@ -193,6 +194,7 @@ public class LogiChainDbContext : DbContext
         entityModelBuilder
             .Property(l => l.Name)
             .HasColumnName("NAME")
+            .HasMaxLength(200)
             .IsRequired();
     }
     private void ModelShipments(ModelBuilder modelBuilder)
@@ -272,16 +274,19 @@ public class LogiChainDbContext : DbContext
         entityModelBuilder
             .Property(l => l.Name)
             .HasColumnName("NAME")
+            .HasMaxLength(200)
             .IsRequired();
 
         entityModelBuilder
             .Property(l => l.Email)
             .HasColumnName("EMAIL")
+            .HasMaxLength(250)
             .IsRequired();
 
         entityModelBuilder
             .Property(l => l.Phone)
             .HasColumnName("PHONE")
+            .HasMaxLength(25)
             .IsRequired();
     }
     private void ModelCustomers(ModelBuilder modelBuilder)
@@ -300,16 +305,19 @@ public class LogiChainDbContext : DbContext
         entityModelBuilder
             .Property(l => l.Name)
             .HasColumnName("NAME")
+            .HasMaxLength(200)
             .IsRequired();
 
         entityModelBuilder
             .Property(l => l.Email)
             .HasColumnName("EMAIL")
+            .HasMaxLength(250)
             .IsRequired();
 
         entityModelBuilder
             .Property(l => l.Address)
             .HasColumnName("ADDRESS")
+            .HasMaxLength(250)
             .IsRequired();
     }
     private void ModelSuppliers(ModelBuilder modelBuilder)
@@ -328,16 +336,19 @@ public class LogiChainDbContext : DbContext
         entityModelBuilder
             .Property(l => l.Name)
             .HasColumnName("NAME")
+            .HasMaxLength(200)
             .IsRequired();
 
         entityModelBuilder
             .Property(l => l.Email)
             .HasColumnName("EMAIL")
+            .HasMaxLength(250)
             .IsRequired();
 
         entityModelBuilder
             .Property(l => l.Phone)
             .HasColumnName("PHONE")
+            .HasMaxLength(25)
             .IsRequired();
     }
 }
