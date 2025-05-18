@@ -10,6 +10,7 @@ using Csharp.SupplyChainLogisticManagement.Application.Common.Constants;
 using System.Drawing.Printing;
 using System.Threading.Tasks;
 using Csharp.SupplyChainLogisticManagement.Domain.Dto;
+using Csharp.SupplyChainLogisticManagement.Application.ValidationServices.OrdersValidationServices;
 
 namespace Csharp.SupplyChainLogisticManagement.WebApi.Controllers;
 
@@ -20,12 +21,15 @@ public class LogiChainController : ControllerBase
     private readonly IEventBus _eventBus;
     private readonly IQueryHandler<GetOrderByIdQuery, List<Orders>> _getOrderByIdQueryHandler;
     private readonly IQueryHandler<GetOrdersByEmissionDateQuery, PagedResultDto<Orders>> _getOrdersByEmissionDateQueryHandler;
+    private readonly IOrdersValidationService _ordersValidationService;
 
-    public LogiChainController(IEventBus eventBus, IQueryHandler<GetOrderByIdQuery, List<Orders>> getOrderByIdQueryHandler, IQueryHandler<GetOrdersByEmissionDateQuery, PagedResultDto<Orders>> getOrdersByEmissionDateQueryHandler)
+    public LogiChainController(IEventBus eventBus, IQueryHandler<GetOrderByIdQuery, List<Orders>> getOrderByIdQueryHandler, 
+        IQueryHandler<GetOrdersByEmissionDateQuery, PagedResultDto<Orders>> getOrdersByEmissionDateQueryHandler, IOrdersValidationService ordersValidationService)
     {
         _eventBus = eventBus;
         _getOrderByIdQueryHandler = getOrderByIdQueryHandler;
-        _getOrdersByEmissionDateQueryHandler = getOrdersByEmissionDateQueryHandler;        
+        _getOrdersByEmissionDateQueryHandler = getOrdersByEmissionDateQueryHandler;
+        _ordersValidationService = ordersValidationService;
     }
 
     [HttpGet("orders/{id}")]
@@ -68,7 +72,8 @@ public class LogiChainController : ControllerBase
     public async Task<IActionResult> PostOrders([FromBody] List<OrderCreatedMessage> listOrderCreatedMessage)
     {
         foreach (var orderCreatedMessage in listOrderCreatedMessage)
-        {            
+        {
+            await _ordersValidationService.ValidateOrderCreatedMessageAsync(orderCreatedMessage);
             await _eventBus.PublishAsync(orderCreatedMessage);
         }
         return Ok();        

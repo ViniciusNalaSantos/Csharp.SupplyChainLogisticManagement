@@ -1,3 +1,4 @@
+using Csharp.SupplyChainLogisticManagement.Application.ValidationServices.OrdersValidationServices;
 using Csharp.SupplyChainLogisticManagement.Infrastructure.Configuration.Extensions;
 using Csharp.SupplyChainLogisticManagement.Infrastructure.DatabaseContext;
 using Csharp.SupplyChainLogisticManagement.WebApi.Middlewares;
@@ -23,6 +24,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddRabbitMQService();
 
 builder.Services.AddTransient<ExceptionMiddleware>();
+builder.Services.AddScoped<IOrdersValidationService, OrdersValidationService>();
 
 var app = builder.Build();
 
