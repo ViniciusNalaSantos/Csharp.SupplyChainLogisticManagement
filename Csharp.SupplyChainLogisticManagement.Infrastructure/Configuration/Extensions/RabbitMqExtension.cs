@@ -26,7 +26,6 @@ internal static class RabbitMqExtension
         services.AddScoped<IEventBus, MassTransitEventBusAdapter>();
 
         services.AddHandlersService();
-        services.AddRepositoryService();
 
         services.AddMassTransit(busConfigurator =>
         {            

@@ -30,17 +30,10 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddRabbitMQService();
-
+builder.Services.AddRepositoryService();
 builder.Services.AddTransient<ExceptionMiddleware>();
-builder.Services.AddScoped<IOrdersValidationService, OrdersValidationService>();
-builder.Services.AddScoped<IOrdersMapper, OrdersMapper>();
-builder.Services.AddScoped<IOrdersItemsMapper, OrdersItemsMapper>();
-builder.Services.AddScoped<IDeliveriesMapper, DeliveriesMapper>();
-builder.Services.AddScoped<ICustomersMapper, CustomersMapper>();
-builder.Services.AddScoped<IProductsMapper, ProductsMapper>();
-builder.Services.AddScoped<IShipmentsMapper, ShipmentsMapper>();
-builder.Services.AddScoped<ISuppliersMapper, SuppliersMapper>();
-builder.Services.AddScoped<ITransportersMapper, TransportersMapper>();
+builder.Services.AddValidationService();
+builder.Services.AddMapperService();
 
 var app = builder.Build();
 

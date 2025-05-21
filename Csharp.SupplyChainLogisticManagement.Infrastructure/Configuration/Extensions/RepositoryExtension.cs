@@ -8,6 +8,8 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
+[assembly: InternalsVisibleTo("Csharp.SupplyChainLogisticManagement.WebApi")]
+
 namespace Csharp.SupplyChainLogisticManagement.Infrastructure.Configuration.Extensions;
 internal static class RepositoryExtension
 {
@@ -15,7 +17,7 @@ internal static class RepositoryExtension
     {
         services.AddTransient<ICustomersRepository, CustomersRepository>();
         services.AddTransient<ISuppliersRepository, SuppliersRepository>();
-        services.AddTransient<Domain.Interfaces.Repository.IOrdersRepository, OrdersRepository>();
+        services.AddTransient<IOrdersRepository, OrdersRepository>();
         services.AddTransient<IProductsRepository, ProductsRepository>();
         services.AddTransient<IOrdersItemsRepository, OrdersItemsRepository>();
         services.AddTransient<IShipmentsRepository, ShipmentsRepository>();
