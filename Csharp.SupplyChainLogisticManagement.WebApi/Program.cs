@@ -1,3 +1,11 @@
+using Csharp.SupplyChainLogisticManagement.Application.Mappers.CustomersMappers;
+using Csharp.SupplyChainLogisticManagement.Application.Mappers.DeliveriesMappers;
+using Csharp.SupplyChainLogisticManagement.Application.Mappers.OrdersItemsMappers;
+using Csharp.SupplyChainLogisticManagement.Application.Mappers.OrdersMappers;
+using Csharp.SupplyChainLogisticManagement.Application.Mappers.ProductsMappers;
+using Csharp.SupplyChainLogisticManagement.Application.Mappers.ShipmentsMappers;
+using Csharp.SupplyChainLogisticManagement.Application.Mappers.SuppliersMappers;
+using Csharp.SupplyChainLogisticManagement.Application.Mappers.TransportersMappers;
 using Csharp.SupplyChainLogisticManagement.Application.ValidationServices.OrdersValidationServices;
 using Csharp.SupplyChainLogisticManagement.Infrastructure.Configuration.Extensions;
 using Csharp.SupplyChainLogisticManagement.Infrastructure.DatabaseContext;
@@ -25,6 +33,14 @@ builder.Services.AddRabbitMQService();
 
 builder.Services.AddTransient<ExceptionMiddleware>();
 builder.Services.AddScoped<IOrdersValidationService, OrdersValidationService>();
+builder.Services.AddScoped<IOrdersMapper, OrdersMapper>();
+builder.Services.AddScoped<IOrdersItemsMapper, OrdersItemsMapper>();
+builder.Services.AddScoped<IDeliveriesMapper, DeliveriesMapper>();
+builder.Services.AddScoped<ICustomersMapper, CustomersMapper>();
+builder.Services.AddScoped<IProductsMapper, ProductsMapper>();
+builder.Services.AddScoped<IShipmentsMapper, ShipmentsMapper>();
+builder.Services.AddScoped<ISuppliersMapper, SuppliersMapper>();
+builder.Services.AddScoped<ITransportersMapper, TransportersMapper>();
 
 var app = builder.Build();
 

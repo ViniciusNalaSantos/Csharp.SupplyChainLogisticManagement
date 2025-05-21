@@ -11,6 +11,7 @@ using System.Drawing.Printing;
 using System.Threading.Tasks;
 using Csharp.SupplyChainLogisticManagement.Domain.Dto;
 using Csharp.SupplyChainLogisticManagement.Application.ValidationServices.OrdersValidationServices;
+using Csharp.SupplyChainLogisticManagement.Application.Mappers.OrdersMappers;
 
 namespace Csharp.SupplyChainLogisticManagement.WebApi.Controllers;
 
@@ -22,14 +23,17 @@ public class LogiChainController : ControllerBase
     private readonly IQueryHandler<GetOrderByIdQuery, List<Orders>> _getOrderByIdQueryHandler;
     private readonly IQueryHandler<GetOrdersByEmissionDateQuery, PagedResultDto<Orders>> _getOrdersByEmissionDateQueryHandler;
     private readonly IOrdersValidationService _ordersValidationService;
+    private readonly IOrdersMapper _ordersMapper;
 
     public LogiChainController(IEventBus eventBus, IQueryHandler<GetOrderByIdQuery, List<Orders>> getOrderByIdQueryHandler, 
-        IQueryHandler<GetOrdersByEmissionDateQuery, PagedResultDto<Orders>> getOrdersByEmissionDateQueryHandler, IOrdersValidationService ordersValidationService)
+        IQueryHandler<GetOrdersByEmissionDateQuery, PagedResultDto<Orders>> getOrdersByEmissionDateQueryHandler, IOrdersValidationService ordersValidationService,
+        IOrdersMapper ordersMapper)
     {
         _eventBus = eventBus;
         _getOrderByIdQueryHandler = getOrderByIdQueryHandler;
         _getOrdersByEmissionDateQueryHandler = getOrdersByEmissionDateQueryHandler;
         _ordersValidationService = ordersValidationService;
+        _ordersMapper = ordersMapper;
     }
 
     [HttpGet("orders/{id}")]
@@ -37,13 +41,14 @@ public class LogiChainController : ControllerBase
     {
         var query = new GetOrderByIdQuery { Id = id };
         var listOrders = await _getOrderByIdQueryHandler.Handle(query);
-               
+        
         return new PagedOrdersReturnDto<Orders>
         {
             ActualPage = 1,
             TotalPages = 1,
             PageLimit = PagedResult.PageSizeLimit,
-            OrdersList = listOrders
+            OrdersListCount = listOrders.Count,
+            OrdersList = await _ordersMapper.MapEntityToRetunDtoAsync(listOrders)
         };
     }
     
@@ -64,7 +69,7 @@ public class LogiChainController : ControllerBase
             TotalPages = pagedOrdersDto.TotalPages,
             PageLimit = PagedResult.PageSizeLimit,
             OrdersListCount = pagedOrdersDto.ListResultsCount,
-            OrdersList = pagedOrdersDto.ListResults            
+            OrdersList = await _ordersMapper.MapEntityToRetunDtoAsync(pagedOrdersDto.ListResults)
         };
     }
 

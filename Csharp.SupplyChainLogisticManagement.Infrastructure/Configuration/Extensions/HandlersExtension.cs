@@ -20,7 +20,7 @@ internal static class HandlersExtension
     public static void AddHandlersService(this IServiceCollection services)
     {
         services.AddScoped<IMessageHandler<OrderCreatedMessage>, CreateOrderMessageHandler>();
-        services.AddScoped<IQueryHandler<GetOrderByIdQuery, List<Orders>>, GetOrderByIdQueryHandler>();
+        services.AddScoped<IQueryHandler<GetOrderByIdQuery, ICollection<Orders>>, GetOrderByIdQueryHandler>();
         services.AddScoped<IQueryHandler<GetOrdersByEmissionDateQuery, PagedResultDto<Orders>>, GetOrdersByEmissionDateQueryHandler>();
     }
 }

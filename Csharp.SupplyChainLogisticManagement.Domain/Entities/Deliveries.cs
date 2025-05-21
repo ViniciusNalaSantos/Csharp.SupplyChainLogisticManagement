@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Csharp.SupplyChainLogisticManagement.Domain.Entities;
-public class Deliveries
+public record Deliveries
 {
     public int Id { get; set; }
     public int OrdersId { get; set; }
