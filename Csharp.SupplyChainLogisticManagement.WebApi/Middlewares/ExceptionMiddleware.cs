@@ -16,64 +16,39 @@ public class ExceptionMiddleware : IMiddleware
         catch (Exception exception)
         {
             await HandleExceptionAsync(context, exception);
-
-            //
-            //var errorResult = new ErrorResult
-            //{
-            //    Success = false,
-            //    Message = exception.Message,
-            //};
-
-            var response = context.Response;
-            if (!response.HasStarted)
-            {
-                response.ContentType = "application/json";
-                response.StatusCode = (int)HttpStatusCode.BadRequest;
-                //await response.WriteAsync(JsonSerializer.Serialize(errorResult));
-            }
         }
     }
 
     private async Task HandleExceptionAsync(HttpContext context, Exception exception)
     {
-        context.Response.ContentType = "application/json";
+        context.Response.ContentType = "application/json";        
 
         var statusCode = (int)HttpStatusCode.InternalServerError;
-        var title = "An unexpected error occurred.";
-        object errors = null;
+        context.Response.StatusCode = statusCode;
 
+        var title = "An unexpected error occurred.";
+        if (statusCode == (int)HttpStatusCode.InternalServerError)
+        {
+            title = "Internal Server Error.";
+        }
+
+        var errors = new Dictionary<string, string[]>();
         if (exception is ValidationException validationEx)
         {
             statusCode = (int)HttpStatusCode.BadRequest;
             title = "Validation failed.";
-            //errors = validationEx.Errors;
+            errors.Add("Datafield validation: ", new string[] { validationEx.Message });
         }
 
-        var problem = new ProblemDetails
+        var validationProblem = new ValidationProblemDetails()
         {
             Title = title,
             Status = statusCode,
             Detail = exception.Message,
-            Instance = context.Request.Path
+            Instance = context.Request.Path,
+            Errors = errors
         };
 
-        context.Response.StatusCode = statusCode;
-
-        if (errors is IDictionary<string, string[]> validationErrors)
-        {
-            var validationProblem = new ValidationProblemDetails(validationErrors)
-            {
-                Title = title,
-                Status = statusCode,
-                Detail = problem.Detail,
-                Instance = problem.Instance
-            };
-
-            await context.Response.WriteAsJsonAsync(validationProblem);
-        }
-        else
-        {
-            await context.Response.WriteAsJsonAsync(problem);
-        }
+        await context.Response.WriteAsJsonAsync(validationProblem);
     }
 }

@@ -6,6 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Exceptions\ValidationError.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Csharp.SupplyChainLogisticManagement.Domain\Csharp.SupplyChainLogisticManagement.Domain.csproj" />
   </ItemGroup>
 
