@@ -19,10 +19,14 @@ public class OrdersValidationService : IOrdersValidationService
     private readonly IOrdersItemsValidationService _ordersItemsValidationService;
     private readonly IDeliveriesValidationService _deliveriesValidationService;
     private readonly IShipmentValidationService _shipmentValidationService;
-    public OrdersValidationService(ICustomerValidationService customerValidationService, ISuppliersValidationService suppliersValidationService)
+    public OrdersValidationService(ICustomerValidationService customerValidationService, ISuppliersValidationService suppliersValidationService, IOrdersItemsValidationService ordersItemsValidationService,
+        IDeliveriesValidationService deliveriesValidationService, IShipmentValidationService shipmentValidationService, IValidationErrorCollector validationErrorCollector)
     {
         _customerValidationService = customerValidationService;
         _suppliersValidationService = suppliersValidationService;
+        _ordersItemsValidationService = ordersItemsValidationService;
+        _deliveriesValidationService = deliveriesValidationService;
+        _shipmentValidationService = shipmentValidationService;
     }
     public async Task ValidateOrderCreatedMessageAsync(OrderCreatedMessage message)
     {
