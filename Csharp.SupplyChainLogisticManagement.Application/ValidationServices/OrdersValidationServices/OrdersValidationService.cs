@@ -1,4 +1,9 @@
 ﻿using Csharp.SupplyChainLogisticManagement.Application.Messages;
+using Csharp.SupplyChainLogisticManagement.Application.ValidationServices.CustomersValidationServices;
+using Csharp.SupplyChainLogisticManagement.Application.ValidationServices.DeliveriesValidationServices;
+using Csharp.SupplyChainLogisticManagement.Application.ValidationServices.OrdersItemsValidationServices;
+using Csharp.SupplyChainLogisticManagement.Application.ValidationServices.ShipmentValidationServices;
+using Csharp.SupplyChainLogisticManagement.Application.ValidationServices.SuppliersValidationServices;
 using Csharp.SupplyChainLogisticManagement.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -9,6 +14,16 @@ using System.Threading.Tasks;
 namespace Csharp.SupplyChainLogisticManagement.Application.ValidationServices.OrdersValidationServices;
 public class OrdersValidationService : IOrdersValidationService
 {
+    private readonly ICustomerValidationService _customerValidationService;
+    private readonly ISuppliersValidationService _suppliersValidationService;
+    private readonly IOrdersItemsValidationService _ordersItemsValidationService;
+    private readonly IDeliveriesValidationService _deliveriesValidationService;
+    private readonly IShipmentValidationService _shipmentValidationService;
+    public OrdersValidationService(ICustomerValidationService customerValidationService, ISuppliersValidationService suppliersValidationService)
+    {
+        _customerValidationService = customerValidationService;
+        _suppliersValidationService = suppliersValidationService;
+    }
     public async Task ValidateOrderCreatedMessageAsync(OrderCreatedMessage message)
     {
         if (message.CustomerId != null && message.SupplierId != null)
@@ -61,5 +76,11 @@ public class OrdersValidationService : IOrdersValidationService
                 throw new Exception("The ShipmentDate cannot be before EmissionDate.");
             }
         }
+
+        await _customerValidationService.ValidateCustomerCreatedMessageAsync(message.Customer);        
+        await _suppliersValidationService.ValidateSupplierCreatedMessageAsync(message.Supplier);        
+        await _ordersItemsValidationService.ValidateOrderItemCreatedMessageAsync(message.OrderItems);
+        await _deliveriesValidationService.ValidateDeliveryCreatedMessageAsync(message.Delivery);
+        await _shipmentValidationService.ValidateShipmentCreatedMessageAsync(message.Shipment);
     }
 }

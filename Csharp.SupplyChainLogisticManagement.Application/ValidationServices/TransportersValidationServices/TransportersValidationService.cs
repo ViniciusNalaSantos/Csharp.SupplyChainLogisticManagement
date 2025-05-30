@@ -10,6 +10,8 @@ public class TransportersValidationService : ITransportersValidationService
 {
     public async Task ValidateTransporterCreatedMessageAsync(TransporterCreatedMessage message)
     {
+        if (message == null) { return; }
+
         if (message.Name.Length > 200)
         {
             throw new Exception("The field Name has a limit of 200 characters");

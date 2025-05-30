@@ -8,11 +8,18 @@ using System.Threading.Tasks;
 namespace Csharp.SupplyChainLogisticManagement.Application.ValidationServices.OrdersItemsValidationServices;
 public class OrdersItemsValidationService : IOrdersItemsValidationService
 {
-    public async Task ValidateOrderItemCreatedMessageAsync(OrderItemCreatedMessage message)
+    public async Task ValidateOrderItemCreatedMessageAsync(ICollection<OrderItemCreatedMessage> messageList)
     {
-        if (message.Quantity < 1 )
+        if (messageList == null) { return; }
+
+        foreach (var message in messageList)
         {
-            throw new Exception("An OrderItem must have at least quantity 1.");
+            if (message == null) { continue; }
+
+            if (message.Quantity < 1)
+            {
+                throw new Exception("An OrderItem must have at least quantity 1.");
+            }
         }
     }
 }

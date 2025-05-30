@@ -10,6 +10,8 @@ public class CustomerValidationService : ICustomerValidationService
 {
     public async Task ValidateCustomerCreatedMessageAsync(CustomerCreatedMessage message)
     {
+        if (message == null) { return; }
+
         if (message.Name.Length > 200)
         {
             throw new Exception("The field Name has a limit of 200 characters");

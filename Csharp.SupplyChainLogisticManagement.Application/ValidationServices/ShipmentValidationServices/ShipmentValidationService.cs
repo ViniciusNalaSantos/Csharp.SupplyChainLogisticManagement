@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Csharp.SupplyChainLogisticManagement.Application.ValidationServices.ShipmentValidationServices;
-internal class ShipmentValidationService : IShipmentValidationService
+public class ShipmentValidationService : IShipmentValidationService
 {
     public async Task ValidateShipmentCreatedMessageAsync(ShipmentCreatedMessage message)
     {

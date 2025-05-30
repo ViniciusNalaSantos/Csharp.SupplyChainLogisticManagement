@@ -10,6 +10,8 @@ public class ProductsValidationService : IProductsValidationService
 {
     public async Task ValidateProducCreatedMessageAsync(ProductCreatedMessage message)
     {
+        if (message == null) { return; }
+
         if (message.Description.Length > 200)
         {
             throw new Exception("The field Description has a limit of 200 characters.");
