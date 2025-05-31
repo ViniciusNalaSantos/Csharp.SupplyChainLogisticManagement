@@ -1,4 +1,5 @@
-﻿using Csharp.SupplyChainLogisticManagement.Application.Messages;
+﻿using Csharp.SupplyChainLogisticManagement.Application.Interfaces;
+using Csharp.SupplyChainLogisticManagement.Application.Messages;
 using Csharp.SupplyChainLogisticManagement.Domain.Entities;
 using Csharp.SupplyChainLogisticManagement.Domain.Interfaces.Handlers;
 using Csharp.SupplyChainLogisticManagement.Domain.Interfaces.Repository;
@@ -11,33 +12,17 @@ using System.Threading.Tasks;
 namespace Csharp.SupplyChainLogisticManagement.Application.MessageHandlers;
 public class CreateOrderMessageHandler : IMessageHandler<OrderCreatedMessage>
 {
-    private readonly ICustomersRepository _customersRepository;
-    private readonly ISuppliersRepository _suppliersRepository;
-    private readonly IOrdersRepository _ordersRepository;
-    private readonly IProductsRepository _productsRepository;
-    private readonly IOrdersItemsRepository _ordersItemsRepository;
-    private readonly IShipmentsRepository _shipmentsRepository;
-    private readonly IDeliveriesRepository _deliveriesRepository;
-    private readonly ITransportersRepository _transportersRepository;
-    public CreateOrderMessageHandler(ICustomersRepository customersRepository, ISuppliersRepository suppliersRepository, IOrdersRepository ordersRepository,
-        IProductsRepository productsRepository, IOrdersItemsRepository ordersItemsRepository, IShipmentsRepository shipmentsRepository,
-        IDeliveriesRepository deliveriesRepository, ITransportersRepository transportersRepository)
+    private readonly IUnitOfWork _unitOfWork;
+    public CreateOrderMessageHandler(IUnitOfWork unitOfWork)
     {
-        _customersRepository = customersRepository;
-        _suppliersRepository = suppliersRepository;
-        _ordersRepository = ordersRepository;
-        _productsRepository = productsRepository;
-        _ordersItemsRepository = ordersItemsRepository;
-        _shipmentsRepository = shipmentsRepository;
-        _deliveriesRepository = deliveriesRepository;
-        _transportersRepository = transportersRepository;
+        _unitOfWork = unitOfWork;
     }
     public async void Handle(OrderCreatedMessage message)
     {
         Customers customer = null;
         if (message.Customer != null)
         {
-            customer = await _customersRepository.GetCustomerFirstOrDefaultAsync(l => l.Email == message.Customer.Email);
+            customer = await _unitOfWork.CustomersRepository.GetCustomerFirstOrDefaultAsync(l => l.Email == message.Customer.Email);
             if (customer == null)
             {                
                 customer = new Customers
@@ -46,14 +31,14 @@ public class CreateOrderMessageHandler : IMessageHandler<OrderCreatedMessage>
                     Email = message.Customer.Email,
                     Address = message.Customer.Address
                 };
-                customer = await _customersRepository.InsertCustomerAsync(customer);                
+                customer = await _unitOfWork.CustomersRepository.InsertCustomerAsync(customer);                
             }
         }
 
         Suppliers supplier = null;
         if (message.Supplier != null)
         {
-            supplier = await _suppliersRepository.GetSupplierFirstOrDefaultAsync(l => l.Email == message.Supplier.Email);
+            supplier = await _unitOfWork.SuppliersRepository.GetSupplierFirstOrDefaultAsync(l => l.Email == message.Supplier.Email);
             if (supplier == null)
             {
                 supplier = new Suppliers
@@ -62,7 +47,7 @@ public class CreateOrderMessageHandler : IMessageHandler<OrderCreatedMessage>
                     Email = message.Supplier.Email,
                     Phone = message.Supplier.Phone
                 };
-                supplier = await _suppliersRepository.InsertSupplierAsync(supplier);
+                supplier = await _unitOfWork.SuppliersRepository.InsertSupplierAsync(supplier);
             }
         }
 
@@ -74,14 +59,14 @@ public class CreateOrderMessageHandler : IMessageHandler<OrderCreatedMessage>
             SuppliersId = supplier?.Id ?? message.SupplierId,
             
         };
-        order = await _ordersRepository.InsertOrderAsync(order);
+        order = await _unitOfWork.OrdersRepository.InsertOrderAsync(order);
         
         foreach (var messageOrderItem in message.OrderItems)
         {
             Products product = null;
             if (messageOrderItem.Product != null)
             {
-                product = await _productsRepository.GetProductFirstOrDefaultAsync(l => l.Description == messageOrderItem.Product.Description);
+                product = await _unitOfWork.ProductsRepository.GetProductFirstOrDefaultAsync(l => l.Description == messageOrderItem.Product.Description);
                 if (product == null)
                 {
                     product = new Products
@@ -89,7 +74,7 @@ public class CreateOrderMessageHandler : IMessageHandler<OrderCreatedMessage>
                         Description = messageOrderItem.Product.Description,
                         Price = messageOrderItem.Product.Price
                     };
-                    product = await _productsRepository.InsertProductAsync(product);
+                    product = await _unitOfWork.ProductsRepository.InsertProductAsync(product);
                 }
             }
 
@@ -99,7 +84,7 @@ public class CreateOrderMessageHandler : IMessageHandler<OrderCreatedMessage>
                 ProductsId = (int)(product?.Id ?? messageOrderItem.ProductId),
                 Quantity = Math.Round(messageOrderItem.Quantity, 2)
             };
-            orderItem = await _ordersItemsRepository.InsertOrderItemAsync(orderItem);            
+            orderItem = await _unitOfWork.OrdersItemsRepository.InsertOrderItemAsync(orderItem);            
         };
                 
         Shipments shipment = null;
@@ -110,7 +95,7 @@ public class CreateOrderMessageHandler : IMessageHandler<OrderCreatedMessage>
                 OrdersId = order.Id,
                 ShipmentDate = message.Shipment.ShipmentDate
             };
-            shipment = await _shipmentsRepository.InsertShipmentAsync(shipment);            
+            shipment = await _unitOfWork.ShipmentsRepository.InsertShipmentAsync(shipment);            
         }
 
         Deliveries delivery = null;
@@ -119,7 +104,7 @@ public class CreateOrderMessageHandler : IMessageHandler<OrderCreatedMessage>
             Transporters transporter = null;
             if (message.Delivery.Transporter != null)
             {
-                transporter = await _transportersRepository.GetTransporterFirstOrDefaultAsync(l => l.Email == message.Delivery.Transporter.Email);
+                transporter = await _unitOfWork.TransportersRepository.GetTransporterFirstOrDefaultAsync(l => l.Email == message.Delivery.Transporter.Email);
                 if (transporter == null)
                 {
                     transporter = new Transporters
@@ -128,7 +113,7 @@ public class CreateOrderMessageHandler : IMessageHandler<OrderCreatedMessage>
                         Email = message.Delivery.Transporter.Email,
                         Phone = message.Delivery.Transporter.Phone
                     };
-                    transporter = await _transportersRepository.InsertTransporterAsync(transporter);
+                    transporter = await _unitOfWork.TransportersRepository.InsertTransporterAsync(transporter);
                 }
             }
             
@@ -137,7 +122,9 @@ public class CreateOrderMessageHandler : IMessageHandler<OrderCreatedMessage>
                 OrdersId = order.Id,
                 TransportersId = (int)(transporter?.Id ?? message.Delivery.TransporterId),
             };
-            delivery = await _deliveriesRepository.InsertDeliveryAsync(delivery);
+            delivery = await _unitOfWork.DeliveriesRepository.InsertDeliveryAsync(delivery);
         }
+        
+        await _unitOfWork.CommitAsync();
     }
 }

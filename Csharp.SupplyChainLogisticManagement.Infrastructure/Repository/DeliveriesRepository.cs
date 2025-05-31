@@ -17,7 +17,6 @@ public class DeliveriesRepository : IDeliveriesRepository
     public async Task<Deliveries?> InsertDeliveryAsync(Deliveries delivery)
     {
         _context.Deliveries.Add(delivery);
-        _context.SaveChanges();
         return delivery;
     }
 }

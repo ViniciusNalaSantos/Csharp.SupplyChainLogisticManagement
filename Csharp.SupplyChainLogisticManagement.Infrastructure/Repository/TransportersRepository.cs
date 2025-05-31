@@ -24,7 +24,6 @@ public class TransportersRepository : ITransportersRepository
     public async Task<Transporters?> InsertTransporterAsync(Transporters transporter)
     {
         _context.Transporters.Add(transporter);
-        _context.SaveChanges();
         return transporter;
     }
 }

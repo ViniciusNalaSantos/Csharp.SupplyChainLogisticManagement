@@ -45,7 +45,6 @@ public class OrdersRepository : IOrdersRepository
     public async Task<Orders?> InsertOrderAsync(Orders order)
     {
         _context.Orders.Add(order);
-        _context.SaveChanges();
         return order;
     }
 }

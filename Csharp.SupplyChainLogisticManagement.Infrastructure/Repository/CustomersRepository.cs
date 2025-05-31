@@ -23,8 +23,7 @@ public class CustomersRepository : ICustomersRepository
     }
     public async Task<Customers?> InsertCustomerAsync(Customers customer)
     {
-        _context.Customers.Add(customer);
-        _context.SaveChanges();
+        _context.Customers.Add(customer);        
         return customer;
     }
 }

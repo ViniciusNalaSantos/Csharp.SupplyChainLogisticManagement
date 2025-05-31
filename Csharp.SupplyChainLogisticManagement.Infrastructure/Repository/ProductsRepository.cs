@@ -24,7 +24,6 @@ public class ProductsRepository : IProductsRepository
     public async Task<Products?> InsertProductAsync(Products product)
     {
         _context.Products.Add(product);
-        _context.SaveChanges();
         return product;
     } 
 }

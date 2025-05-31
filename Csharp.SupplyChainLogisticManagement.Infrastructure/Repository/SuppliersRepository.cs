@@ -24,7 +24,6 @@ public class SuppliersRepository : ISuppliersRepository
     public async Task<Suppliers?> InsertSupplierAsync(Suppliers supplier)
     {
         _context.Suppliers.Add(supplier);
-        _context.SaveChanges();
         return supplier;
     }
 }

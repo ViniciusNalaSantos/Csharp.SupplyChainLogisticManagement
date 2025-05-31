@@ -23,5 +23,7 @@ internal static class RepositoryExtension
         services.AddTransient<IShipmentsRepository, ShipmentsRepository>();
         services.AddTransient<IDeliveriesRepository, DeliveriesRepository>();
         services.AddTransient<ITransportersRepository, TransportersRepository>();
+
+        services.AddUnitOfWorkService();
     }
 }

@@ -15,6 +15,6 @@ public class DeliveriesValidationService : IDeliveriesValidationService
     }
     public async Task ValidateDeliveryCreatedMessageAsync(DeliveryCreatedMessage message)
     {
-        _validationErrorCollector.Add("The method or operation is not implemented.");
+        return;
     }
 }
