@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 namespace Csharp.SupplyChainLogisticManagement.Application.Messages;
 public record DeliveryCreatedMessage
 {
-    public Guid MessageId { get; set; } = Guid.NewGuid();
-    public int? TransporterId { get; set; }
-    public DateTime DeliveryDate { get; set; }
-    public TransporterCreatedMessage? Transporter { get; set; }   
+    public Guid MessageId { get; init; } = Guid.NewGuid();
+    public int? TransporterId { get; init; }
+    public DateTime DeliveryDate { get; init; }
+    public TransporterCreatedMessage? Transporter { get; init; }
 }

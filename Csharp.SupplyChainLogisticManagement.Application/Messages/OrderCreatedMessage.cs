@@ -9,13 +9,13 @@ namespace Csharp.SupplyChainLogisticManagement.Application.Messages;
 public record OrderCreatedMessage
 {
     public Guid MessageId { get; init; } = Guid.NewGuid();
-    public DateTime EmissionDate { get; set; }
-    public int? CustomerId { get; set; }
-    public CustomerCreatedMessage? Customer { get; set; }
-    public int? SupplierId { get; set; }
-    public SupplierCreatedMessage? Supplier { get; set; }
-    public decimal Price { get; set; }
-    public ICollection<OrderItemCreatedMessage> OrderItems { get; set; } = new List<OrderItemCreatedMessage>();
-    public DeliveryCreatedMessage? Delivery { get; set; }
-    public ShipmentCreatedMessage? Shipment { get; set; }
+    public DateTime EmissionDate { get; init; }
+    public int? CustomerId { get; init; }
+    public CustomerCreatedMessage? Customer { get; init; }
+    public int? SupplierId { get; init; }
+    public SupplierCreatedMessage? Supplier { get; init; }
+    public decimal Price { get; init; }
+    public ICollection<OrderItemsCreatedMessage> OrderItems { get; init; } = new List<OrderItemsCreatedMessage>();
+    public DeliveryCreatedMessage? Delivery { get; init; }
+    public ShipmentCreatedMessage? Shipment { get; init; }
 }

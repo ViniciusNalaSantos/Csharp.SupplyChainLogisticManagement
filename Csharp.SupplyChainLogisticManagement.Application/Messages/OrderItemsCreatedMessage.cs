@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Csharp.SupplyChainLogisticManagement.Application.Messages;
-public record OrderItemCreatedMessage
+public record OrderItemsCreatedMessage
 {
     public Guid MessageId { get; set; } = Guid.NewGuid();
     public int? ProductId { get; set; }

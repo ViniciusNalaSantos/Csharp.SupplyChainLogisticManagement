@@ -13,7 +13,7 @@ public class OrdersItemsValidationService : IOrdersItemsValidationService
     {
         _validationErrorCollector = validationErrorCollector;
     }
-    public async Task ValidateOrderItemCreatedMessageAsync(ICollection<OrderItemCreatedMessage> messageList)
+    public async Task ValidateOrderItemCreatedMessageAsync(ICollection<OrderItemsCreatedMessage> messageList)
     {
         if (messageList == null) { return; }
 
