@@ -1,12 +1,3 @@
-using Csharp.SupplyChainLogisticManagement.Application.Mappers.CustomersMappers;
-using Csharp.SupplyChainLogisticManagement.Application.Mappers.DeliveriesMappers;
-using Csharp.SupplyChainLogisticManagement.Application.Mappers.OrdersItemsMappers;
-using Csharp.SupplyChainLogisticManagement.Application.Mappers.OrdersMappers;
-using Csharp.SupplyChainLogisticManagement.Application.Mappers.ProductsMappers;
-using Csharp.SupplyChainLogisticManagement.Application.Mappers.ShipmentsMappers;
-using Csharp.SupplyChainLogisticManagement.Application.Mappers.SuppliersMappers;
-using Csharp.SupplyChainLogisticManagement.Application.Mappers.TransportersMappers;
-using Csharp.SupplyChainLogisticManagement.Application.ValidationServices.OrdersValidationServices;
 using Csharp.SupplyChainLogisticManagement.Infrastructure.Configuration.Extensions;
 using Csharp.SupplyChainLogisticManagement.Infrastructure.DatabaseContext;
 using Csharp.SupplyChainLogisticManagement.WebApi.Middlewares;

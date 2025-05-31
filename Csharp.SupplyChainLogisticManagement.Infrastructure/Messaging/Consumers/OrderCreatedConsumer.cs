@@ -17,9 +17,9 @@ namespace Csharp.SupplyChainLogisticManagement.Infrastructure.Consumers;
 public sealed class OrderCreatedConsumer : IMessageConsumer<OrderCreatedMessage>
 {
     private readonly ILogger<OrderCreatedConsumer> _logger;
-    private readonly IMessageHandler<OrderCreatedMessage> _messageHandler;
+    private readonly IMessageHandlerw<OrderCreatedMessage> _messageHandler;
 
-    public OrderCreatedConsumer(ILogger<OrderCreatedConsumer> logger, IMessageHandler<OrderCreatedMessage> messageHandler)
+    public OrderCreatedConsumer(ILogger<OrderCreatedConsumer> logger, IMessageHandlerw<OrderCreatedMessage> messageHandler)
     {
         _logger = logger;
         _messageHandler = messageHandler;

@@ -20,13 +20,13 @@ namespace Csharp.SupplyChainLogisticManagement.WebApi.Controllers;
 public class LogiChainController : ControllerBase
 {
     private readonly IEventBus _eventBus;
-    private readonly IQueryHandler<GetOrderByIdQuery, ICollection<Orders>> _getOrderByIdQueryHandler;
-    private readonly IQueryHandler<GetOrdersByEmissionDateQuery, PagedResultDto<Orders>> _getOrdersByEmissionDateQueryHandler;
+    private readonly IQueryHandlerw<GetOrderByIdQuery, ICollection<Orders>> _getOrderByIdQueryHandler;
+    private readonly IQueryHandlerw<GetOrdersByEmissionDateQuery, PagedResultDto<Orders>> _getOrdersByEmissionDateQueryHandler;
     private readonly IOrdersValidationService _ordersValidationService;
     private readonly IOrdersMapper _ordersMapper;
 
-    public LogiChainController(IEventBus eventBus, IQueryHandler<GetOrderByIdQuery, ICollection<Orders>> getOrderByIdQueryHandler, 
-        IQueryHandler<GetOrdersByEmissionDateQuery, PagedResultDto<Orders>> getOrdersByEmissionDateQueryHandler, IOrdersValidationService ordersValidationService,
+    public LogiChainController(IEventBus eventBus, IQueryHandlerw<GetOrderByIdQuery, ICollection<Orders>> getOrderByIdQueryHandler, 
+        IQueryHandlerw<GetOrdersByEmissionDateQuery, PagedResultDto<Orders>> getOrdersByEmissionDateQueryHandler, IOrdersValidationService ordersValidationService,
         IOrdersMapper ordersMapper)
     {
         _eventBus = eventBus;

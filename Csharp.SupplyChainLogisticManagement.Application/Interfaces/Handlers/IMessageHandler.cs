@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Csharp.SupplyChainLogisticManagement.Domain.Interfaces.Handlers;
+namespace Csharp.SupplyChainLogisticManagement.Application.Interfaces.Handlers;
 public interface IMessageHandler<TMessage>
 {
     void Handle(TMessage message);

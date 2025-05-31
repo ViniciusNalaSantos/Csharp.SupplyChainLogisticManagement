@@ -1,7 +1,8 @@
 ﻿using Csharp.SupplyChainLogisticManagement.Application.Interfaces;
+using Csharp.SupplyChainLogisticManagement.Application.Interfaces.Handlers;
 using Csharp.SupplyChainLogisticManagement.Application.Messages;
 using Csharp.SupplyChainLogisticManagement.Domain.Entities;
-using Csharp.SupplyChainLogisticManagement.Domain.Interfaces.Handlers;
+
 using Csharp.SupplyChainLogisticManagement.Domain.Interfaces.Repository;
 using System;
 using System.Collections.Generic;
