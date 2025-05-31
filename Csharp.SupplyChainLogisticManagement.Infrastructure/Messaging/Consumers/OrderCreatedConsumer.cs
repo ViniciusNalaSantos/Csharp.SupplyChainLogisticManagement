@@ -1,6 +1,6 @@
-﻿using Csharp.SupplyChainLogisticManagement.Application.Messages;
+﻿using Csharp.SupplyChainLogisticManagement.Application.Interfaces.Handlers;
+using Csharp.SupplyChainLogisticManagement.Application.Messages;
 using Csharp.SupplyChainLogisticManagement.Domain.Entities;
-using Csharp.SupplyChainLogisticManagement.Domain.Interfaces.Handlers;
 using Csharp.SupplyChainLogisticManagement.Infrastructure.DatabaseContext;
 using Csharp.SupplyChainLogisticManagement.Infrastructure.MessageConsumer;
 using Microsoft.EntityFrameworkCore;
@@ -17,9 +17,9 @@ namespace Csharp.SupplyChainLogisticManagement.Infrastructure.Consumers;
 public sealed class OrderCreatedConsumer : IMessageConsumer<OrderCreatedMessage>
 {
     private readonly ILogger<OrderCreatedConsumer> _logger;
-    private readonly IMessageHandlerw<OrderCreatedMessage> _messageHandler;
+    private readonly IMessageHandler<OrderCreatedMessage> _messageHandler;
 
-    public OrderCreatedConsumer(ILogger<OrderCreatedConsumer> logger, IMessageHandlerw<OrderCreatedMessage> messageHandler)
+    public OrderCreatedConsumer(ILogger<OrderCreatedConsumer> logger, IMessageHandler<OrderCreatedMessage> messageHandler)
     {
         _logger = logger;
         _messageHandler = messageHandler;

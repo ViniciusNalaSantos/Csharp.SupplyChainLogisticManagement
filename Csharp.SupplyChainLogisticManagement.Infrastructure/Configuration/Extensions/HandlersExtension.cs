@@ -1,10 +1,10 @@
-﻿using Csharp.SupplyChainLogisticManagement.Application.MessageHandlers;
+﻿using Csharp.SupplyChainLogisticManagement.Application.Interfaces.Handlers;
+using Csharp.SupplyChainLogisticManagement.Application.MessageHandlers;
 using Csharp.SupplyChainLogisticManagement.Application.Messages;
 using Csharp.SupplyChainLogisticManagement.Application.Queries;
 using Csharp.SupplyChainLogisticManagement.Application.QueryHandlers;
 using Csharp.SupplyChainLogisticManagement.Domain.Dto;
 using Csharp.SupplyChainLogisticManagement.Domain.Entities;
-using Csharp.SupplyChainLogisticManagement.Domain.Interfaces.Handlers;
 using Csharp.SupplyChainLogisticManagement.Domain.Interfaces.Repository;
 using Csharp.SupplyChainLogisticManagement.Infrastructure.Repository;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,8 +19,8 @@ internal static class HandlersExtension
 {
     public static void AddHandlersService(this IServiceCollection services)
     {
-        services.AddScoped<IMessageHandlerw<OrderCreatedMessage>, CreateOrderMessageHandler>();
-        services.AddScoped<IQueryHandlerw<GetOrderByIdQuery, ICollection<Orders>>, GetOrderByIdQueryHandler>();
-        services.AddScoped<IQueryHandlerw<GetOrdersByEmissionDateQuery, PagedResultDto<Orders>>, GetOrdersByEmissionDateQueryHandler>();
+        services.AddScoped<IMessageHandler<OrderCreatedMessage>, CreateOrderMessageHandler>();
+        services.AddScoped<IQueryHandler<GetOrderByIdQuery, ICollection<Orders>>, GetOrderByIdQueryHandler>();
+        services.AddScoped<IQueryHandler<GetOrdersByEmissionDateQuery, PagedResultDto<Orders>>, GetOrdersByEmissionDateQueryHandler>();
     }
 }
