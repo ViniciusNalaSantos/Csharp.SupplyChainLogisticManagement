@@ -8,8 +8,13 @@ using System.Threading.Tasks;
 namespace Csharp.SupplyChainLogisticManagement.Application.ValidationServices.ShipmentValidationServices;
 public class ShipmentValidationService : IShipmentValidationService
 {
+    private readonly IValidationErrorCollector _validationErrorCollector;
+    public ShipmentValidationService(IValidationErrorCollector validationErrorCollector)
+    {
+        _validationErrorCollector = validationErrorCollector;
+    }
     public async Task ValidateShipmentCreatedMessageAsync(ShipmentCreatedMessage message)
     {
-        throw new NotImplementedException();
+        _validationErrorCollector.Add("The method or operation is not implemented.");
     }
 }

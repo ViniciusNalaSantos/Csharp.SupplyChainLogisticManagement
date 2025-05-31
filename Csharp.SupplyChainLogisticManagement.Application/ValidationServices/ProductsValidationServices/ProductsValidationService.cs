@@ -8,17 +8,22 @@ using System.Threading.Tasks;
 namespace Csharp.SupplyChainLogisticManagement.Application.ValidationServices.ProductsValidationServices;
 public class ProductsValidationService : IProductsValidationService
 {
+    private readonly IValidationErrorCollector _validationErrorCollector;
+    public ProductsValidationService(IValidationErrorCollector validationErrorCollector)
+    {
+        _validationErrorCollector = validationErrorCollector;
+    }
     public async Task ValidateProducCreatedMessageAsync(ProductCreatedMessage message)
     {
         if (message == null) { return; }
 
         if (message.Description.Length > 200)
         {
-            throw new Exception("The field Description has a limit of 200 characters.");
+            _validationErrorCollector.Add("The field Description has a limit of 200 characters.");
         }
         if (message.Price < 0)
         {
-            throw new Exception("A product cannot have a negative price.");
+            _validationErrorCollector.Add("A product cannot have a negative price.");
         }
     }
 }

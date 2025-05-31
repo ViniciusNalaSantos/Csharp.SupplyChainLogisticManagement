@@ -1,4 +1,5 @@
-﻿using Csharp.SupplyChainLogisticManagement.Application.ValidationServices.CustomersValidationServices;
+﻿using Csharp.SupplyChainLogisticManagement.Application.ValidationServices;
+using Csharp.SupplyChainLogisticManagement.Application.ValidationServices.CustomersValidationServices;
 using Csharp.SupplyChainLogisticManagement.Application.ValidationServices.DeliveriesValidationServices;
 using Csharp.SupplyChainLogisticManagement.Application.ValidationServices.OrdersItemsValidationServices;
 using Csharp.SupplyChainLogisticManagement.Application.ValidationServices.OrdersValidationServices;
@@ -28,6 +29,8 @@ internal static class ValidationServiceExtension
         services.AddScoped<IDeliveriesValidationService, DeliveriesValidationService>();
         services.AddScoped<IProductsValidationService, ProductsValidationService>();
         services.AddScoped<IShipmentValidationService, ShipmentValidationService>();
-        services.AddScoped<ITransportersValidationService, TransportersValidationService>();        
+        services.AddScoped<ITransportersValidationService, TransportersValidationService>();
+
+        services.AddScoped<IValidationErrorCollector, ValidationErrorCollector>();
     }
 }

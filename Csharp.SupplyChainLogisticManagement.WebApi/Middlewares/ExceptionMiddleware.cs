@@ -1,7 +1,8 @@
-﻿using System.Text.Json;
-using System.Net;
+﻿using Csharp.SupplyChainLogisticManagement.Application.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
+using System.Net;
+using System.Text.Json;
 
 namespace Csharp.SupplyChainLogisticManagement.WebApi.Middlewares;
 
@@ -25,26 +26,38 @@ public class ExceptionMiddleware : IMiddleware
 
         var statusCode = (int)HttpStatusCode.InternalServerError;
         context.Response.StatusCode = statusCode;
-
-        var title = "An unexpected error occurred.";
+        
+        var title = string.Empty;
+        var details = string.Empty;
         if (statusCode == (int)HttpStatusCode.InternalServerError)
         {
             title = "Internal Server Error.";
         }
 
-        var errors = new Dictionary<string, string[]>();
+        var errors = new List<string>();
         if (exception is ValidationException validationEx)
         {
             statusCode = (int)HttpStatusCode.BadRequest;
             title = "Validation failed.";
-            errors.Add("Datafield validation: ", new string[] { validationEx.Message });
+            errors.Add("Datafield validation: " + validationEx.Message);
+        }        
+
+        if (exception is ValidationServiceException validationServiceException)
+        {
+            statusCode = (int)HttpStatusCode.BadRequest;
+            title = validationServiceException.Title;
+            details = "One or more fields have invalid values. See 'errors'.";
+            foreach (var error in validationServiceException.Errors)
+            {
+                errors.Add(error);
+            }
         }
 
-        var validationProblem = new ValidationProblemDetails()
+        var validationProblem = new ReturnErrorDetails()
         {
             Title = title,
             Status = statusCode,
-            Detail = exception.Message,
+            Detail = details,
             Instance = context.Request.Path,
             Errors = errors
         };

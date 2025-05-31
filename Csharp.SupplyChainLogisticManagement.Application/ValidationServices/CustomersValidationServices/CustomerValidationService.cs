@@ -8,23 +8,28 @@ using System.Threading.Tasks;
 namespace Csharp.SupplyChainLogisticManagement.Application.ValidationServices.CustomersValidationServices;
 public class CustomerValidationService : ICustomerValidationService
 {
+    private readonly IValidationErrorCollector _validationErrorCollector;
+    public CustomerValidationService(IValidationErrorCollector validationErrorCollector)
+    {
+        _validationErrorCollector = validationErrorCollector;
+    }
     public async Task ValidateCustomerCreatedMessageAsync(CustomerCreatedMessage message)
     {
         if (message == null) { return; }
 
         if (message.Name.Length > 200)
         {
-            throw new Exception("The field Name has a limit of 200 characters");
+            _validationErrorCollector.Add("The field Name has a limit of 200 characters");
         }
 
         if (message.Email.Length > 250)
         {
-            throw new Exception("The field email has a limit of 250 characters");
+            _validationErrorCollector.Add("The field email has a limit of 250 characters");
         }
 
         if (message.Address.Length > 200)
         {
-            throw new Exception("The field address has a limit of 200 characters");
+            _validationErrorCollector.Add("The field address has a limit of 200 characters");
         }
     }
 }
