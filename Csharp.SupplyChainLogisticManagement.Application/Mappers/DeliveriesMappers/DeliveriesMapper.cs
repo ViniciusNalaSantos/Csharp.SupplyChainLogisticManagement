@@ -1,5 +1,7 @@
-﻿using Csharp.SupplyChainLogisticManagement.Application.DTOs;
+﻿using Csharp.SupplyChainLogisticManagement.Application.DTOs.InputDTOs;
+using Csharp.SupplyChainLogisticManagement.Application.DTOs.ReturnDTOs;
 using Csharp.SupplyChainLogisticManagement.Application.Mappers.TransportersMappers;
+using Csharp.SupplyChainLogisticManagement.Application.Messages;
 using Csharp.SupplyChainLogisticManagement.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -15,13 +17,23 @@ public class DeliveriesMapper : IDeliveriesMapper
     {
         _transportersMapper = transportersMapper;
     }
-    public async Task<DeliveriesReturnDto> MapEntityToRetunDtoAsync(Deliveries delivery)
+    public async Task<ReturnDeliveriesDto> MapEntityToRetunDtoAsync(Deliveries delivery)
     {
-        return new DeliveriesReturnDto
+        return new ReturnDeliveriesDto
         {
             Id = delivery.Id,
             Transporters = await _transportersMapper.MapEntityToRetunDtoAsync(delivery.Transporters),
             DeliveryDate = delivery.DeliveryDate
+        };
+    }
+
+    public async Task<DeliveryCreatedMessage> MapInputToCreatedMessageAsync(InputDeliveryDto inputDelivery)
+    {
+        return new DeliveryCreatedMessage
+        {
+            TransporterId = inputDelivery.TransporterId,
+            Transporter = await _transportersMapper.MapInputToCreatedMessageAsync(inputDelivery.Transporter),
+            DeliveryDate = inputDelivery.DeliveryDate,
         };
     }
 }

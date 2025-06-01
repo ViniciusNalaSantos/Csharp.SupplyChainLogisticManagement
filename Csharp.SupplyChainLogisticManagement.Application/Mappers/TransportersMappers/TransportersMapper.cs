@@ -1,4 +1,6 @@
-﻿using Csharp.SupplyChainLogisticManagement.Application.DTOs;
+﻿using Csharp.SupplyChainLogisticManagement.Application.DTOs.InputDTOs;
+using Csharp.SupplyChainLogisticManagement.Application.DTOs.ReturnDTOs;
+using Csharp.SupplyChainLogisticManagement.Application.Messages;
 using Csharp.SupplyChainLogisticManagement.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -9,14 +11,24 @@ using System.Threading.Tasks;
 namespace Csharp.SupplyChainLogisticManagement.Application.Mappers.TransportersMappers;
 public class TransportersMapper : ITransportersMapper
 {
-    public async Task<TransportersReturnDto> MapEntityToRetunDtoAsync(Transporters transporter)
+    public async Task<ReturnTransportersDto> MapEntityToRetunDtoAsync(Transporters transporter)
     {
-        return new TransportersReturnDto
+        return new ReturnTransportersDto
         {
             Id = transporter.Id,
             Name = transporter.Name,
             Email = transporter.Email,
             Phone = transporter.Phone
+        };
+    }
+
+    public async Task<TransporterCreatedMessage> MapInputToCreatedMessageAsync(InputTransporterDto inputTransporter)
+    {
+        return new TransporterCreatedMessage
+        {
+            Name = inputTransporter.Name,
+            Email = inputTransporter.Email,
+            Phone = inputTransporter.Phone
         };
     }
 }

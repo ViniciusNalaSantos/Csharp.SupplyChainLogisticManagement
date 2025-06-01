@@ -1,4 +1,6 @@
-﻿using Csharp.SupplyChainLogisticManagement.Application.DTOs;
+﻿using Csharp.SupplyChainLogisticManagement.Application.DTOs.InputDTOs;
+using Csharp.SupplyChainLogisticManagement.Application.DTOs.ReturnDTOs;
+using Csharp.SupplyChainLogisticManagement.Application.Messages;
 using Csharp.SupplyChainLogisticManagement.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -10,4 +12,5 @@ namespace Csharp.SupplyChainLogisticManagement.Application.Mappers.ProductsMappe
 public interface IProductsMapper
 {
     public Task<ProductsReturnDto> MapEntityToRetunDtoAsync(Products product);
+    public Task<ProductCreatedMessage> MapInputToCreatedMessageAsync(InputProductDto inputProduct);
 }

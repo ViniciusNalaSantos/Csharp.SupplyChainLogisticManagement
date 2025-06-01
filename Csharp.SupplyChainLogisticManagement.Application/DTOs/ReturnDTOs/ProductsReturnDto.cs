@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Csharp.SupplyChainLogisticManagement.Application.DTOs;
+namespace Csharp.SupplyChainLogisticManagement.Application.DTOs.ReturnDTOs;
 public record ProductsReturnDto
 {
     public int Id { get; set; }

@@ -5,10 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Csharp.SupplyChainLogisticManagement.Application.DTOs;
-public record DeliveriesReturnDto
+namespace Csharp.SupplyChainLogisticManagement.Application.DTOs.ReturnDTOs;
+public record ReturnDeliveriesDto
 {
     public int Id { get; set; }
-    public TransportersReturnDto Transporters { get; set; }
+    public ReturnTransportersDto Transporters { get; set; }
     public DateTime DeliveryDate { get; set; }
 }

@@ -1,4 +1,6 @@
-﻿using Csharp.SupplyChainLogisticManagement.Application.DTOs;
+﻿using Csharp.SupplyChainLogisticManagement.Application.DTOs.InputDTOs;
+using Csharp.SupplyChainLogisticManagement.Application.DTOs.ReturnDTOs;
+using Csharp.SupplyChainLogisticManagement.Application.Messages;
 using Csharp.SupplyChainLogisticManagement.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -16,6 +18,15 @@ public class ProductsMapper : IProductsMapper
             Id = product.Id,
             Description = product.Description,
             Price = product.Price
+        };
+    }
+
+    public async Task<ProductCreatedMessage> MapInputToCreatedMessageAsync(InputProductDto inputProduct)
+    {
+        return new ProductCreatedMessage
+        {
+            Description = inputProduct.Description,
+            Price = inputProduct.Price
         };
     }
 }

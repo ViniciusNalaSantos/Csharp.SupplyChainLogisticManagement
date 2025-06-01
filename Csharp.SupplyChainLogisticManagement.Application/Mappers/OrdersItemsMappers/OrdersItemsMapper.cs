@@ -1,5 +1,7 @@
-﻿using Csharp.SupplyChainLogisticManagement.Application.DTOs;
+﻿using Csharp.SupplyChainLogisticManagement.Application.DTOs.InputDTOs;
+using Csharp.SupplyChainLogisticManagement.Application.DTOs.ReturnDTOs;
 using Csharp.SupplyChainLogisticManagement.Application.Mappers.ProductsMappers;
+using Csharp.SupplyChainLogisticManagement.Application.Messages;
 using Csharp.SupplyChainLogisticManagement.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -15,15 +17,32 @@ public class OrdersItemsMapper : IOrdersItemsMapper
     {
         _productsMapper = productsMapper;
     }
-    public async Task<ICollection<OrdersItemsReturnDto>> MapEntityToRetunDtoAsync(ICollection<OrdersItems> listOrderItems)
+    public async Task<ICollection<ReturnOrdersItemsDto>> MapEntityToRetunDtoAsync(ICollection<OrdersItems> listOrderItems)
     {
-        var returnListOrderItems = new List<OrdersItemsReturnDto>();
+        var returnListOrderItems = new List<ReturnOrdersItemsDto>();
         foreach (var orderItem in listOrderItems)
         {
             returnListOrderItems.Add(
-                new OrdersItemsReturnDto
+                new ReturnOrdersItemsDto
                 {
                     Product = await _productsMapper.MapEntityToRetunDtoAsync(orderItem.Products),
+                    Quantity = orderItem.Quantity
+                }
+            );
+        }
+        return returnListOrderItems;
+    }
+
+    public async Task<ICollection<OrderItemsCreatedMessage>> MapInputToCreatedMessageAsync(ICollection<InputOrderItemsDto> inputOrderItems)
+    {
+        var returnListOrderItems = new List<OrderItemsCreatedMessage>();
+        foreach (var orderItem in inputOrderItems)
+        {
+            returnListOrderItems.Add(
+                new OrderItemsCreatedMessage
+                {
+                    ProductId = orderItem.ProductId,
+                    Product = await _productsMapper.MapInputToCreatedMessageAsync(orderItem.Product),
                     Quantity = orderItem.Quantity
                 }
             );

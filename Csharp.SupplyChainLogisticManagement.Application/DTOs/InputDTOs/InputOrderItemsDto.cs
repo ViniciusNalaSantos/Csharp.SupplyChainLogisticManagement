@@ -1,6 +1,5 @@
-﻿using Csharp.SupplyChainLogisticManagement.Application.Messages;
-
-namespace Csharp.SupplyChainLogisticManagement.WebApi.DTOs;
+﻿
+namespace Csharp.SupplyChainLogisticManagement.Application.DTOs.InputDTOs;
 
 public record InputOrderItemsDto
 {

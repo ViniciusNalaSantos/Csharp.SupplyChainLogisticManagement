@@ -1,5 +1,4 @@
-﻿
-namespace Csharp.SupplyChainLogisticManagement.WebApi.DTOs;
+﻿namespace Csharp.SupplyChainLogisticManagement.Application.DTOs.InputDTOs;
 
 public record InputDeliveryDto
 {

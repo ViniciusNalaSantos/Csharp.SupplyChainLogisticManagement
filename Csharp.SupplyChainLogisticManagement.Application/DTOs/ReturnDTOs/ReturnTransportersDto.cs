@@ -5,8 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Csharp.SupplyChainLogisticManagement.Application.DTOs;
-public record TransportersReturnDto
+namespace Csharp.SupplyChainLogisticManagement.Application.DTOs.ReturnDTOs;
+public record ReturnTransportersDto
 {
     public int Id { get; set; }
     public string Name { get; set; }
