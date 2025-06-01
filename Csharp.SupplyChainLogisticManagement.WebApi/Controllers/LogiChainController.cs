@@ -12,6 +12,7 @@ using Csharp.SupplyChainLogisticManagement.Application.ValidationServices.Orders
 using Csharp.SupplyChainLogisticManagement.Application.Mappers.OrdersMappers;
 using Csharp.SupplyChainLogisticManagement.Application.Interfaces.Handlers;
 using Csharp.SupplyChainLogisticManagement.Application.DTOs.ReturnDTOs;
+using Csharp.SupplyChainLogisticManagement.Application.DTOs.InputDTOs;
 
 namespace Csharp.SupplyChainLogisticManagement.WebApi.Controllers;
 
@@ -74,10 +75,11 @@ public class LogiChainController : ControllerBase
     }
 
     [HttpPost("orders")]
-    public async Task<IActionResult> PostOrders([FromBody] List<OrderCreatedMessage> listOrderCreatedMessage)
+    public async Task<IActionResult> PostOrders([FromBody] List<InputOrderDto> listInputOrder)
     {
+        var listOrderCreatedMessage = await _ordersMapper.MapInputToCreatedMessageAsync(listInputOrder);
         foreach (var orderCreatedMessage in listOrderCreatedMessage)
-        {
+        {            
             await _ordersValidationService.ValidateOrderCreatedMessageAsync(orderCreatedMessage);
             await _eventBus.PublishAsync(orderCreatedMessage);
         }

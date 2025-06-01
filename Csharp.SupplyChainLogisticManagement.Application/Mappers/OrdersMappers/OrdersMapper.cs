@@ -51,10 +51,10 @@ public class OrdersMapper : IOrdersMapper
         return returnListOrders;
     }
 
-    public async Task<ICollection<OrderCreatedMessage>> MapInputToCreatedMessageAsync(ICollection<InputOrderDto> inputOrder)
+    public async Task<ICollection<OrderCreatedMessage>> MapInputToCreatedMessageAsync(ICollection<InputOrderDto> listInputOrder)
     {
         var returnListOrders = new List<OrderCreatedMessage>();
-        foreach (var order in inputOrder)
+        foreach (var order in listInputOrder)
         {
             returnListOrders.Add(
                 new OrderCreatedMessage

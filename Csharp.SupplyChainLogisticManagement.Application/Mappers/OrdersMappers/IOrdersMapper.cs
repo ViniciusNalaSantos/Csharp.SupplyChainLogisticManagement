@@ -12,5 +12,5 @@ namespace Csharp.SupplyChainLogisticManagement.Application.Mappers.OrdersMappers
 public interface IOrdersMapper
 {
     public Task<ICollection<ReturnOrdersDto>> MapEntityToRetunDtoAsync(ICollection<Orders> listOrders);
-    public Task<ICollection<OrderCreatedMessage>> MapInputToCreatedMessageAsync(ICollection<InputOrderDto> inputOrder);
+    public Task<ICollection<OrderCreatedMessage>> MapInputToCreatedMessageAsync(ICollection<InputOrderDto> listInputOrder);
 }
