@@ -13,6 +13,7 @@ public class CustomersMapper : ICustomersMapper
 {
     public async Task<ReturnCustomersDto> MapEntityToRetunDtoAsync(Customers customer)
     {
+        if (customer == null) {  return null; }
         return new ReturnCustomersDto
         {
             Id = customer.Id,

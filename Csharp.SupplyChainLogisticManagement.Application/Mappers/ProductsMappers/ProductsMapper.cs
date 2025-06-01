@@ -13,6 +13,7 @@ public class ProductsMapper : IProductsMapper
 {
     public async Task<ProductsReturnDto> MapEntityToRetunDtoAsync(Products product)
     {
+        if (product == null) { return null; }
         return new ProductsReturnDto
         {
             Id = product.Id,

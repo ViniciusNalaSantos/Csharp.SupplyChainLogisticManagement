@@ -13,6 +13,7 @@ public class SuppliersMapper : ISuppliersMapper
 {
     public async Task<ReturnSuppliersDto> MapEntityToRetunDtoAsync(Suppliers supplier)
     {
+        if (supplier == null) {  return null; }
         return new ReturnSuppliersDto
         {
             Id = supplier.Id,

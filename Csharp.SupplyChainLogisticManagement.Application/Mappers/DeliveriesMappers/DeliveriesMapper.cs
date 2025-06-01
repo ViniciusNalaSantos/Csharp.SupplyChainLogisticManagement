@@ -19,6 +19,7 @@ public class DeliveriesMapper : IDeliveriesMapper
     }
     public async Task<ReturnDeliveriesDto> MapEntityToRetunDtoAsync(Deliveries delivery)
     {
+        if (delivery == null) { return null; }
         return new ReturnDeliveriesDto
         {
             Id = delivery.Id,

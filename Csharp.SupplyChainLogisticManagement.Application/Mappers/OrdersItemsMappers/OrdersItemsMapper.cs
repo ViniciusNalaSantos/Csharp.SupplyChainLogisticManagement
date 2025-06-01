@@ -19,6 +19,7 @@ public class OrdersItemsMapper : IOrdersItemsMapper
     }
     public async Task<ICollection<ReturnOrdersItemsDto>> MapEntityToRetunDtoAsync(ICollection<OrdersItems> listOrderItems)
     {
+        if (listOrderItems == null) { return new List<ReturnOrdersItemsDto>(); }
         var returnListOrderItems = new List<ReturnOrdersItemsDto>();
         foreach (var orderItem in listOrderItems)
         {

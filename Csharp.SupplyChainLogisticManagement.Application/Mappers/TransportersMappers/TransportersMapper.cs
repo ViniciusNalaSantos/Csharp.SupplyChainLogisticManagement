@@ -13,6 +13,7 @@ public class TransportersMapper : ITransportersMapper
 {
     public async Task<ReturnTransportersDto> MapEntityToRetunDtoAsync(Transporters transporter)
     {
+        if (transporter == null) return null;
         return new ReturnTransportersDto
         {
             Id = transporter.Id,

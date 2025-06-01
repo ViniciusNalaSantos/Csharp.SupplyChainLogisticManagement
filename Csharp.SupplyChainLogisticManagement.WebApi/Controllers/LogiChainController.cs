@@ -42,14 +42,15 @@ public class LogiChainController : ControllerBase
     {
         var query = new GetOrderByIdQuery { Id = id };
         var listOrders = await _getOrderByIdQueryHandler.Handle(query);
-        
+        var ordersMapped = await _ordersMapper.MapEntityToRetunDtoAsync(listOrders);
+
         return new PagedOrdersReturnDto<Orders>
         {
             ActualPage = 1,
             TotalPages = 1,
             PageLimit = PagedResult.PageSizeLimit,
             OrdersListCount = listOrders.Count,
-            OrdersList = await _ordersMapper.MapEntityToRetunDtoAsync(listOrders)
+            OrdersList = ordersMapped
         };
     }
     

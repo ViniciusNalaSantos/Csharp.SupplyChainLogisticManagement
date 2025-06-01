@@ -13,6 +13,7 @@ public class ShipmentsMapper : IShipmentsMapper
 {
     public async Task<ReturnShipmentsDto> MapEntityToRetunDtoAsync(Shipments shipment)
     {
+        if (shipment == null) { return null; }
         return new ReturnShipmentsDto
         {
             Id = shipment.Id,

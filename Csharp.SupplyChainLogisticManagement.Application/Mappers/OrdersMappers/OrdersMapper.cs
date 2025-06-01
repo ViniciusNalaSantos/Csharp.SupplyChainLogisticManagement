@@ -35,16 +35,22 @@ public class OrdersMapper : IOrdersMapper
         var returnListOrders = new List<ReturnOrdersDto>();
         foreach (var order in listOrders)
         {
+            var customerMapped = await _customersMapper.MapEntityToRetunDtoAsync(order.Customers);
+            var supplierMapped = await _suppliersMapper.MapEntityToRetunDtoAsync(order.Suppliers);
+            var orderitemsMapped = await _ordersItemsMapper.MapEntityToRetunDtoAsync(order.OrdersItems);
+            var shipmentsMapped = await _shipmentsMapper.MapEntityToRetunDtoAsync(order.Shipments?.FirstOrDefault());
+            var deliveriesMapped = await _deliveriesMapper.MapEntityToRetunDtoAsync(order.Deliveries?.FirstOrDefault());
+
             returnListOrders.Add(
                 new ReturnOrdersDto
                 {
-                    Customer = await _customersMapper.MapEntityToRetunDtoAsync(order.Customers),
-                    Supplier = await _suppliersMapper.MapEntityToRetunDtoAsync(order.Suppliers),
+                    Customer = customerMapped,
+                    Supplier = supplierMapped,
                     EmissionDate = order.EmissionDate,
                     Price = order.Price,
-                    OrderItems = await _ordersItemsMapper.MapEntityToRetunDtoAsync(order.OrdersItems),
-                    Shipments = await _shipmentsMapper.MapEntityToRetunDtoAsync(order.Shipments.FirstOrDefault()),
-                    Deliveries = await _deliveriesMapper.MapEntityToRetunDtoAsync(order.Deliveries.FirstOrDefault()),
+                    OrderItems = orderitemsMapped,
+                    Shipments = shipmentsMapped,
+                    Deliveries = deliveriesMapped
                 }
             );
         };
