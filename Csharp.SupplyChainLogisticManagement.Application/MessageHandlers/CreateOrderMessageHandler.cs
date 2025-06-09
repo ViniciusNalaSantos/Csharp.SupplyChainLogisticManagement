@@ -54,6 +54,7 @@ public class CreateOrderMessageHandler : IMessageHandler<OrderCreatedMessage>
 
         Orders order = new Orders
         {
+            OrderNumber = message.OrderNumber,
             EmissionDate = message.EmissionDate,
             Price = Math.Round(message.Price, 2),
             CustomersId = customer?.Id ?? message.CustomerId,

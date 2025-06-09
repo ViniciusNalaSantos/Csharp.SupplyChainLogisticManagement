@@ -2,7 +2,8 @@
 
 public record InputOrderDto
 {
-    public DateTime EmissionDate { get; init; }
+    public string OrderNumber { get; init; }
+    public DateTime EmissionDate { get; init; }    
     public int? CustomerId { get; init; }
     public InputCustomerDto? Customer { get; init; }
     public int? SupplierId { get; init; }

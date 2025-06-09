@@ -9,6 +9,7 @@ namespace Csharp.SupplyChainLogisticManagement.Application.DTOs.ReturnDTOs;
 public record ReturnOrdersDto
 {
     public int Id { get; set; }
+    public string OrderNumber { get; init; }
     public DateTime EmissionDate { get; set; }
     public ReturnCustomersDto Customer { get; set; }
     public ReturnSuppliersDto Supplier { get; set; }

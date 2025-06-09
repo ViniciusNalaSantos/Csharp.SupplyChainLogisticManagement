@@ -45,6 +45,7 @@ public class OrdersMapper : IOrdersMapper
             returnListOrders.Add(
                 new ReturnOrdersDto
                 {
+                    OrderNumber = order.OrderNumber,
                     Customer = customerMapped,
                     Supplier = supplierMapped,
                     EmissionDate = order.EmissionDate,
@@ -67,6 +68,7 @@ public class OrdersMapper : IOrdersMapper
             returnListOrders.Add(
                 new OrderCreatedMessage
                 {
+                    OrderNumber = order.OrderNumber,
                     CustomerId = order.CustomerId,
                     Customer = await _customersMapper.MapInputToCreatedMessageAsync(order.Customer),
                     SupplierId = order.SupplierId,
