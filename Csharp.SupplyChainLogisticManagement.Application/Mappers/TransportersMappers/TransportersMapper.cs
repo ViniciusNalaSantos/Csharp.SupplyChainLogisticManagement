@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static MassTransit.Logging.LogCategoryName;
 
 namespace Csharp.SupplyChainLogisticManagement.Application.Mappers.TransportersMappers;
 public class TransportersMapper : ITransportersMapper
@@ -25,6 +26,7 @@ public class TransportersMapper : ITransportersMapper
 
     public async Task<TransporterCreatedMessage> MapInputToCreatedMessageAsync(InputTransporterDto inputTransporter)
     {
+        if (inputTransporter == null) return null;
         return new TransporterCreatedMessage
         {
             Name = inputTransporter.Name,

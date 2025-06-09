@@ -24,6 +24,7 @@ public class ProductsMapper : IProductsMapper
 
     public async Task<ProductCreatedMessage> MapInputToCreatedMessageAsync(InputProductDto inputProduct)
     {
+        if (inputProduct == null) { return null; }
         return new ProductCreatedMessage
         {
             Description = inputProduct.Description,

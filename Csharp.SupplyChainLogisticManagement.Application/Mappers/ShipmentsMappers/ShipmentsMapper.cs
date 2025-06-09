@@ -23,6 +23,7 @@ public class ShipmentsMapper : IShipmentsMapper
 
     public async Task<ShipmentCreatedMessage> MapInputToCreatedMessageAsync(InputShipmentDto inputShipment)
     {
+        if (inputShipment == null) { return null; }
         return new ShipmentCreatedMessage
         {
             ShipmentDate = inputShipment.ShipmentDate

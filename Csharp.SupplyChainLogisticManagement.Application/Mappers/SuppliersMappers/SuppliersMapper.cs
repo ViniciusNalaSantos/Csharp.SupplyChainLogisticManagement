@@ -25,6 +25,7 @@ public class SuppliersMapper : ISuppliersMapper
 
     public async Task<SupplierCreatedMessage> MapInputToCreatedMessageAsync(InputSupplierDto inputSupplier)
     {
+        if (inputSupplier == null) { return null; }
         return new SupplierCreatedMessage
         {
             Name = inputSupplier.Name,

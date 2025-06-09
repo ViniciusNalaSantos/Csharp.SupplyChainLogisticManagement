@@ -32,6 +32,7 @@ public class OrdersMapper : IOrdersMapper
     }
     public async Task<ICollection<ReturnOrdersDto>> MapEntityToRetunDtoAsync(ICollection<Orders> listOrders)
     {
+        if (listOrders == null) { return new List<ReturnOrdersDto>(); }
         var returnListOrders = new List<ReturnOrdersDto>();
         foreach (var order in listOrders)
         {
@@ -59,6 +60,7 @@ public class OrdersMapper : IOrdersMapper
 
     public async Task<ICollection<OrderCreatedMessage>> MapInputToCreatedMessageAsync(ICollection<InputOrderDto> listInputOrder)
     {
+        if (listInputOrder == null) { return new List<OrderCreatedMessage>(); }
         var returnListOrders = new List<OrderCreatedMessage>();
         foreach (var order in listInputOrder)
         {

@@ -25,6 +25,7 @@ public class CustomersMapper : ICustomersMapper
 
     public async Task<CustomerCreatedMessage> MapInputToCreatedMessageAsync(InputCustomerDto inputCustomer)
     {
+        if (inputCustomer == null) { return null; }
         return new CustomerCreatedMessage
         {
             Name = inputCustomer.Name,

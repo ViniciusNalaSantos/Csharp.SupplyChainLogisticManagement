@@ -30,6 +30,7 @@ public class DeliveriesMapper : IDeliveriesMapper
 
     public async Task<DeliveryCreatedMessage> MapInputToCreatedMessageAsync(InputDeliveryDto inputDelivery)
     {
+        if (inputDelivery == null) { return null; }
         return new DeliveryCreatedMessage
         {
             TransporterId = inputDelivery.TransporterId,

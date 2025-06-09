@@ -36,6 +36,7 @@ public class OrdersItemsMapper : IOrdersItemsMapper
 
     public async Task<ICollection<OrderItemsCreatedMessage>> MapInputToCreatedMessageAsync(ICollection<InputOrderItemsDto> inputOrderItems)
     {
+        if (inputOrderItems == null) { return new List<OrderItemsCreatedMessage>(); }
         var returnListOrderItems = new List<OrderItemsCreatedMessage>();
         foreach (var orderItem in inputOrderItems)
         {
