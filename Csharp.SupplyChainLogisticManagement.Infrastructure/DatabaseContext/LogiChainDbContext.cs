@@ -56,6 +56,12 @@ public class LogiChainDbContext : DbContext
             .IsRequired();
 
         entityModelBuilder
+            .Property(l => l.OrderNumber)
+            .HasColumnName("ORDER_NUMBER")
+            .HasMaxLength(50)
+            .IsRequired();
+
+        entityModelBuilder
             .Property(l => l.EmissionDate)
             .HasColumnName("EMISSION_DATE")
             .IsRequired();

@@ -28,7 +28,7 @@ public class ExceptionMiddleware : IMiddleware
         context.Response.StatusCode = statusCode;
         
         var title = string.Empty;
-        var details = string.Empty;
+        var details = exception.Message;
         if (statusCode == (int)HttpStatusCode.InternalServerError)
         {
             title = "Internal Server Error.";
