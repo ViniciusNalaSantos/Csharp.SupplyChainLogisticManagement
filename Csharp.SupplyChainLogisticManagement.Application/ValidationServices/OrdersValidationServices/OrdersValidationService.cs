@@ -33,6 +33,11 @@ public class OrdersValidationService : IOrdersValidationService
     }
     public async Task ValidateOrderCreatedMessageAsync(OrderCreatedMessage message)
     {
+        if (message.OrderNumber.Trim() == null)
+        {
+            _validationErrorCollector.Add("Cannot create an order with OrderNumber value null.");
+        }
+
         if (message.CustomerId != null && message.SupplierId != null)
         {
             _validationErrorCollector.Add("Cannot create an order filling CustomerId and SupplierId.");
