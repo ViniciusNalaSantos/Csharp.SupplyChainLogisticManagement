@@ -8,5 +8,5 @@ using System.Threading.Tasks;
 namespace Csharp.SupplyChainLogisticManagement.Application.ValidationServices.ShipmentValidationServices;
 public interface IShipmentValidationService
 {
-    public Task ValidateShipmentCreatedMessageAsync(ShipmentCreatedMessage message);
+    public Task ValidateShipmentCreatedMessageAsync(ShipmentCreatedMessage message, string orderNumber);
 }

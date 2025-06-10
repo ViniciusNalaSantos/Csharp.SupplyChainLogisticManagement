@@ -1,4 +1,5 @@
-﻿using Csharp.SupplyChainLogisticManagement.Application.Messages;
+﻿using Csharp.SupplyChainLogisticManagement.Application.Exceptions;
+using Csharp.SupplyChainLogisticManagement.Application.Messages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,23 +14,23 @@ public class SupplierValidationService : ISuppliersValidationService
     {
         _validationErrorCollector = validationErrorCollector;
     }
-    public async Task ValidateSupplierCreatedMessageAsync(SupplierCreatedMessage message)
+    public async Task ValidateSupplierCreatedMessageAsync(SupplierCreatedMessage message, string orderNumber)
     {
         if (message == null) { return; }
 
         if (message.Name.Length > 200)
         {
-            _validationErrorCollector.Add("The field Name has a limit of 200 characters");
+            _validationErrorCollector.Add(new ValidationErrorDto(orderNumber, "The field Name has a limit of 200 characters"));
         }
 
         if (message.Email.Length > 250)
         {
-            _validationErrorCollector.Add("The field address has a limit of 250 characters");
+            _validationErrorCollector.Add(new ValidationErrorDto(orderNumber, "The field address has a limit of 250 characters"));
         }
 
         if (message.Phone.Length > 25)
         {
-            _validationErrorCollector.Add("The field address has a limit of 200 characters");
+            _validationErrorCollector.Add(new ValidationErrorDto(orderNumber, "The field address has a limit of 200 characters"));
         }
     }
 }

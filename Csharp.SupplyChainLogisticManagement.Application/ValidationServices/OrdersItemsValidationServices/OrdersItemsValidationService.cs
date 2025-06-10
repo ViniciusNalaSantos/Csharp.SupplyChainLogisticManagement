@@ -1,4 +1,5 @@
-﻿using Csharp.SupplyChainLogisticManagement.Application.Messages;
+﻿using Csharp.SupplyChainLogisticManagement.Application.Exceptions;
+using Csharp.SupplyChainLogisticManagement.Application.Messages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,7 @@ public class OrdersItemsValidationService : IOrdersItemsValidationService
     {
         _validationErrorCollector = validationErrorCollector;
     }
-    public async Task ValidateOrderItemCreatedMessageAsync(ICollection<OrderItemsCreatedMessage> messageList)
+    public async Task ValidateOrderItemCreatedMessageAsync(ICollection<OrderItemsCreatedMessage> messageList, string orderNumber)
     {
         if (messageList == null) { return; }
 
@@ -23,7 +24,7 @@ public class OrdersItemsValidationService : IOrdersItemsValidationService
 
             if (message.Quantity < 1)
             {
-                _validationErrorCollector.Add("An OrderItem must have at least quantity 1.");
+                _validationErrorCollector.Add(new ValidationErrorDto(orderNumber, "An OrderItem must have at least quantity 1."));
             }
         }
     }

@@ -13,7 +13,7 @@ public class DeliveriesValidationService : IDeliveriesValidationService
     {
         _validationErrorCollector = validationErrorCollector;
     }
-    public async Task ValidateDeliveryCreatedMessageAsync(DeliveryCreatedMessage message)
+    public async Task ValidateDeliveryCreatedMessageAsync(DeliveryCreatedMessage message, string orderNumber)
     {
         return;
     }

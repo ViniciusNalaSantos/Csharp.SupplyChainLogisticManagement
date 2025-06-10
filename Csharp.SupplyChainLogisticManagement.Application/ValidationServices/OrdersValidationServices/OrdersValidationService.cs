@@ -33,51 +33,52 @@ public class OrdersValidationService : IOrdersValidationService
     }
     public async Task ValidateOrderCreatedMessageAsync(OrderCreatedMessage message)
     {
-        if (message.OrderNumber.Trim() == null)
+        if (message.OrderNumber == null)
         {
-            _validationErrorCollector.Add("Cannot create an order with OrderNumber value null.");
+            _validationErrorCollector.Add(new ValidationErrorDto(null, "Cannot create an order with OrderNumber value null."));
         }
+        var orderNumber = message.OrderNumber;
 
         if (message.CustomerId != null && message.SupplierId != null)
         {
-            _validationErrorCollector.Add("Cannot create an order filling CustomerId and SupplierId.");
+            _validationErrorCollector.Add(new ValidationErrorDto(orderNumber, "Cannot create an order filling CustomerId and SupplierId."));
         }
         
         if (message.CustomerId != null && message.Supplier != null)
         {
-            _validationErrorCollector.Add("An order can only have a CustomerId or Supplier, not both at the same time.");
+            _validationErrorCollector.Add(new ValidationErrorDto(orderNumber, "An order can only have a CustomerId or Supplier, not both at the same time."));
         }
 
         if (message.SupplierId != null && message.Customer != null)
         {
-            _validationErrorCollector.Add("An order can only have a SupplierId or Customer, not both at the same time.");
+            _validationErrorCollector.Add(new ValidationErrorDto(orderNumber, "An order can only have a SupplierId or Customer, not both at the same time."));
         }
 
         if (message.CustomerId == null && message.Customer == null && message.SupplierId == null && message.Supplier == null)
         {
-            _validationErrorCollector.Add("An order must have at least one of this fields filled: CustomerId, Customer, SupplierId, Supplier.");
+            _validationErrorCollector.Add(new ValidationErrorDto(orderNumber, "An order must have at least one of this fields filled: CustomerId, Customer, SupplierId, Supplier."));
         }
 
         if (message.Price < 0)
         {
-            _validationErrorCollector.Add("An order cannot have a negative price");
+            _validationErrorCollector.Add(new ValidationErrorDto(orderNumber, "An order cannot have a negative price"));
         }
 
         if (message.Delivery != null && message.Shipment != null)
         {
-            _validationErrorCollector.Add("An order can only have a Delivery or Shipment, not both at the same time.");
+            _validationErrorCollector.Add(new ValidationErrorDto(orderNumber, "An order can only have a Delivery or Shipment, not both at the same time."));
         }
 
         if (message.OrderItems.Count == 0)
         {
-            _validationErrorCollector.Add("An order must have at least one OrderItem.");
+            _validationErrorCollector.Add(new ValidationErrorDto(orderNumber, "An order must have at least one OrderItem."));
         }
 
         if (message.Delivery != null)
         {
             if (message.Delivery.DeliveryDate < message.EmissionDate)
             {
-                _validationErrorCollector.Add("The DeliveryDate cannot be before EmissionDate.");
+                _validationErrorCollector.Add(new ValidationErrorDto(orderNumber, "The DeliveryDate cannot be before EmissionDate."));
             }
         }
 
@@ -85,19 +86,14 @@ public class OrdersValidationService : IOrdersValidationService
         {
             if (message.Shipment.ShipmentDate < message.EmissionDate)
             {
-                _validationErrorCollector.Add("The ShipmentDate cannot be before EmissionDate.");
+                _validationErrorCollector.Add(new ValidationErrorDto(orderNumber, "The ShipmentDate cannot be before EmissionDate."));
             }
         }
 
-        await _customerValidationService.ValidateCustomerCreatedMessageAsync(message.Customer);        
-        await _suppliersValidationService.ValidateSupplierCreatedMessageAsync(message.Supplier);        
-        await _ordersItemsValidationService.ValidateOrderItemCreatedMessageAsync(message.OrderItems);
-        await _deliveriesValidationService.ValidateDeliveryCreatedMessageAsync(message.Delivery);
-        await _shipmentValidationService.ValidateShipmentCreatedMessageAsync(message.Shipment);
-
-        if (_validationErrorCollector.GetErrors().Any())
-        {
-            throw new ValidationServiceException(_validationErrorCollector.GetErrors());
-        }
+        await _customerValidationService.ValidateCustomerCreatedMessageAsync(message.Customer, orderNumber);        
+        await _suppliersValidationService.ValidateSupplierCreatedMessageAsync(message.Supplier, orderNumber);        
+        await _ordersItemsValidationService.ValidateOrderItemCreatedMessageAsync(message.OrderItems, orderNumber);
+        await _deliveriesValidationService.ValidateDeliveryCreatedMessageAsync(message.Delivery, orderNumber);
+        await _shipmentValidationService.ValidateShipmentCreatedMessageAsync(message.Shipment, orderNumber);        
     }
 }

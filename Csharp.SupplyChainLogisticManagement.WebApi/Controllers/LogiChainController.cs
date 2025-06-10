@@ -1,18 +1,20 @@
-﻿using Csharp.SupplyChainLogisticManagement.Domain.Entities;
-using Csharp.SupplyChainLogisticManagement.Infrastructure.EventBus;
-using Microsoft.AspNetCore.Mvc;
-using Xunit.Sdk;
+﻿using Csharp.SupplyChainLogisticManagement.Application.Common.Constants;
+using Csharp.SupplyChainLogisticManagement.Application.DTOs.InputDTOs;
+using Csharp.SupplyChainLogisticManagement.Application.DTOs.ReturnDTOs;
+using Csharp.SupplyChainLogisticManagement.Application.Exceptions;
+using Csharp.SupplyChainLogisticManagement.Application.Interfaces.Handlers;
+using Csharp.SupplyChainLogisticManagement.Application.Mappers.OrdersMappers;
 using Csharp.SupplyChainLogisticManagement.Application.Messages;
 using Csharp.SupplyChainLogisticManagement.Application.Queries;
-using Csharp.SupplyChainLogisticManagement.Application.Common.Constants;
+using Csharp.SupplyChainLogisticManagement.Application.ValidationServices;
+using Csharp.SupplyChainLogisticManagement.Application.ValidationServices.OrdersValidationServices;
+using Csharp.SupplyChainLogisticManagement.Domain.Dto;
+using Csharp.SupplyChainLogisticManagement.Domain.Entities;
+using Csharp.SupplyChainLogisticManagement.Infrastructure.EventBus;
+using Microsoft.AspNetCore.Mvc;
 using System.Drawing.Printing;
 using System.Threading.Tasks;
-using Csharp.SupplyChainLogisticManagement.Domain.Dto;
-using Csharp.SupplyChainLogisticManagement.Application.ValidationServices.OrdersValidationServices;
-using Csharp.SupplyChainLogisticManagement.Application.Mappers.OrdersMappers;
-using Csharp.SupplyChainLogisticManagement.Application.Interfaces.Handlers;
-using Csharp.SupplyChainLogisticManagement.Application.DTOs.ReturnDTOs;
-using Csharp.SupplyChainLogisticManagement.Application.DTOs.InputDTOs;
+using Xunit.Sdk;
 
 namespace Csharp.SupplyChainLogisticManagement.WebApi.Controllers;
 
@@ -25,16 +27,18 @@ public class LogiChainController : ControllerBase
     private readonly IQueryHandler<GetOrdersByEmissionDateQuery, PagedResultDto<Orders>> _getOrdersByEmissionDateQueryHandler;
     private readonly IOrdersValidationService _ordersValidationService;
     private readonly IOrdersMapper _ordersMapper;
+    private readonly IValidationErrorCollector _validationErrorCollector;
 
     public LogiChainController(IEventBus eventBus, IQueryHandler<GetOrderByIdQuery, ICollection<Orders>> getOrderByIdQueryHandler, 
         IQueryHandler<GetOrdersByEmissionDateQuery, PagedResultDto<Orders>> getOrdersByEmissionDateQueryHandler, IOrdersValidationService ordersValidationService,
-        IOrdersMapper ordersMapper)
+        IOrdersMapper ordersMapper, IValidationErrorCollector validationErrorCollector)
     {
         _eventBus = eventBus;
         _getOrderByIdQueryHandler = getOrderByIdQueryHandler;
         _getOrdersByEmissionDateQueryHandler = getOrdersByEmissionDateQueryHandler;
         _ordersValidationService = ordersValidationService;
         _ordersMapper = ordersMapper;
+        _validationErrorCollector = validationErrorCollector;
     }
 
     [HttpGet("orders/{id}")]
@@ -81,9 +85,16 @@ public class LogiChainController : ControllerBase
         var listOrderCreatedMessage = await _ordersMapper.MapInputToCreatedMessageAsync(listInputOrder);
         foreach (var orderCreatedMessage in listOrderCreatedMessage)
         {            
-            await _ordersValidationService.ValidateOrderCreatedMessageAsync(orderCreatedMessage);
-            await _eventBus.PublishAsync(orderCreatedMessage);
+            await _ordersValidationService.ValidateOrderCreatedMessageAsync(orderCreatedMessage);                        
         }
+        if (_validationErrorCollector.GetErrors().Any())
+        {
+            throw new ValidationServiceException(_validationErrorCollector.GetErrors());
+        }
+        foreach (var orderCreatedMessage in listOrderCreatedMessage)
+        {
+            await _eventBus.PublishAsync(orderCreatedMessage);
+        }        
         return Ok();        
     }
 }

@@ -13,7 +13,7 @@ public class ShipmentValidationService : IShipmentValidationService
     {
         _validationErrorCollector = validationErrorCollector;
     }
-    public async Task ValidateShipmentCreatedMessageAsync(ShipmentCreatedMessage message)
+    public async Task ValidateShipmentCreatedMessageAsync(ShipmentCreatedMessage message, string orderNumber    )
     {
         return;
     }

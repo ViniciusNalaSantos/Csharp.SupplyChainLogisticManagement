@@ -6,5 +6,5 @@ public class ReturnErrorDetails
     public int Status { get; set; } = 500;
     public string Detail { get; set; }
     public string Instance { get; set; }
-    public List<string> Errors { get; set; } = new List<string>();
+    public Dictionary<string, List<string>> Errors { get; set; }
 }

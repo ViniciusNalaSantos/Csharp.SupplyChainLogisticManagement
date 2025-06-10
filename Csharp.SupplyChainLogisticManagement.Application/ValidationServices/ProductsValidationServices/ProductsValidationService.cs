@@ -1,4 +1,5 @@
-﻿using Csharp.SupplyChainLogisticManagement.Application.Messages;
+﻿using Csharp.SupplyChainLogisticManagement.Application.Exceptions;
+using Csharp.SupplyChainLogisticManagement.Application.Messages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,17 +14,17 @@ public class ProductsValidationService : IProductsValidationService
     {
         _validationErrorCollector = validationErrorCollector;
     }
-    public async Task ValidateProducCreatedMessageAsync(ProductCreatedMessage message)
+    public async Task ValidateProducCreatedMessageAsync(ProductCreatedMessage message, string orderNumber)
     {
         if (message == null) { return; }
 
         if (message.Description.Length > 200)
         {
-            _validationErrorCollector.Add("The field Description has a limit of 200 characters.");
+            _validationErrorCollector.Add(new ValidationErrorDto(orderNumber, "The field Description has a limit of 200 characters."));
         }
         if (message.Price < 0)
         {
-            _validationErrorCollector.Add("A product cannot have a negative price.");
+            _validationErrorCollector.Add(new ValidationErrorDto(orderNumber, "A product cannot have a negative price."));
         }
     }
 }

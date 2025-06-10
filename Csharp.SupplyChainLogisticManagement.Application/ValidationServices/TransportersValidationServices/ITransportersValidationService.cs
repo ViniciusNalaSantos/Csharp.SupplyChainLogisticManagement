@@ -8,5 +8,5 @@ using System.Threading.Tasks;
 namespace Csharp.SupplyChainLogisticManagement.Application.ValidationServices.TransportersValidationServices;
 public interface ITransportersValidationService
 {
-    public Task ValidateTransporterCreatedMessageAsync(TransporterCreatedMessage message);
+    public Task ValidateTransporterCreatedMessageAsync(TransporterCreatedMessage message, string orderNumber);
 }
