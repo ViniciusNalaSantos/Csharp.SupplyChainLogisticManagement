@@ -19,7 +19,7 @@ public class LogiChainDbContext : DbContext
     public DbSet<Orders> Orders { get; set; }
     public DbSet<OrdersItems> OrdersItems { get; set; }
     public DbSet<Products> Products { get; set; }
-    public DbSet<ProductsStock> ProductsStock { get; set; }
+    public DbSet<ProductsInventory> ProductsInventory { get; set; }
     public DbSet<Warehouses> Warehouses { get; set; }
     public DbSet<Shipments> Shipments { get; set; }
     public DbSet<Deliveries> Deliveries { get; set; }
@@ -33,7 +33,7 @@ public class LogiChainDbContext : DbContext
         ModelOrders(modelBuilder);
         ModelOrdersItems(modelBuilder);
         ModelProducts(modelBuilder);
-        ModelProductsStock(modelBuilder);
+        ModelProductsInventory(modelBuilder);
         ModelWarehouses(modelBuilder);
         ModelShipments(modelBuilder);
         ModelDeliveries(modelBuilder);
@@ -151,12 +151,12 @@ public class LogiChainDbContext : DbContext
             .IsRequired()
             .HasPrecision(19, 6);
     } 
-    private void ModelProductsStock(ModelBuilder modelBuilder)
+    private void ModelProductsInventory(ModelBuilder modelBuilder)
     {
-        var entityModelBuilder = modelBuilder.Entity<ProductsStock>();
+        var entityModelBuilder = modelBuilder.Entity<ProductsInventory>();
 
         entityModelBuilder
-            .ToTable("PRODUCTS_STOCK")
+            .ToTable("PRODUCTS_INVENTORY")
             .HasKey(l => l.Id);
 
         entityModelBuilder
@@ -176,13 +176,18 @@ public class LogiChainDbContext : DbContext
 
         entityModelBuilder
             .HasOne(l => l.Products)
-            .WithMany(l => l.ProductsStocks)
+            .WithMany(l => l.ProductsInventory)
             .HasForeignKey(l => l.ProductsId);
 
         entityModelBuilder
             .HasOne(l => l.Warehouses)
-            .WithMany(l => l.ProductsStock)
+            .WithMany(l => l.ProductsInventory)
             .HasForeignKey(l => l.WarehousesId);
+
+        entityModelBuilder
+            .Property(l => l.CurrentQuantity)
+            .HasColumnName("CURRENT_QUANTITY")
+            .IsRequired();
     }
     private void ModelWarehouses(ModelBuilder modelBuilder)
     {

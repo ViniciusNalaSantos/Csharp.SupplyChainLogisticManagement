@@ -11,5 +11,5 @@ public class Products
     public string Description { get; set; }
     public decimal Price { get; set; }
     public ICollection<OrdersItems> OrdersItems { get; set; }
-    public ICollection<ProductsStock> ProductsStocks { get; set; }
+    public ICollection<ProductsInventory> ProductsInventory { get; set; }
 }

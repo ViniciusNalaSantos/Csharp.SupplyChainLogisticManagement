@@ -9,5 +9,5 @@ public class Warehouses
 {
     public int Id { get; set; }
     public string Name { get; set; }
-    public ICollection<ProductsStock> ProductsStock { get; set; }
+    public ICollection<ProductsInventory> ProductsInventory { get; set; }
 }
