@@ -187,7 +187,8 @@ public class LogiChainDbContext : DbContext
         entityModelBuilder
             .Property(l => l.CurrentQuantity)
             .HasColumnName("CURRENT_QUANTITY")
-            .IsRequired();
+            .IsRequired()
+            .HasPrecision(10, 2);
     }
     private void ModelWarehouses(ModelBuilder modelBuilder)
     {
