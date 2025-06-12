@@ -26,6 +26,8 @@ public class LogiChainDbContext : DbContext
     public DbSet<Transporters> Transporters { get; set; }
     public DbSet<Customers> Customers { get; set; }
     public DbSet<Suppliers> Suppliers { get; set; }
+    public DbSet<MovementTypes> MovementTypes { get; set; }
+    public DbSet<InventoryMovements> InventoryMovements { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -40,7 +42,9 @@ public class LogiChainDbContext : DbContext
         ModelTransporters(modelBuilder);
         ModelCustomers(modelBuilder);
         ModelSuppliers(modelBuilder);
-    }
+        ModelMovementTypes(modelBuilder);
+        ModelInventoryMovements(modelBuilder);
+    }    
 
     private void ModelOrders(ModelBuilder modelBuilder)
     {
@@ -361,6 +365,91 @@ public class LogiChainDbContext : DbContext
             .Property(l => l.Phone)
             .HasColumnName("PHONE")
             .HasMaxLength(25)
+            .IsRequired();
+    }
+
+    private void ModelMovementTypes(ModelBuilder modelBuilder)
+    {
+        var entityModelBuilder = modelBuilder.Entity<MovementTypes>();
+
+        entityModelBuilder
+            .ToTable("MOVEMENT_TYPES")
+            .HasKey(l => l.Id);
+
+        entityModelBuilder
+            .Property(l => l.Id)
+            .HasColumnName("ID")
+            .IsRequired();
+
+        entityModelBuilder
+            .Property(l => l.Name)
+            .HasColumnName("NAME")
+            .HasMaxLength(50)
+            .IsRequired();
+    }
+
+    private void ModelInventoryMovements(ModelBuilder modelBuilder)
+    {
+        var entityModelBuilder = modelBuilder.Entity<InventoryMovements>();
+
+        entityModelBuilder
+            .ToTable("INVENTORY_MOVEMENTS")
+            .HasKey(l => l.Id);
+
+        entityModelBuilder
+            .Property(l => l.Id)
+            .HasColumnName("ID")
+            .IsRequired();
+
+        entityModelBuilder
+            .Property(l => l.ProductsId)
+            .HasColumnName("PRODUCTS_ID")
+            .IsRequired();
+        
+        entityModelBuilder
+            .HasOne(l => l.Products)
+            .WithMany(l => l.InventoryMovements)
+            .HasForeignKey(l => l.ProductsId);
+
+        entityModelBuilder
+            .Property(l => l.OriginWarehouseId)
+            .HasColumnName("ORIGIN_WAREHOUSE_ID")
+            .IsRequired();
+
+        entityModelBuilder
+            .HasOne(l => l.OriginWarehouse)
+            .WithMany(l => l.OriginMovements)
+            .HasForeignKey(l => l.OriginWarehouseId);
+
+        entityModelBuilder
+            .Property(l => l.DestinationWarehouseId)
+            .HasColumnName("DESTINATION_WAREHOUSE_ID")
+            .IsRequired(false);
+
+        entityModelBuilder
+            .HasOne(l => l.DestinationWarehouse)
+            .WithMany(l => l.DestinationMovements)
+            .HasForeignKey(l => l.DestinationWarehouseId);
+
+        entityModelBuilder
+            .Property(l => l.QuantityMoved)
+            .HasColumnName("QUANTITY_MOVED")
+            .HasPrecision(10, 2)
+            .IsRequired();
+
+        entityModelBuilder
+            .Property(l => l.MovementTypesId)
+            .HasColumnName("MOVEMENT_TYPES_ID")
+            .IsRequired();
+
+        entityModelBuilder
+            .HasOne(l => l.MovementTypes)
+            .WithMany(l => l.InventoryMovements)
+            .HasForeignKey(l => l.MovementTypesId);
+
+        entityModelBuilder
+            .Property(l => l.MovementDate)
+            .HasColumnName("MOVEMENT_DATE")
             .IsRequired();
     }
 }
