@@ -27,6 +27,6 @@ public sealed class OrderCreatedConsumer : IMessageConsumer<OrderCreatedMessage>
     public async Task ConsumeAsync(OrderCreatedMessage message, CancellationToken cancellationToken = default)
     {
         _logger.LogInformation($"Processing order, id: {message.MessageId}, date: {message.EmissionDate}.");
-        _messageHandler.Handle(message);     
+        await _messageHandler.Handle(message);     
     }
 }

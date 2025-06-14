@@ -2,6 +2,7 @@
 using Csharp.SupplyChainLogisticManagement.Application.DTOs.InputDTOs;
 using Csharp.SupplyChainLogisticManagement.Application.DTOs.ReturnDTOs;
 using Csharp.SupplyChainLogisticManagement.Application.Exceptions;
+using Csharp.SupplyChainLogisticManagement.Infrastructure.EventBus;
 using Csharp.SupplyChainLogisticManagement.Application.Interfaces.Handlers;
 using Csharp.SupplyChainLogisticManagement.Application.Mappers.OrdersMappers;
 using Csharp.SupplyChainLogisticManagement.Application.Messages;
@@ -10,7 +11,6 @@ using Csharp.SupplyChainLogisticManagement.Application.ValidationServices;
 using Csharp.SupplyChainLogisticManagement.Application.ValidationServices.OrdersValidationServices;
 using Csharp.SupplyChainLogisticManagement.Domain.Dto;
 using Csharp.SupplyChainLogisticManagement.Domain.Entities;
-using Csharp.SupplyChainLogisticManagement.Infrastructure.EventBus;
 using Microsoft.AspNetCore.Mvc;
 using System.Drawing.Printing;
 using System.Threading.Tasks;

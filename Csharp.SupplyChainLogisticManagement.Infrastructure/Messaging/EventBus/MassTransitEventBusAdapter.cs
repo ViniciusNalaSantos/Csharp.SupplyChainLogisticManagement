@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Csharp.SupplyChainLogisticManagement.Infrastructure.EventBus;
 using MassTransit;
 
 namespace Csharp.SupplyChainLogisticManagement.Infrastructure.EventBus;

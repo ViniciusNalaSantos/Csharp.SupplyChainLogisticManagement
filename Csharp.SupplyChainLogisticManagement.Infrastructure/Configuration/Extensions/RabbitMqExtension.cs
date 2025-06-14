@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using static MassTransit.Logging.OperationName;
 using System.Reflection;
 using Csharp.SupplyChainLogisticManagement.Infrastructure.EventBus;
+using Csharp.SupplyChainLogisticManagement.Application.Interfaces;
 
 [assembly: InternalsVisibleTo("Csharp.SupplyChainLogisticManagement.WebApi")]
 
@@ -22,14 +23,14 @@ internal static class RabbitMqExtension
     public static void AddRabbitMQService(this IServiceCollection services)
     {
 
-        services.AddScoped<IMessageConsumer<OrderCreatedMessage>, OrderCreatedConsumer>();
+        services.AddScoped<IMessageConsumer<OrderCreatedMessage>, OrderCreatedConsumer>();       
         services.AddScoped<IEventBus, MassTransitEventBusAdapter>();
 
         services.AddHandlersService();
 
         services.AddMassTransit(busConfigurator =>
         {            
-            busConfigurator.AddConsumer<MassTransitConsumerAdapter<OrderCreatedMessage>>();
+            busConfigurator.AddConsumer<MassTransitConsumerAdapter<OrderCreatedMessage>>();         
 
             busConfigurator.UsingRabbitMq((ctx, cfg) =>
             {
@@ -40,9 +41,10 @@ internal static class RabbitMqExtension
                 });
 
                 cfg.ReceiveEndpoint("order-submitted-queue", e =>
-                {
+                {                   
                     e.ConfigureConsumer<MassTransitConsumerAdapter<OrderCreatedMessage>>(ctx);
-                });
+                    e.UseMessageRetry(r => r.Interval(1, TimeSpan.FromSeconds(5)));
+                });                
             });
         });
     }

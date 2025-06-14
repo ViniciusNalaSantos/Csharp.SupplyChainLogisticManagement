@@ -2,6 +2,7 @@
 using Csharp.SupplyChainLogisticManagement.Application.Interfaces.Handlers;
 using Csharp.SupplyChainLogisticManagement.Application.Messages;
 using Csharp.SupplyChainLogisticManagement.Domain.Entities;
+using System.Text.Json;
 
 using Csharp.SupplyChainLogisticManagement.Domain.Interfaces.Repository;
 using System;
@@ -13,13 +14,14 @@ using System.Threading.Tasks;
 namespace Csharp.SupplyChainLogisticManagement.Application.MessageHandlers;
 public class CreateOrderMessageHandler : IMessageHandler<OrderCreatedMessage>
 {
-    private readonly IUnitOfWork _unitOfWork;
+    private readonly IUnitOfWork _unitOfWork;    
     public CreateOrderMessageHandler(IUnitOfWork unitOfWork)
     {
         _unitOfWork = unitOfWork;
     }
-    public async void Handle(OrderCreatedMessage message)
-    {
+    public async Task Handle(OrderCreatedMessage message)
+    {        
+
         Customers customer = null;
         if (message.Customer != null)
         {
@@ -34,7 +36,7 @@ public class CreateOrderMessageHandler : IMessageHandler<OrderCreatedMessage>
                 };
                 customer = await _unitOfWork.CustomersRepository.InsertCustomerAsync(customer);                
             }
-        }
+        }        
 
         Suppliers supplier = null;
         if (message.Supplier != null)
