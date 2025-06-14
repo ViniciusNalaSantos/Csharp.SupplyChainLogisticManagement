@@ -19,11 +19,11 @@ public class CustomersRepository : ICustomersRepository
     }
     public async Task<Customers?> GetCustomerFirstOrDefaultAsync(Expression<Func<Customers, bool>> predicate)
     {
-        return _context.Customers.FirstOrDefault(predicate);
+        return await _context.Customers.FirstOrDefaultAsync(predicate);
     }
     public async Task<Customers?> InsertCustomerAsync(Customers customer)
     {
-        _context.Customers.Add(customer);        
+        await _context.Customers.AddAsync(customer);        
         return customer;
     }
 }

@@ -18,12 +18,12 @@ public class SuppliersRepository : ISuppliersRepository
     }
     public async Task<Suppliers?> GetSupplierFirstOrDefaultAsync(Expression<Func<Suppliers, bool>> predicate)
     {
-        return _context.Suppliers.FirstOrDefault(predicate);
+        return await _context.Suppliers.FirstOrDefaultAsync(predicate);
     }
 
     public async Task<Suppliers?> InsertSupplierAsync(Suppliers supplier)
     {
-        _context.Suppliers.Add(supplier);
+        await _context.Suppliers.AddAsync(supplier);
         return supplier;
     }
 }

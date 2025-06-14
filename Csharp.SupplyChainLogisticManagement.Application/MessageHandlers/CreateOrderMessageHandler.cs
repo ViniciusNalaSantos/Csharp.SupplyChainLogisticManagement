@@ -20,115 +20,131 @@ public class CreateOrderMessageHandler : IMessageHandler<OrderCreatedMessage>
         _unitOfWork = unitOfWork;
     }
     public async Task Handle(OrderCreatedMessage message)
-    {        
-
-        Customers customer = null;
-        if (message.Customer != null)
+    {
+        using var transaction = await _unitOfWork.BeginTransactionAsync();
+        try
         {
-            customer = await _unitOfWork.CustomersRepository.GetCustomerFirstOrDefaultAsync(l => l.Email == message.Customer.Email);
-            if (customer == null)
-            {                
-                customer = new Customers
-                {
-                    Name = message.Customer.Name,
-                    Email = message.Customer.Email,
-                    Address = message.Customer.Address
-                };
-                customer = await _unitOfWork.CustomersRepository.InsertCustomerAsync(customer);                
-            }
-        }        
-
-        Suppliers supplier = null;
-        if (message.Supplier != null)
-        {
-            supplier = await _unitOfWork.SuppliersRepository.GetSupplierFirstOrDefaultAsync(l => l.Email == message.Supplier.Email);
-            if (supplier == null)
+            Customers customer = null;
+            if (message.Customer != null)
             {
-                supplier = new Suppliers
+                customer = await _unitOfWork.CustomersRepository.GetCustomerFirstOrDefaultAsync(l => l.Email == message.Customer.Email);
+                if (customer == null)
                 {
-                    Name = message.Supplier.Name,
-                    Email = message.Supplier.Email,
-                    Phone = message.Supplier.Phone
-                };
-                supplier = await _unitOfWork.SuppliersRepository.InsertSupplierAsync(supplier);
-            }
-        }
-
-        Orders order = new Orders
-        {
-            OrderNumber = message.OrderNumber,
-            EmissionDate = message.EmissionDate,
-            Price = Math.Round(message.Price, 2),
-            CustomersId = customer?.Id ?? message.CustomerId,
-            SuppliersId = supplier?.Id ?? message.SupplierId,
-            
-        };
-        order = await _unitOfWork.OrdersRepository.InsertOrderAsync(order);
-        
-        foreach (var messageOrderItem in message.OrderItems)
-        {
-            Products product = null;
-            if (messageOrderItem.Product != null)
-            {
-                product = await _unitOfWork.ProductsRepository.GetProductFirstOrDefaultAsync(l => l.Description == messageOrderItem.Product.Description);
-                if (product == null)
-                {
-                    product = new Products
+                    customer = new Customers
                     {
-                        Description = messageOrderItem.Product.Description,
-                        Price = messageOrderItem.Product.Price
+                        Name = message.Customer.Name,
+                        Email = message.Customer.Email,
+                        Address = message.Customer.Address
                     };
-                    product = await _unitOfWork.ProductsRepository.InsertProductAsync(product);
+                    customer = await _unitOfWork.CustomersRepository.InsertCustomerAsync(customer);
+                    await _unitOfWork.CommitAsync();
                 }
             }
 
-            var orderItem = new OrdersItems
+            Suppliers supplier = null;
+            if (message.Supplier != null)
             {
-                OrdersId = order.Id,
-                ProductsId = (int)(product?.Id ?? messageOrderItem.ProductId),
-                Quantity = Math.Round(messageOrderItem.Quantity, 2)
-            };
-            orderItem = await _unitOfWork.OrdersItemsRepository.InsertOrderItemAsync(orderItem);            
-        };
-                
-        Shipments shipment = null;
-        if (message.Shipment != null)
-        {
-            shipment = new Shipments
-            {
-                OrdersId = order.Id,
-                ShipmentDate = message.Shipment.ShipmentDate
-            };
-            shipment = await _unitOfWork.ShipmentsRepository.InsertShipmentAsync(shipment);            
-        }
-
-        Deliveries delivery = null;
-        if (message.Delivery != null)
-        {
-            Transporters transporter = null;
-            if (message.Delivery.Transporter != null)
-            {
-                transporter = await _unitOfWork.TransportersRepository.GetTransporterFirstOrDefaultAsync(l => l.Email == message.Delivery.Transporter.Email);
-                if (transporter == null)
+                supplier = await _unitOfWork.SuppliersRepository.GetSupplierFirstOrDefaultAsync(l => l.Email == message.Supplier.Email);
+                if (supplier == null)
                 {
-                    transporter = new Transporters
+                    supplier = new Suppliers
                     {
-                        Name = message.Delivery.Transporter.Name,
-                        Email = message.Delivery.Transporter.Email,
-                        Phone = message.Delivery.Transporter.Phone
+                        Name = message.Supplier.Name,
+                        Email = message.Supplier.Email,
+                        Phone = message.Supplier.Phone
                     };
-                    transporter = await _unitOfWork.TransportersRepository.InsertTransporterAsync(transporter);
+                    supplier = await _unitOfWork.SuppliersRepository.InsertSupplierAsync(supplier);
+                    await _unitOfWork.CommitAsync();
                 }
             }
-            
-            delivery = new Deliveries
+
+            Orders order = new Orders
             {
-                OrdersId = order.Id,
-                TransportersId = (int)(transporter?.Id ?? message.Delivery.TransporterId),
+                OrderNumber = message.OrderNumber,
+                EmissionDate = message.EmissionDate,
+                Price = Math.Round(message.Price, 2),
+                CustomersId = customer?.Id ?? message.CustomerId,
+                SuppliersId = supplier?.Id ?? message.SupplierId,
+
             };
-            delivery = await _unitOfWork.DeliveriesRepository.InsertDeliveryAsync(delivery);
+            order = await _unitOfWork.OrdersRepository.InsertOrderAsync(order);
+            await _unitOfWork.CommitAsync();
+
+            foreach (var messageOrderItem in message.OrderItems)
+            {
+                Products product = null;
+                if (messageOrderItem.Product != null)
+                {
+                    product = await _unitOfWork.ProductsRepository.GetProductFirstOrDefaultAsync(l => l.Description == messageOrderItem.Product.Description);
+                    if (product == null)
+                    {
+                        product = new Products
+                        {
+                            Description = messageOrderItem.Product.Description,
+                            Price = messageOrderItem.Product.Price
+                        };
+                        product = await _unitOfWork.ProductsRepository.InsertProductAsync(product);
+                        await _unitOfWork.CommitAsync();
+                    }
+                }
+
+                var orderItem = new OrdersItems
+                {
+                    OrdersId = order.Id,
+                    ProductsId = (int)(product?.Id ?? messageOrderItem.ProductId),
+                    Quantity = Math.Round(messageOrderItem.Quantity, 2)
+                };
+                orderItem = await _unitOfWork.OrdersItemsRepository.InsertOrderItemAsync(orderItem);
+                await _unitOfWork.CommitAsync();
+            }
+
+            Shipments shipment = null;
+            if (message.Shipment != null)
+            {
+                shipment = new Shipments
+                {
+                    OrdersId = order.Id,
+                    ShipmentDate = message.Shipment.ShipmentDate
+                };
+                shipment = await _unitOfWork.ShipmentsRepository.InsertShipmentAsync(shipment);
+                await _unitOfWork.CommitAsync();
+            }
+
+            Deliveries delivery = null;
+            if (message.Delivery != null)
+            {
+                Transporters transporter = null;
+                if (message.Delivery.Transporter != null)
+                {
+                    transporter = await _unitOfWork.TransportersRepository.GetTransporterFirstOrDefaultAsync(l => l.Email == message.Delivery.Transporter.Email);
+                    if (transporter == null)
+                    {
+                        transporter = new Transporters
+                        {
+                            Name = message.Delivery.Transporter.Name,
+                            Email = message.Delivery.Transporter.Email,
+                            Phone = message.Delivery.Transporter.Phone
+                        };
+                        transporter = await _unitOfWork.TransportersRepository.InsertTransporterAsync(transporter);
+                        await _unitOfWork.CommitAsync();
+                    }
+                }
+
+                delivery = new Deliveries
+                {
+                    OrdersId = order.Id,
+                    TransportersId = (int)(transporter?.Id ?? message.Delivery.TransporterId),
+                };
+                delivery = await _unitOfWork.DeliveriesRepository.InsertDeliveryAsync(delivery);
+                await _unitOfWork.CommitAsync();
+            }
+            
+            await transaction.CommitAsync();
         }
-        
-        await _unitOfWork.CommitAsync();
+        catch (Exception)
+        {
+            await transaction.RollbackAsync();
+            throw;
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Csharp.SupplyChainLogisticManagement.Domain.Interfaces.Repository;
+using Microsoft.EntityFrameworkCore.Storage;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,4 +19,5 @@ public interface IUnitOfWork
     public ITransportersRepository TransportersRepository { get; }
     public Task<int> CommitAsync();
     public void Dispose();
+    public Task<IDbContextTransaction> BeginTransactionAsync();
 }

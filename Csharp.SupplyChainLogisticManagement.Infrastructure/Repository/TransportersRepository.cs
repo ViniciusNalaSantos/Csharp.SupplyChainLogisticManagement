@@ -19,11 +19,11 @@ public class TransportersRepository : ITransportersRepository
     }
     public async Task<Transporters?> GetTransporterFirstOrDefaultAsync(Expression<Func<Transporters, bool>> predicate)
     {
-        return _context.Transporters.FirstOrDefault(predicate);
+        return await _context.Transporters.FirstOrDefaultAsync(predicate);
     }
     public async Task<Transporters?> InsertTransporterAsync(Transporters transporter)
     {
-        _context.Transporters.Add(transporter);
+        await _context.Transporters.AddAsync(transporter);
         return transporter;
     }
 }

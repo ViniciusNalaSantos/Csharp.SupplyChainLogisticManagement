@@ -1,6 +1,7 @@
-﻿using Csharp.SupplyChainLogisticManagement.Domain.Interfaces.Repository;
+﻿using Csharp.SupplyChainLogisticManagement.Application.Interfaces;
+using Csharp.SupplyChainLogisticManagement.Domain.Interfaces.Repository;
 using Csharp.SupplyChainLogisticManagement.Infrastructure.DatabaseContext;
-using Csharp.SupplyChainLogisticManagement.Application.Interfaces;
+using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -27,6 +28,10 @@ public class UnitOfWork : IUnitOfWork
         _context = context;
         _serviceProvider = serviceProvider;
     }
-    public async Task<int> CommitAsync() => _context.SaveChanges();
+    public async Task<int> CommitAsync() => await _context.SaveChangesAsync();
     public void Dispose() => _context.Dispose();
+    public async Task<IDbContextTransaction> BeginTransactionAsync()
+    {
+        return await _context.Database.BeginTransactionAsync();
+    }
 }

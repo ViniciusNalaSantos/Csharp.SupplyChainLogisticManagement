@@ -43,7 +43,7 @@ internal static class RabbitMqExtension
                 cfg.ReceiveEndpoint("order-submitted-queue", e =>
                 {                   
                     e.ConfigureConsumer<MassTransitConsumerAdapter<OrderCreatedMessage>>(ctx);
-                    e.UseMessageRetry(r => r.Interval(1, TimeSpan.FromSeconds(5)));
+                    e.UseMessageRetry(r => r.Interval(3, TimeSpan.FromSeconds(5)));
                 });                
             });
         });

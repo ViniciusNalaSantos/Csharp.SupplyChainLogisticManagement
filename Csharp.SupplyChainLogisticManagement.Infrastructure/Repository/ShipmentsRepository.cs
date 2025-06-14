@@ -16,7 +16,7 @@ public class ShipmentsRepository : IShipmentsRepository
     }
     public async Task<Shipments?> InsertShipmentAsync(Shipments shipment)
     {
-        _context.Shipments.Add(shipment);
+        await _context.Shipments.AddAsync(shipment);
         return shipment;
     }
 }

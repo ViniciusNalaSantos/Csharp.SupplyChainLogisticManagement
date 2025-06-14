@@ -18,12 +18,12 @@ public class ProductsRepository : IProductsRepository
     }
     public async Task<Products?> GetProductFirstOrDefaultAsync(Expression<Func<Products, bool>> predicate)
     {
-        return _context.Products.FirstOrDefault(predicate);
+        return await _context.Products.FirstOrDefaultAsync(predicate);
     }
 
     public async Task<Products?> InsertProductAsync(Products product)
     {
-        _context.Products.Add(product);
+        await _context.Products.AddAsync(product);
         return product;
     } 
 }

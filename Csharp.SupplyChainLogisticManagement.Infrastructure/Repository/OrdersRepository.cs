@@ -20,7 +20,7 @@ public class OrdersRepository : IOrdersRepository
     }
     public async Task<Orders?> GetOrderFirstOrDefaultAsync(Expression<Func<Orders, bool>> predicate)
     {
-        return _context.Orders.FirstOrDefault(predicate);
+        return await _context.Orders.FirstOrDefaultAsync(predicate);
     }
     public async Task<PagedResultDto<Orders?>> GetOrdersPagedByEmissionDate(DateTime emissionDateStart, DateTime emissionDateEnd, int pageNumber, int pageSize)
     {
@@ -44,7 +44,7 @@ public class OrdersRepository : IOrdersRepository
     }
     public async Task<Orders?> InsertOrderAsync(Orders order)
     {
-        _context.Orders.Add(order);
+        await _context.Orders.AddAsync(order);
         return order;
     }
 }
