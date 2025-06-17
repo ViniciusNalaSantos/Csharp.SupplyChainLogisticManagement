@@ -25,7 +25,11 @@ public class CreateOrderMessageHandler : IMessageHandler<OrderCreatedMessage>
         try
         {
             Customers customer = null;
-            if (message.Customer != null)
+            if (message.CustomerId != null)
+            {
+                customer = await _unitOfWork.CustomersRepository.GetCustomerFirstOrDefaultAsync(l => l.Id == message.CustomerId);
+            }            
+            if (message.Customer != null && customer == null)
             {
                 customer = await _unitOfWork.CustomersRepository.GetCustomerFirstOrDefaultAsync(l => l.Email == message.Customer.Email);
                 if (customer == null)
@@ -39,6 +43,10 @@ public class CreateOrderMessageHandler : IMessageHandler<OrderCreatedMessage>
                     customer = await _unitOfWork.CustomersRepository.InsertCustomerAsync(customer);
                     await _unitOfWork.CommitAsync();
                 }
+            }
+            if (message.CustomerId != null && customer == null)
+            {
+                throw new Exception("There is no customer with Id '" + message.CustomerId + "' as passed.");
             }
 
             Suppliers supplier = null;
@@ -56,6 +64,10 @@ public class CreateOrderMessageHandler : IMessageHandler<OrderCreatedMessage>
                     supplier = await _unitOfWork.SuppliersRepository.InsertSupplierAsync(supplier);
                     await _unitOfWork.CommitAsync();
                 }
+            }
+            if (message.SupplierId != null && supplier == null)
+            {
+                throw new Exception("There is no supplier with Id '" + message.SupplierId + "' as passed.");
             }
 
             Orders order = new Orders
@@ -86,6 +98,10 @@ public class CreateOrderMessageHandler : IMessageHandler<OrderCreatedMessage>
                         product = await _unitOfWork.ProductsRepository.InsertProductAsync(product);
                         await _unitOfWork.CommitAsync();
                     }
+                }
+                if (messageOrderItem.ProductId != null && product == null)
+                {
+                    throw new Exception("There is no product with Id '" + messageOrderItem.ProductId + "' as passed.");
                 }
 
                 var orderItem = new OrdersItems
@@ -129,6 +145,10 @@ public class CreateOrderMessageHandler : IMessageHandler<OrderCreatedMessage>
                         await _unitOfWork.CommitAsync();
                     }
                 }
+                if (message.Delivery.TransporterId != null && transporter == null)
+                {
+                    throw new Exception("There is no Transporter with Id '" + message.Delivery.TransporterId + "' as passed.");
+                }
 
                 delivery = new Deliveries
                 {
@@ -144,7 +164,7 @@ public class CreateOrderMessageHandler : IMessageHandler<OrderCreatedMessage>
         catch (Exception)
         {
             await transaction.RollbackAsync();
-            throw;
+            throw; // throw again the exception to the message go to the dead queue letter
         }
     }
 }
