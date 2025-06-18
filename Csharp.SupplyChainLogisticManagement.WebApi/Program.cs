@@ -1,3 +1,4 @@
+using Csharp.SupplyChainLogisticManagement.Infrastructure.Configuration;
 using Csharp.SupplyChainLogisticManagement.Infrastructure.Configuration.Extensions;
 using Csharp.SupplyChainLogisticManagement.Infrastructure.DatabaseContext;
 using Csharp.SupplyChainLogisticManagement.WebApi.Middlewares;
@@ -19,15 +20,20 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+//builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JwtSettings"));
+//var jwtSettings = builder.Configuration.GetSection("JwtSettings").Get<JwtSettings>();
+
 builder.Services.AddRabbitMQService();
 builder.Services.AddRepositoryService();
 builder.Services.AddTransient<ExceptionMiddleware>();
 builder.Services.AddValidationService();
 builder.Services.AddMapperService();
+builder.Services.AddAuthenticationService(builder.Configuration);
 
 var app = builder.Build();
 
 app.UseMiddleware<ExceptionMiddleware>();
+app.UseAuthentication();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

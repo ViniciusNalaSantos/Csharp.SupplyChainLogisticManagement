@@ -2,7 +2,7 @@
 using Csharp.SupplyChainLogisticManagement.Application.DTOs.InputDTOs;
 using Csharp.SupplyChainLogisticManagement.Application.DTOs.ReturnDTOs;
 using Csharp.SupplyChainLogisticManagement.Application.Exceptions;
-using Csharp.SupplyChainLogisticManagement.Infrastructure.EventBus;
+using Csharp.SupplyChainLogisticManagement.Application.Interfaces;
 using Csharp.SupplyChainLogisticManagement.Application.Interfaces.Handlers;
 using Csharp.SupplyChainLogisticManagement.Application.Mappers.OrdersMappers;
 using Csharp.SupplyChainLogisticManagement.Application.Messages;
@@ -11,6 +11,11 @@ using Csharp.SupplyChainLogisticManagement.Application.ValidationServices;
 using Csharp.SupplyChainLogisticManagement.Application.ValidationServices.OrdersValidationServices;
 using Csharp.SupplyChainLogisticManagement.Domain.Dto;
 using Csharp.SupplyChainLogisticManagement.Domain.Entities;
+using Csharp.SupplyChainLogisticManagement.Infrastructure.EventBus;
+using Csharp.SupplyChainLogisticManagement.Infrastructure.TokenGenerators;
+using Csharp.SupplyChainLogisticManagement.WebApi.Requests;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 using System.Drawing.Printing;
 using System.Threading.Tasks;
@@ -28,10 +33,11 @@ public class LogiChainController : ControllerBase
     private readonly IOrdersValidationService _ordersValidationService;
     private readonly IOrdersMapper _ordersMapper;
     private readonly IValidationErrorCollector _validationErrorCollector;
+    private readonly ITokenGenerator _tokenGenerator;
 
     public LogiChainController(IEventBus eventBus, IQueryHandler<GetOrderByIdQuery, ICollection<Orders>> getOrderByIdQueryHandler, 
         IQueryHandler<GetOrdersByEmissionDateQuery, PagedResultDto<Orders>> getOrdersByEmissionDateQueryHandler, IOrdersValidationService ordersValidationService,
-        IOrdersMapper ordersMapper, IValidationErrorCollector validationErrorCollector)
+        IOrdersMapper ordersMapper, IValidationErrorCollector validationErrorCollector, ITokenGenerator tokenGenerator)
     {
         _eventBus = eventBus;
         _getOrderByIdQueryHandler = getOrderByIdQueryHandler;
@@ -39,8 +45,22 @@ public class LogiChainController : ControllerBase
         _ordersValidationService = ordersValidationService;
         _ordersMapper = ordersMapper;
         _validationErrorCollector = validationErrorCollector;
+        _tokenGenerator = tokenGenerator;
     }
 
+    [HttpPost("login")]
+    public IActionResult Login([FromBody] LoginInput request)
+    {        
+        //if (request.Username == "admin" && request.Password == "123") // Replace with real auth logic
+        //{
+            var token = _tokenGenerator.GenerateToken(request.Username);
+            return Ok(new { token });
+        //}
+
+        //return Unauthorized();
+    }
+
+    [Authorize]
     [HttpGet("orders/{id}")]
     public async Task<PagedOrdersReturnDto<Orders>> GetOrderByIdAsync(int id) 
     {
@@ -57,7 +77,8 @@ public class LogiChainController : ControllerBase
             OrdersList = ordersMapped
         };
     }
-    
+
+    [Authorize]
     [HttpGet("orders")]
     public async Task<PagedOrdersReturnDto<Orders>> GetOrdersByEmissionDate([FromQuery] DateTime emissionDateStart, DateTime emissionDateEnd, int page)
     {
@@ -79,6 +100,7 @@ public class LogiChainController : ControllerBase
         };
     }
 
+    [Authorize]
     [HttpPost("orders")]
     public async Task<IActionResult> PostOrders([FromBody] List<InputOrderDto> listInputOrder)
     {
