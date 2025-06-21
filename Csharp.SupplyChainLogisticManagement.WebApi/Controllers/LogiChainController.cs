@@ -62,7 +62,7 @@ public class LogiChainController : ControllerBase
 
     [Authorize]
     [HttpGet("orders/{id}")]
-    public async Task<PagedOrdersReturnDto<Orders>> GetOrderByIdAsync(int id) 
+    public async Task<PagedOrdersReturnDto<Orders>> GetOrderById(int id) 
     {
         var query = new GetOrderByIdQuery { Id = id };
         var listOrders = await _getOrderByIdQueryHandler.Handle(query);

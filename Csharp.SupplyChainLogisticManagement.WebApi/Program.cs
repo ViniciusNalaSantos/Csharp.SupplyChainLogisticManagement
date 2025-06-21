@@ -20,9 +20,6 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-//builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JwtSettings"));
-//var jwtSettings = builder.Configuration.GetSection("JwtSettings").Get<JwtSettings>();
-
 builder.Services.AddRabbitMQService();
 builder.Services.AddRepositoryService();
 builder.Services.AddTransient<ExceptionMiddleware>();
