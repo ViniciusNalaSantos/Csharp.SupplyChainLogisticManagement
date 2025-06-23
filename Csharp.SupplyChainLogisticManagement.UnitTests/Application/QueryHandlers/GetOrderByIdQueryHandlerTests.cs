@@ -1,31 +1,60 @@
-﻿using Csharp.SupplyChainLogisticManagement.Application.QueryHandlers;
+﻿using Csharp.SupplyChainLogisticManagement.Application.Queries;
+using Csharp.SupplyChainLogisticManagement.Application.QueryHandlers;
 using Csharp.SupplyChainLogisticManagement.Domain.Entities;
 using Csharp.SupplyChainLogisticManagement.Domain.Interfaces.Repository;
+using Csharp.SupplyChainLogisticManagement.Infrastructure.DatabaseContext;
+using Microsoft.EntityFrameworkCore;
 using NSubstitute;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Csharp.SupplyChainLogisticManagement.UnitTests.Application.QueryHandlers;
 public sealed class GetOrderByIdQueryHandlerTests
-{
+{       
     private readonly GetOrderByIdQueryHandler _handler;
     private readonly IOrdersRepository _mockOrdersRepository;
     public GetOrderByIdQueryHandlerTests()
     {        
         _mockOrdersRepository = Substitute.For<IOrdersRepository>();
-        _handler = new GetOrderByIdQueryHandler(_mockOrdersRepository);
+        _handler = new GetOrderByIdQueryHandler(_mockOrdersRepository);       
     }
 
     [Fact]
-    public Task GivenQuery_ThenReturnCorrectOrder()
+    public async Task Handle_ShouldReturnCorrectOrder_WhenOrderExists()
     {
         // Arrange
-        var anyOrder = AnOrder();
+        var expectedOrder = AnOrder();     
+        _mockOrdersRepository
+            .GetOrderFirstOrDefaultAsync(Arg.Any<Expression<Func<Orders, bool>>>())
+            .Returns(Task.FromResult(expectedOrder));
+        var handler = new GetOrderByIdQueryHandler(_mockOrdersRepository);
+
         // Act
+        var result = await handler.Handle(new GetOrderByIdQuery { Id = 123 });
+
         // Assert
+        Assert.Single(result);
+        Assert.Equal("ORD-001", result.First()?.OrderNumber);
+    }
+
+    [Fact]
+    public async Task Handle_ShouldReturnEmptyList_WhenOrderDoesNotExist()
+    {
+        // Arrange
+        _mockOrdersRepository
+            .GetOrderFirstOrDefaultAsync(Arg.Any<Expression<Func<Orders, bool>>>())
+            .Returns((Orders?)null);
+        var query = new GetOrderByIdQuery { Id = 999 };
+
+        // Act
+        var result = await _handler.Handle(query);
+
+        // Assert
+        Assert.Empty(result);
     }
     private Orders AnOrder()
     {
@@ -41,8 +70,8 @@ public sealed class GetOrderByIdQueryHandlerTests
             Price = 1500.00m,
             OrdersItems = new List<OrdersItems>
             {
-                new OrdersItems 
-                { 
+                new OrdersItems
+                {
                     OrdersId = 123,
                     ProductsId = 456,
                     Quantity = 5,
@@ -64,7 +93,7 @@ public sealed class GetOrderByIdQueryHandlerTests
             },
             Deliveries = new List<Deliveries>
             {
-                new Deliveries 
+                new Deliveries
                 {
                     Id = 1,
                     OrdersId = 123,
@@ -73,6 +102,6 @@ public sealed class GetOrderByIdQueryHandlerTests
                     DeliveryDate = DateTime.Today.AddDays(3)
                 }
             }
-        }
+        };
     }
 }
