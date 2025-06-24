@@ -32,7 +32,7 @@ Follow these steps to get the project up and running in your development environ
 ### Running the Project ▶️
 1. **Clone the repository:**
    ```bash
-   git clone [https://github.com/your-user/your-repo-name.git](https://github.com/ViniciusNalaSantos/Csharp.SupplyChainLogisticManagement.git)
+   git clone https://github.com/your-user/your-repo-name.git
 2. **Navigate to the project directory:**
    ```bash
    cd Csharp.SupplyChainLogisticManagement
