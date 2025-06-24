@@ -29,6 +29,11 @@ A backend system built with C# focused on managing logistics and supply chain op
 ## Getting Started 🚀
 Follow these steps to get the project up and running in your development environment.
 
+### Prerequisites 📋
+- .NET SDK 8.0+
+- Docker and Docker Compose
+- SQL Server (or compatible database)
+
 ### Running the Project ▶️
 1. **Clone the repository:**
    ```bash
