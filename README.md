@@ -32,10 +32,10 @@ Follow these steps to get the project up and running in your development environ
 ### Running the Project ▶️
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/your-user/your-repo-name.git
+   git clone [https://github.com/your-user/your-repo-name.git](https://github.com/ViniciusNalaSantos/Csharp.SupplyChainLogisticManagement.git)
 2. **Navigate to the project directory:**
    ```bash
-   cd your-repo-name
+   cd Csharp.SupplyChainLogisticManagement
 3. **Build and start the services using Docker Compose:**
    ```bash
    docker-compose up --build
