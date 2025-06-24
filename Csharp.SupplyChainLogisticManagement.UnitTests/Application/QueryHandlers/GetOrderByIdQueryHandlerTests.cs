@@ -3,6 +3,7 @@ using Csharp.SupplyChainLogisticManagement.Application.QueryHandlers;
 using Csharp.SupplyChainLogisticManagement.Domain.Entities;
 using Csharp.SupplyChainLogisticManagement.Domain.Interfaces.Repository;
 using Csharp.SupplyChainLogisticManagement.Infrastructure.DatabaseContext;
+using Csharp.SupplyChainLogisticManagement.UnitTests.TestUtils.Builders;
 using Microsoft.EntityFrameworkCore;
 using NSubstitute;
 using System;
@@ -27,14 +28,15 @@ public sealed class GetOrderByIdQueryHandlerTests
     public async Task Handle_ShouldReturnCorrectOrder_WhenOrderExists()
     {
         // Arrange
-        var expectedOrder = AnOrder();     
+        var expectedOrderId = 1234;
+        var expectedOrder = AnOrder(1234);     
         _mockOrdersRepository
             .GetOrderFirstOrDefaultAsync(Arg.Any<Expression<Func<Orders, bool>>>())
             .Returns(Task.FromResult(expectedOrder));
         var handler = new GetOrderByIdQueryHandler(_mockOrdersRepository);
 
         // Act
-        var result = await handler.Handle(new GetOrderByIdQuery { Id = 123 });
+        var result = await handler.Handle(new GetOrderByIdQuery { Id = expectedOrderId });
 
         // Assert
         Assert.Single(result);
@@ -56,9 +58,13 @@ public sealed class GetOrderByIdQueryHandlerTests
         // Assert
         Assert.Empty(result);
     }
-    private Orders AnOrder()
+
+    private Orders AnOrder(int orderId)
     {
-        return new Orders
+        return new OrdersBuilder().WithId(orderId).Build();
+
+
+        new Orders
         {
             Id = 123,
             OrderNumber = "ORD-001",
