@@ -9,17 +9,9 @@ Csharp.SupplyChainLogisticManagement/
 ├── Domain/             # Enterprise/domain entities & business rules
 ├── Application/        # Business logic & use cases
 ├── Infrastructure/     # External concerns (database, file systems, etc.)
-├── WebApi/            # User interface & API endpoints
-└── UnitTests/         # Unit tests for all layers
+├── WebApi/             # User interface & API endpoints
+└── UnitTests/          # Unit tests for all layers
 ```
-
-## 🗃️ Entity-Relationship Diagram (ERD)
-This diagram illustrates the relationships between core entities such as Order, Customer, Supplier, and others used in the domain layer.
-![ER Diagram](./docs/er-diagram.png)
-
-## 🧩 Component Design Diagram
-Below is a simple component design diagram, meant to illustrate the data flow between the layers and components of this architecture.
-![Component Diagram](./docs/simple-component-design.png)
 
 ## 📦 Features
 
@@ -30,6 +22,13 @@ Below is a simple component design diagram, meant to illustrate the data flow be
 - 📚 Domain-Driven Design: Clear separation of concerns using application, domain, and infrastructure layers.
 - 🧪 Unit Testing: Handlers and repositories tested to ensure reliability and correctness.
 
+## 🗃️ Entity-Relationship Diagram (ERD)
+This diagram illustrates the relationships between core entities such as Order, Customer, Supplier, and others used in the domain layer.
+![ER Diagram](./docs/er-diagram.png)
+
+## 🧩 Component Design Diagram
+Below is a simple component design diagram, meant to illustrate the data flow between the layers and components of this architecture.
+![Component Diagram](./docs/simple-component-design.png)
 
 ## 🏗️ Tech Stack
 
@@ -42,7 +41,6 @@ Below is a simple component design diagram, meant to illustrate the data flow be
 - **Swagger / Swashbuckle** – Interactive API documentation and testing
 - **CQRS Pattern** – Separation of commands and queries
 - **xUnit / NUnit** – Unit testing frameworks
-
 
 ## Getting Started 🚀
 Follow these steps to get the project up and running in your development environment.
