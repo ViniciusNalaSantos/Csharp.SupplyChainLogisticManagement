@@ -2,6 +2,24 @@
 
 A backend system built with C# focused on managing logistics and supply chain operations. This project demonstrates clean architecture principles using CQRS, Repositories, Unit of Work, and Messaging with RabbitMQ, designed for scalability, modularity, and testability.
 
+## 🏛️ Architecture Overview
+
+```
+Csharp.SupplyChainLogisticManagement/
+├── Domain/             # Enterprise/domain entities & business rules
+├── Application/        # Business logic & use cases
+├── Infrastructure/     # External concerns (database, file systems, etc.)
+├── WebApi/            # User interface & API endpoints
+└── UnitTests/         # Unit tests for all layers
+```
+
+## 🗃️ Entity-Relationship Diagram (ERD)
+This diagram illustrates the relationships between core entities such as Order, Customer, Supplier, and others used in the domain layer.
+![ER Diagram](./docs/er-diagram.png)
+
+## 🧩 Component Design Diagram
+Below is a simple component design diagram, meant to illustrate the data flow between the layers and components of this architecture.
+![Component Diagram](./docs/simple-component-design.png)
 
 ## 📦 Features
 
