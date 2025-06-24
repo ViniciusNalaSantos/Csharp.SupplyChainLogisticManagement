@@ -87,3 +87,12 @@ Contributions are welcome! Feel free to submit issues or pull requests for impro
 ---
 
 Feel free to explore and adapt the code for your own projects. Happy coding! 💻
+
+## 📝 To-Do / Next Steps
+The following items are planned or in progress to improve and complete this project:
+ - [ ] 🔐 Improve role-based authorization (Admin, User, etc.)
+ - [ ] 📦 Develop inventory movement routines
+ - [ ] 🔄 Add order update and cancellation flows
+ - [ ] 📊 Integrate reporting or analytics endpoints
+ - [ ] 🧾 Add logging
+ - [ ] 🧪 Increase test coverage (unitary and integration tests)
