@@ -20,7 +20,7 @@ Csharp.SupplyChainLogisticManagement/
 - 🔐 JWT Authentication: Secure endpoints using token-based authentication
 - 📬 Asynchronous Communication: Process events like OrderCreatedMessage using RabbitMQ.
 - 📚 Domain-Driven Design: Clear separation of concerns using application, domain, and infrastructure layers.
-- 🧪 Unit Testing: Handlers and repositories tested to ensure reliability and correctness.
+- 🧪 Unit Testing: Unitary tests to ensure reliability and correctness.
 
 ## 🗃️ Entity-Relationship Diagram (ERD)
 This diagram illustrates the relationships between core entities such as Order, Customer, Supplier, and others used in the domain layer.
