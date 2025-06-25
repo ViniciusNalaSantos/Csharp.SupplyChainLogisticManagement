@@ -6,8 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Csharp.SupplyChainLogisticManagement.Application.DTOs.ReturnDTOs;
-public record ReturnOrdersItemsDto
+public record ReturnOrderItemsDto
 {
-    public ProductsReturnDto Product { get; set; }
+    public ReturnProductsDto Product { get; set; }
     public decimal Quantity { get; set; }
 }

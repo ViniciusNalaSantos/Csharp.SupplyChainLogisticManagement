@@ -1,5 +1,4 @@
-﻿using Csharp.SupplyChainLogisticManagement.Application.Interfaces;
-using Csharp.SupplyChainLogisticManagement.Infrastructure.TokenGenerators;
+﻿using Csharp.SupplyChainLogisticManagement.Infrastructure.TokenGenerators;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;

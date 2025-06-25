@@ -11,10 +11,10 @@ using System.Threading.Tasks;
 namespace Csharp.SupplyChainLogisticManagement.Application.Mappers.ProductsMappers;
 public class ProductsMapper : IProductsMapper
 {
-    public async Task<ProductsReturnDto> MapEntityToRetunDtoAsync(Products product)
+    public async Task<ReturnProductsDto> MapEntityToRetunDtoAsync(Products product)
     {
         if (product == null) { return null; }
-        return new ProductsReturnDto
+        return new ReturnProductsDto
         {
             Id = product.Id,
             Description = product.Description,

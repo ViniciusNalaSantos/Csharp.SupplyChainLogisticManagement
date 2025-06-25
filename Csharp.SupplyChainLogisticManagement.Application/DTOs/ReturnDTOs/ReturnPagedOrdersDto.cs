@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Csharp.SupplyChainLogisticManagement.Application.DTOs.ReturnDTOs;
-public record PagedOrdersReturnDto<Orders>
+public record ReturnPagedOrdersDto<Orders>
 {
     public int ActualPage { get; set; }
     public int TotalPages { get; set; }

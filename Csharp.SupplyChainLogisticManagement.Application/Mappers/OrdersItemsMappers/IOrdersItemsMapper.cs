@@ -11,6 +11,6 @@ using System.Threading.Tasks;
 namespace Csharp.SupplyChainLogisticManagement.Application.Mappers.OrdersItemsMappers;
 public interface IOrdersItemsMapper
 {
-    public Task<ICollection<ReturnOrdersItemsDto>> MapEntityToRetunDtoAsync(ICollection<OrdersItems> listOrderItems);
+    public Task<ICollection<ReturnOrderItemsDto>> MapEntityToRetunDtoAsync(ICollection<OrdersItems> listOrderItems);
     public Task<ICollection<OrderItemsCreatedMessage>> MapInputToCreatedMessageAsync(ICollection<InputOrderItemsDto> inputOrderItems);
 }

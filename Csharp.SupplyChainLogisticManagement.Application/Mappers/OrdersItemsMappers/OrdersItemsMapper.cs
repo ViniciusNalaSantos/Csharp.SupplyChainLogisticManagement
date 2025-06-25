@@ -17,14 +17,14 @@ public class OrdersItemsMapper : IOrdersItemsMapper
     {
         _productsMapper = productsMapper;
     }
-    public async Task<ICollection<ReturnOrdersItemsDto>> MapEntityToRetunDtoAsync(ICollection<OrdersItems> listOrderItems)
+    public async Task<ICollection<ReturnOrderItemsDto>> MapEntityToRetunDtoAsync(ICollection<OrdersItems> listOrderItems)
     {
-        if (listOrderItems == null) { return new List<ReturnOrdersItemsDto>(); }
-        var returnListOrderItems = new List<ReturnOrdersItemsDto>();
+        if (listOrderItems == null) { return new List<ReturnOrderItemsDto>(); }
+        var returnListOrderItems = new List<ReturnOrderItemsDto>();
         foreach (var orderItem in listOrderItems)
         {
             returnListOrderItems.Add(
-                new ReturnOrdersItemsDto
+                new ReturnOrderItemsDto
                 {
                     Product = await _productsMapper.MapEntityToRetunDtoAsync(orderItem.Products),
                     Quantity = orderItem.Quantity

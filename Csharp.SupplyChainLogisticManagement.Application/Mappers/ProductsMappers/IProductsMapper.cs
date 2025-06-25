@@ -11,6 +11,6 @@ using System.Threading.Tasks;
 namespace Csharp.SupplyChainLogisticManagement.Application.Mappers.ProductsMappers;
 public interface IProductsMapper
 {
-    public Task<ProductsReturnDto> MapEntityToRetunDtoAsync(Products product);
+    public Task<ReturnProductsDto> MapEntityToRetunDtoAsync(Products product);
     public Task<ProductCreatedMessage> MapInputToCreatedMessageAsync(InputProductDto inputProduct);
 }

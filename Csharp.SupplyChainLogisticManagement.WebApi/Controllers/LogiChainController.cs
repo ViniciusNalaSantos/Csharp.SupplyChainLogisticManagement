@@ -62,13 +62,13 @@ public class LogiChainController : ControllerBase
 
     [Authorize]
     [HttpGet("orders/{id}")]
-    public async Task<PagedOrdersReturnDto<Orders>> GetOrderById(int id) 
+    public async Task<ReturnPagedOrdersDto<Orders>> GetOrderById(int id) 
     {
         var query = new GetOrderByIdQuery { Id = id };
         var listOrders = await _getOrderByIdQueryHandler.Handle(query);
         var ordersMapped = await _ordersMapper.MapEntityToRetunDtoAsync(listOrders);
 
-        return new PagedOrdersReturnDto<Orders>
+        return new ReturnPagedOrdersDto<Orders>
         {
             ActualPage = 1,
             TotalPages = 1,
@@ -80,7 +80,7 @@ public class LogiChainController : ControllerBase
 
     [Authorize]
     [HttpGet("orders")]
-    public async Task<PagedOrdersReturnDto<Orders>> GetOrdersByEmissionDate([FromQuery] DateTime emissionDateStart, DateTime emissionDateEnd, int page)
+    public async Task<ReturnPagedOrdersDto<Orders>> GetOrdersByEmissionDate([FromQuery] DateTime emissionDateStart, DateTime emissionDateEnd, int page)
     {
         var query = new GetOrdersByEmissionDateQuery
         {
@@ -90,7 +90,7 @@ public class LogiChainController : ControllerBase
         };
         var pagedOrdersDto = await _getOrdersByEmissionDateQueryHandler.Handle(query);
         
-        return new PagedOrdersReturnDto<Orders>
+        return new ReturnPagedOrdersDto<Orders>
         {
             ActualPage = page,
             TotalPages = pagedOrdersDto.TotalPages,

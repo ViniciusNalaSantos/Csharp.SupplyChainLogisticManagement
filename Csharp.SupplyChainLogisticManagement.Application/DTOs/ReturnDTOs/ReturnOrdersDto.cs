@@ -14,7 +14,7 @@ public record ReturnOrdersDto
     public ReturnCustomersDto Customer { get; set; }
     public ReturnSuppliersDto Supplier { get; set; }
     public decimal Price { get; set; }
-    public ICollection<ReturnOrdersItemsDto> OrderItems { get; set; }
+    public ICollection<ReturnOrderItemsDto> OrderItems { get; set; }
     public ReturnShipmentsDto Shipments { get; set; }
     public ReturnDeliveriesDto Deliveries { get; set; }
 }
