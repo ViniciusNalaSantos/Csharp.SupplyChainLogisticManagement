@@ -27,7 +27,7 @@ This diagram illustrates the relationships between core entities such as Order, 
 ![ER Diagram](./docs/er-diagram.png)
 
 ## 🧩 Component Design Diagram
-Below is a simple component design diagram, meant to illustrate the flow order between the layers and components of this architecture.
+Below is a simple component design diagram, meant to illustrate the data flow order between the layers and components of this architecture.
 ![Component Diagram](./docs/simple-component-design.png)
 
 ## 🏗️ Tech Stack
