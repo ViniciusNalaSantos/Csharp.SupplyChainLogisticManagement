@@ -27,7 +27,7 @@ This diagram illustrates the relationships between core entities such as Order, 
 ![ER Diagram](./docs/er-diagram.png)
 
 ## 🧩 Component Design Diagram
-Below is a simple component design diagram, meant to illustrate the data flow between the layers and components of this architecture.
+Below is a simple component design diagram, meant to illustrate the flow order between the layers and components of this architecture.
 ![Component Diagram](./docs/simple-component-design.png)
 
 ## 🏗️ Tech Stack
@@ -63,17 +63,20 @@ Follow these steps to get the project up and running in your development environ
 4. **Restore dependencies**
    ```bash
    dotnet restore
-5. **Set up your environment variables or modify appsettings.json:**
+5. **(Optional) Set up your environment variables or modify appsettings.json:**
 - Database connection string
 - JWT secret, issuer, and audience
 - RabbitMQ hostname, port, and credentials
-6. **Apply EF Core migrations (if using EF)**
+6. **Install dotnet-ef (Entity Framework) globally**
    ```bash
-   dotnet ef database update  
-7. **Run the project**
+   dotnet tool install --global dotnet-ef
+7. **Apply EF Core migrations (if using EF)**
    ```bash
-   dotnet run
-8. **(Optional) Run tests**
+   dotnet ef database update --project Csharp.SupplyChainLogisticManagement.Infrastructure --startup-project Csharp.SupplyChainLogisticManagement.WebApi  
+8. **Run the project**
+   ```bash
+   dotnet run --project Csharp.SupplyChainLogisticManagement.WebApi
+9. **(Optional) Run tests**
    ```bash
    dotnet test
 
